@@ -267,7 +267,9 @@
 <article class="post" itemscope itemType="http://schema.org/BlogPosting">
     
     
-        <div class="post-header main-content-wrap text-left">
+        <script src="https://cdn.bootcss.com/aplayer/1.6.0/APlayer.min.js"></script>
+<script src="https://api.i-meto.com/music/aplayer.min.js"></script>
+<div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
             友链
@@ -281,12 +283,7 @@
     </time>
     
 </div>
-<h1 class="post-meta">
-    <br>
-    <span id="busuanzi_container_page_pv">
-      Visit <span id="busuanzi_value_page_pv"></span> times
-    </span>
-</h1>
+
 </div>
     
     <div class="post-content markdown" itemprop="articleBody">
@@ -326,26 +323,26 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://blog.tsukasa.moe/friends/index.html">
-                <i class="fa fa-google-plus"></i>
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/friends/index.html&amp;title=友链">
+                <i class="fa fa-qq"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/friends/index.html">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/friends/index.html&amp;title=友链">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/friends/index.html">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/friends/index.html">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/friends/index.html">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
-        
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                    <i class="fa fa-comment-o"></i>
-                </a>
-            </li>
         
         <li class="post-action">
             
@@ -375,10 +372,6 @@
             </script>
         </div>
         
-            
-                <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
             
         
     </div>
@@ -467,7 +460,7 @@
         
             <h4 id="about-card-name">Tsukasa</h4>
         
-            <h5 id="about-card-bio"><p>つかさ<br>兴趣是编程、日本语、ACG文化<br>Detail <a href="/about">ABOUT ME</a></p>
+            <h5 id="about-card-bio"><p>Tsuaksa<br>兴趣是编程、日本语、ACG文化<br><a href="http://me.tsukasa.moe">「About Me」</a></p>
 </h5>
         
         
@@ -489,7 +482,7 @@
 </div>
 
         
-<div id="cover" style="background-image:url('/assets/images/cover_bg.jpg');"></div>
+<div id="cover" style="background-image:url('/assets/images/cover-neko.jpg');"></div>
     </body>
     <!--SCRIPTS-->
 <script src="/assets/js/jquery.js"></script>
@@ -502,23 +495,6 @@
 <script> pangu.spacingPage(); </script>
 <!--PANGU AUTO SPACE END-->
 
-    
-        <script>
-             var disqus_config = function () {
-                 this.page.url = 'http://blog.tsukasa.moe/friends/index.html';
-                 
-                    this.page.identifier = 'friends/index.html';
-                 
-             };
-            (function() {
-                var d = document, s = d.createElement('script');
-                var disqus_shortname = 'kidhaibara';
-                s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            })();
-        </script>
     
 
 
