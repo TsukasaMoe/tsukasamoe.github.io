@@ -40,9 +40,9 @@
       <category term="编程开发" scheme="http://blog.tsukasa.moe/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="Java" scheme="http://blog.tsukasa.moe/tags/Java/"/>
-    
       <category term="JVM" scheme="http://blog.tsukasa.moe/tags/JVM/"/>
+    
+      <category term="Java" scheme="http://blog.tsukasa.moe/tags/Java/"/>
     
   </entry>
   
@@ -72,9 +72,9 @@
       <category term="编程开发" scheme="http://blog.tsukasa.moe/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="数据结构与算法" scheme="http://blog.tsukasa.moe/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"/>
-    
       <category term="Java" scheme="http://blog.tsukasa.moe/tags/Java/"/>
+    
+      <category term="数据结构与算法" scheme="http://blog.tsukasa.moe/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
