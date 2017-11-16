@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Tsukasa の 部屋">
 <meta property="og:description" content="本文对正则表达式做一个简要概括，主要包括五点：  常规 量词 捕获 断言 注释">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-11-13T20:31:29.861Z">
+<meta property="og:updated_time" content="2017-11-15T18:36:21.744Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="正则表达式总结">
 <meta name="twitter:description" content="本文对正则表达式做一个简要概括，主要包括五点：  常规 量词 捕获 断言 注释">
@@ -299,7 +299,8 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <script src="\assets\js\APlayer.min.js"> </script><p>本文对正则表达式做一个简要概括，主要包括五点：</p>
+            <!-- excerpt -->
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文对正则表达式做一个简要概括，主要包括五点：</p>
 <ul>
 <li>常规</li>
 <li>量词</li>
@@ -307,8 +308,7 @@
 <li>断言</li>
 <li>注释</li>
 </ul>
-<a id="more"></a>
-<h4 id="常规"><a href="#常规" class="headerlink" title="# 常规"></a><code>#</code> 常规</h4><ul>
+<h1 id="常规"><a href="#常规" class="headerlink" title="常规"></a>常规</h1><ul>
 <li><code>^</code>：匹配字符串开始</li>
 <li><code>$</code>：匹配字符串结束</li>
 <li><code>\b</code>：单词的开头或结尾，即单词的边界;<code>\B</code> 则是非词的边界</li>
@@ -316,7 +316,7 @@
 <li><code>\s</code>：空白字符，等价于<code>[\f\b\n\r\t\v]</code></li>
 <li><code>\w</code>：匹配任何字类字符，包括下划线；<code>\W</code> 与任何非单词字符匹配，等价于<code>[^A-Za-z0-9_]</code></li>
 </ul>
-<h4 id="量词"><a href="#量词" class="headerlink" title="# 量词"></a><code>#</code> 量词</h4><ul>
+<h1 id="量词"><a href="#量词" class="headerlink" title="量词"></a>量词</h1><ul>
 <li><code>?</code>：零次或一次</li>
 <li><code>+</code>：一次或多次</li>
 <li><code>*</code>：零次或多次;通配符<code>.*</code>表示任意数量的不包含换行的字符</li>
@@ -325,21 +325,23 @@
 <li><code>{n,}</code>：至少匹配n次</li>
 <li><code>{n,m}</code>：至少匹配n次，至多匹配m次</li>
 </ul>
-<h4 id="捕获"><a href="#捕获" class="headerlink" title="# 捕获"></a><code>#</code> 捕获</h4><ul>
+<h1 id="捕获"><a href="#捕获" class="headerlink" title="捕获"></a>捕获</h1><ul>
 <li><code>(pattern)</code>：匹配pattern并捕获该匹配的子表达式</li>
 <li><code>(?&lt;name&gt;pattern)</code>：匹配pattern并捕获文本到名称name的组里，等价于<code>(?&#39;name&#39;pattern)</code></li>
 <li><code>(?:pattern)</code>：匹配pattern但不捕获该匹配的子表达式</li>
 </ul>
-<h4 id="断言"><a href="#断言" class="headerlink" title="# 断言"></a><code>#</code> 断言</h4><ul>
+<h1 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h1><ul>
 <li><code>(?=pattern)</code>：匹配pattern前面的位置</li>
 <li><code>(?&lt;=pattern)</code>：匹配pattern后面的位置</li>
 <li><code>(?!pattern)</code>：匹配后面跟的不是pattern的位置</li>
 <li><code>(?&lt;!pattern)</code>：匹配前面不是pattern的位置</li>
 </ul>
-<h4 id="注释"><a href="#注释" class="headerlink" title="# 注释"></a><code>#</code> 注释</h4><ul>
+<h1 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h1><ul>
 <li><code>(?#comment)</code>：不对正则表达式处理产生任何影响，用于提供注释让人阅读</li>
 </ul>
-
+<blockquote>
+<p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en" target="_blank" rel="external">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
+</blockquote>
             
         </div>
     </div>
@@ -357,7 +359,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/05/11/life-is-full-of-beauty/"  data-tooltip="生活充满美好">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/05/10/dynamic-programming-solve-optimization-problem/"  data-tooltip="动态规划解决最优化问题">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -365,7 +367,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/16/life-feelings-201703/" data-tooltip="五味杂陈的感想">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/04/04/sorting-algorithm/" data-tooltip="常用排序算法Java实现">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -398,6 +400,13 @@
         <li class="post-action hide-xs">
             <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/04/28/regex-expression/">
                 <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#lv-container">
+            
+                <i class="fa fa-comment-o"></i>
             </a>
         </li>
         
@@ -445,7 +454,7 @@
 	<div id="footer-img"></div>
     <span class="copyrights">
     	<p>Powder by <a href="https://hexo.io/zh-cn/">Hexo</a>. Theme - <a href="https://github.com/kaedea/hexo-theme-themia">Themia</a>.<br>
-			License - <a href="https://hexo.io/zh-cn/">Attribution-NonCommercial-NoDerivatives 4.0 International</a>.<br>
+			License - <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">Attribution-NonCommercial-NoDerivatives 4.0 International</a>.<br>
 			<span id="busuanzi_container_site_uv">
   				Total <span id="busuanzi_value_site_uv"></span> visitors.
 			</span>
@@ -510,7 +519,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/05/11/life-is-full-of-beauty/"  data-tooltip="生活充满美好">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/05/10/dynamic-programming-solve-optimization-problem/"  data-tooltip="动态规划解决最优化问题">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -518,7 +527,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/16/life-feelings-201703/" data-tooltip="五味杂陈的感想">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/04/04/sorting-algorithm/" data-tooltip="常用排序算法Java实现">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -551,6 +560,13 @@
         <li class="post-action hide-xs">
             <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/04/28/regex-expression/">
                 <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#lv-container">
+            
+                <i class="fa fa-comment-o"></i>
             </a>
         </li>
         
@@ -632,7 +648,7 @@
 </div>
 
         
-<div id="cover" style="background-image:url('/assets/images/cover-neko.jpg');"></div>
+<div id="cover" style="background-image:url('http://ozcg0skpp.bkt.clouddn.com/global/images/cover-neko.jpg');"></div>
     </body>
     <!--SCRIPTS-->
 <script src="/assets/js/jquery.js"></script>
