@@ -1,4 +1,5 @@
 http://blog.tsukasa.moe/2017/10/09/jvm-readingnotes/
+http://blog.tsukasa.moe/2017/09/24/desgin-pattern-singleton/
 http://blog.tsukasa.moe/2017/09/14/data-structure-bintree/
 http://blog.tsukasa.moe/2017/08/16/pack-java-program-to-exe-file/
 http://blog.tsukasa.moe/2017/07/30/eclipse-create-ssm-project/

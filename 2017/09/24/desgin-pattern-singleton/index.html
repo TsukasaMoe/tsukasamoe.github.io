@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Tsukasa の 部屋">
-    <title>善用强大的Chrome浏览器 - Tsukasa の 部屋</title>
+    <title>设计模式篇之除了你之外我都不要 - Tsukasa の 部屋</title>
     <meta name="author" content="Tsukasa">
     
     
@@ -15,21 +15,18 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="这篇文章主要用于收录Chrome浏览器的奇技淫巧，没错我是Chrome的粉丝，Chrome一生推~">
-<meta name="keywords" content="Chorme">
+    <meta name="description" content="这篇文章是学习单例模式的笔记总结，主要内容包括了懒汉式，饿汉式，双重校验锁，枚举，静态内部类五种单例模式，强烈推荐使用原生记事本默写一遍。">
+<meta name="keywords" content="设计模式">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="善用强大的Chrome浏览器">
-<meta property="og:url" content="http://blog.tsukasa.moe/2017/06/20/how-to-use-powerful-chrome/index.html">
+<meta property="og:title" content="设计模式篇之除了你之外我都不要">
+<meta property="og:url" content="http://blog.tsukasa.moe/2017/09/24/desgin-pattern-singleton/index.html">
 <meta property="og:site_name" content="Tsukasa の 部屋">
-<meta property="og:description" content="这篇文章主要用于收录Chrome浏览器的奇技淫巧，没错我是Chrome的粉丝，Chrome一生推~">
+<meta property="og:description" content="这篇文章是学习单例模式的笔记总结，主要内容包括了懒汉式，饿汉式，双重校验锁，枚举，静态内部类五种单例模式，强烈推荐使用原生记事本默写一遍。">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://github.com/solano-yume/HostGallery/raw/master/uploads/2017/06/search-skills01.jpg">
-<meta property="og:image" content="https://github.com/solano-yume/HostGallery/raw/master/uploads/2017/06/search-skills02.jpg">
-<meta property="og:updated_time" content="2017-11-16T13:20:33.031Z">
+<meta property="og:updated_time" content="2017-11-17T09:41:32.258Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="善用强大的Chrome浏览器">
-<meta name="twitter:description" content="这篇文章主要用于收录Chrome浏览器的奇技淫巧，没错我是Chrome的粉丝，Chrome一生推~">
-<meta name="twitter:image" content="https://github.com/solano-yume/HostGallery/raw/master/uploads/2017/06/search-skills01.jpg">
+<meta name="twitter:title" content="设计模式篇之除了你之外我都不要">
+<meta name="twitter:description" content="这篇文章是学习单例模式的笔记总结，主要内容包括了懒汉式，饿汉式，双重校验锁，枚举，静态内部类五种单例模式，强烈推荐使用原生记事本默写一遍。">
 <meta name="twitter:creator" content="@TsukasaMoe">
     
         <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
@@ -281,19 +278,19 @@
 <div class="post-header main-content-wrap text-center">
     
         <h1 class="post-title" itemprop="headline">
-            善用强大的Chrome浏览器
+            设计模式篇之除了你之外我都不要
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" content="Tue Jun 20 2017 02:42:27 GMT+0800">
+    <time itemprop="datePublished" content="Sun Sep 24 2017 09:23:53 GMT+0800">
 	
-		    Jun 20, 2017
+		    Sep 24, 2017
     	
     </time>
     
         <span> |  </span>
         
-    <a class="category-link" href="/categories/资源技巧/">资源技巧</a>
+    <a class="category-link" href="/categories/编程开发/">编程开发</a>
 
 
     
@@ -314,79 +311,25 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <!-- excerpt -->
-<h1 id="搜索篇"><a href="#搜索篇" class="headerlink" title="搜索篇"></a>搜索篇</h1><p>开篇之前，需要知道自然描述语言机器不一定能够正确分析，一般推荐提取关键字进行搜索，如“我想要在windows10下写php程序”的自然描述语言可改为“windows10 phpstorm环境搭建”。</p>
-<p>排错问题如软件报错、代码调试错误、异常等直接输入错误信息能够更快速找到答案，程序员调试报错常去stackoverflow吧。</p>
-<p>除此之外，还要善用英文搜索，收集了一些软件相关英文词汇。</p>
-<p>附：<a href="https://github.com/solano-yume/HostGallery/blob/master/file/%E8%BD%AF%E4%BB%B6%E7%9B%B8%E5%85%B3%E8%8B%B1%E6%96%87%E6%95%B4%E7%90%86.txt" target="_blank" rel="external">软件相关英文整理</a></p>
-<h3 id="基本技巧"><a href="#基本技巧" class="headerlink" title="基本技巧"></a>基本技巧</h3><p><strong>完全匹配</strong> <code>&quot;&quot;</code><br><code>&quot;install mysql 5.7&quot;</code>：文章中必须能够完整匹配“install mysql 5.7”，只是“install mysql”还不行</p>
-<p><strong>通配符</strong> <code>*</code><br><code>&quot;mysql connect error *&quot;</code>：返回所有关于MySQL连接错误的文章</p>
-<p><strong>数字范围</strong> <code>..</code><br><code>windows php环境搭建 2016.. 2017年</code>：搜索结果为2016到2017年的内容，不过本人常用下面定制搜索的<code>工具</code>下进行时间设置</p>
-<p><strong>求差集</strong> <code>-</code></p>
+<h1 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton singleton = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123;</span><br><span class="line">            singleton = <span class="keyword">new</span> Singleton();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>特点：lazy，非线程安全，简单</p>
+<h1 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton singleton = <span class="keyword">new</span> Singleton();</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>特点：not lazy，线程安全，简单高效，但类加载时就初始化，即使暂不需要，浪费内存</p>
+<h1 id="双重校验锁-Double-checked-locking"><a href="#双重校验锁-Double-checked-locking" class="headerlink" title="双重校验锁(Double-checked locking)"></a>双重校验锁(Double-checked locking)</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Singleton singleton = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123; <span class="comment">// 代码1</span></span><br><span class="line">        <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123; </span><br><span class="line">            <span class="keyword">synchronized</span>(Singleton.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    singleton = <span class="keyword">new</span> Singleton(); <span class="comment">// 代码2</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>特点：Lazy，线程安全，多线程下能保持高性能</p>
+<h4 id="为什么需要volatile？"><a href="#为什么需要volatile？" class="headerlink" title="为什么需要volatile？"></a>为什么需要volatile？</h4><p>加volatile关键字生成的汇编指令会多一个lock前缀指令，相当于一个内存屏障。</p>
 <ul>
-<li><code>澄空字幕 -学园</code>：搜索结果中包含“澄空字幕”而不包含“学园”。</li>
-<li><code>白色相簿2 -维基 -維基</code>：搜索结果中有“白色相簿2”而不包含包含“维基”，“維基”，不要慌，我只是做个测试而已，维基百科挺有用的。</li>
+<li>禁止进行指令重排序。</li>
+<li>保证了不同线程对该变量操作的可见性。具体来说是强制将对缓存的修改立即写入主存，<br>如果是写操作，它会导致其他CPU中对应的缓存行无效。</li>
 </ul>
-<p><strong>站内搜索</strong> <code>site</code></p>
-<ul>
-<li><code>排序算法 site:tsukasalwq.cn</code>：在站点tsukasalwq.cn下搜索“排序算法”相关内容。</li>
-<li><code>动漫 site:zhihu.com</code>：在zhihu.com中搜索包含“动漫”的文章。</li>
-<li><code>&quot;mysql connect error&quot; site:stackoverflow.com</code>：stackoverflow是程序员查bug最好的网站，coder必须知道的。</li>
-</ul>
-<p><strong>搜索特定类型文件</strong> <code>filetype</code></p>
-<ul>
-<li><code>简历 filetype:pdf</code>：查找返回包含“简历”的pdf文件，搜索结果开头为<code>[PDF]</code>标签标注</li>
-</ul>
-<h3 id="定制搜索"><a href="#定制搜索" class="headerlink" title="定制搜索"></a>定制搜索</h3><p><code>工具</code>：如图，可以设置语言，时间段，匹配情况：<br><img src="https://github.com/solano-yume/HostGallery/raw/master/uploads/2017/06/search-skills01.jpg" alt=""></p>
-<p><code>设置</code>：如图，选择高级搜索可以使用上面六个技巧的功能：<br><img src="https://github.com/solano-yume/HostGallery/raw/master/uploads/2017/06/search-skills02.jpg" alt=""></p>
-<h3 id="特殊搜索"><a href="#特殊搜索" class="headerlink" title="特殊搜索"></a>特殊搜索</h3><ul>
-<li><strong>图片搜索</strong>：有时意外的方便。</li>
-<li><strong>语音搜索</strong>：懒得打字或不方便打字可以试试。</li>
-</ul>
-<h1 id="快捷键篇"><a href="#快捷键篇" class="headerlink" title="快捷键篇"></a>快捷键篇</h1><p>本人喜欢键盘流的干净利落感，不过键盘与鼠标结合才能发挥最大作用，在IDE环境中多记快捷键能够极大提升效率，网上冲浪娱乐配合扩展爽得不要不要的，除了插件必须记下：</p>
-<h3 id="键盘向"><a href="#键盘向" class="headerlink" title="键盘向"></a>键盘向</h3><ul>
-<li><code>Ctrl+T</code>：打开新标签页</li>
-<li><code>Ctrl+Shift+T</code>：打开刚才关闭的标签</li>
-<li><code>Ctrl+N</code>：打开新窗口</li>
-<li><code>Ctrl+Shift+N</code>：隐身模式打开新窗口</li>
-<li><code>Ctrl+W</code>：关闭标签页，很多地方多有用</li>
-<li><code>Ctrl+Shift+W</code>：关闭所有标签页并关闭浏览器</li>
-<li><code>Alt+左右方向键</code>：页面的后退与前进</li>
-<li><p><code>F5</code>：刷新网页</p>
-</li>
-<li><p><code>Alt+D</code>：定位到地址输入栏，windows资源管理器也可以用哦</p>
-</li>
-<li><code>Alt+Enter</code>：一般先<code>Alt+D</code>定位到输入栏，接着输入搜索内容或网址，然后<code>Alt+Enter</code>在另一个网页打开搜索结果，<code>Enter</code>即当前标签下打开搜索结果，我喜欢这个操作</li>
-<li><code>Ctrl+F</code>：页内搜索技能，想找到东西的时候按一下吧，快速定位</li>
-<li><p><code>Tab</code>：输入网址入<code>baidu.com</code>，按一下<code>Tab</code>键，<code>Enter</code>即可以使用当前网站</p>
-</li>
-<li><p><code>Ctrl+Tab</code>和<code>Ctrl+Shift+Tab</code>：类似windows下的<code>Alt+Tab</code>和<code>Alt+Shift+Tab</code>，在标签页中向前或向后切换</p>
-</li>
-<li><p><code>Ctrl+数字</code>：直接定位到从左开始第几个标签，<code>Ctrl+9</code>是最后一个标签页</p>
-</li>
-<li><p><code>Ctrl+D</code>：收藏该网页</p>
-</li>
-<li><code>Shift+Ctrl+O</code>：打开书签管理器</li>
-<li><p><code>Ctrl+Shift+B</code>：快速隐藏与显示书签栏</p>
-</li>
-<li><p><code>F12</code>或<code>Ctrl+Shift+J</code>：开发者工具，不必多说，网页调试，找资源必用</p>
-</li>
-<li><code>Ctrl+J</code>：下载界面</li>
-<li><code>Shift+Esc</code>：打开Chrome的任务管理器</li>
-<li><code>Ctrl+H</code>：打开历史记录</li>
-<li><p><code>Ctrl+Shift+Delete</code>：浏览器会对浏览的网页的图片、Cookie等数据进行缓存，故可以在清除浏览数据窗口清除相应内容</p>
-</li>
-<li><p><code>chrome://about/</code>：一般人是不用的，不过里面提供了各种各样操作都很强大。</p>
-</li>
-</ul>
-<h3 id="鼠标流"><a href="#鼠标流" class="headerlink" title="鼠标流"></a>鼠标流</h3><p>喜欢用鼠标操作的话可以考虑手势操作插件，貌似Windows平台下有一款WGesture的手势操作插件：</p>
-<ul>
-<li><code>Ctrl+左键</code>：在新标签页打开链接，和点击<code>鼠标滑轮</code>效果相同</li>
-<li><code>Shift+左键</code>：新窗口打开链接</li>
-<li><code>Ctrl+Shift+左键</code>：在新标签页打开链接并转到该标签页</li>
-</ul>
-<p>附：<a href="https://support.google.com/chrome/answer/157179?hl=zh-Hans&amp;ref_topic=14678" target="_blank" rel="external">chrome键盘快捷键</a></p>
-<p>后序：插件与脚本后面会补充。</p>
-<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="http://guoze.me/2016/06/26/how-to-google/" target="_blank" rel="external">程序员的基础生存技能–关于搜索引擎的小贴士</a><br><a href="https://www.zhihu.com/question/28013848" target="_blank" rel="external">如何高效地使用搜索引擎？</a><br><a href="https://tieba.baidu.com/p/4542943297?pid=89526828707&amp;cid=0#89526828707" target="_blank" rel="external">推荐各式各样的小软件</a></p>
+<h4 id="为什么需要双重if校验？"><a href="#为什么需要双重if校验？" class="headerlink" title="为什么需要双重if校验？"></a>为什么需要双重if校验？</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">singleton = <span class="keyword">new</span> Singleton(); <span class="comment">// 代码2</span></span><br></pre></td></tr></table></figure>
+<p>上面这行可以分解为三个操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>. memory = allocate(); <span class="comment">// 分配内存</span></span><br><span class="line"><span class="number">2</span>. ctorInstance(memory); <span class="comment">// 初始化对象</span></span><br><span class="line"><span class="number">3</span>. instance = memory; <span class="comment">// 设置instance指向刚分配的地址</span></span><br></pre></td></tr></table></figure>
+<p>如果没有加入volatile关键字，可能会出现指令重排序<code>1-2-3</code>或<code>1-3-2</code>两种情况<br>对于第2种情况，线程A，B都进入getInstance方法后，线程A获得锁，执行了1，3，此时B判断instance不为null，直接返回未初始完成的对象，就会出现问题。因此需要用volatile保证指令重排序。</p>
+<h1 id="枚举类型"><a href="#枚举类型" class="headerlink" title="枚举类型"></a>枚举类型</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Singleton &#123;</span><br><span class="line"></span><br><span class="line">    SINGLETON;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">whateverMethod</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>特点：not Lazy，线程安全，实现简单，不存在反射和反序列化漏洞</p>
+<h1 id="静态内部类-static-nested-class"><a href="#静态内部类-static-nested-class" class="headerlink" title="静态内部类(static nested class)"></a>静态内部类(static nested class)</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Inner</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Inner.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>特点：Lazy，线程安全，实现相比双重校验锁简单<br>引申：静态内部类与内部类区别，内存泄漏<br>静态内部类等同于外部类的静态方法，只能访问外部类的静态变量和静态方法。</p>
 <blockquote>
 <p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en" target="_blank" rel="external">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
 </blockquote>
@@ -398,7 +341,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Chorme/">Chorme</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/设计模式/">设计模式</a>
 
             </div>
         
@@ -407,7 +350,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/07/05/recyclerview-learning-notes-01/"  data-tooltip="RecyclerView学习笔记">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/10/09/jvm-readingnotes/"  data-tooltip="「深入理解Java虚拟机」读书笔记">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -415,7 +358,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/14/pta-algorithm-practice-06-binary-tree/" data-tooltip="算法刷题笔记六之二叉树下篇">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/09/14/data-structure-bintree/" data-tooltip="二叉树必知必会">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -430,23 +373,23 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/06/20/how-to-use-powerful-chrome/&amp;title=善用强大的Chrome浏览器">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/09/24/desgin-pattern-singleton/&amp;title=设计模式篇之除了你之外我都不要">
                 <i class="fa fa-qq"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/06/20/how-to-use-powerful-chrome/&amp;title=善用强大的Chrome浏览器">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/09/24/desgin-pattern-singleton/&amp;title=设计模式篇之除了你之外我都不要">
                 <i class="fa fa-weibo"></i>
             </a>
         </li>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/06/20/how-to-use-powerful-chrome/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/09/24/desgin-pattern-singleton/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/06/20/how-to-use-powerful-chrome/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/09/24/desgin-pattern-singleton/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -567,7 +510,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/07/05/recyclerview-learning-notes-01/"  data-tooltip="RecyclerView学习笔记">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/10/09/jvm-readingnotes/"  data-tooltip="「深入理解Java虚拟机」读书笔记">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -575,7 +518,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/14/pta-algorithm-practice-06-binary-tree/" data-tooltip="算法刷题笔记六之二叉树下篇">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/09/14/data-structure-bintree/" data-tooltip="二叉树必知必会">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -590,23 +533,23 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/06/20/how-to-use-powerful-chrome/&amp;title=善用强大的Chrome浏览器">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/09/24/desgin-pattern-singleton/&amp;title=设计模式篇之除了你之外我都不要">
                 <i class="fa fa-qq"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/06/20/how-to-use-powerful-chrome/&amp;title=善用强大的Chrome浏览器">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/09/24/desgin-pattern-singleton/&amp;title=设计模式篇之除了你之外我都不要">
                 <i class="fa fa-weibo"></i>
             </a>
         </li>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/06/20/how-to-use-powerful-chrome/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/09/24/desgin-pattern-singleton/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/06/20/how-to-use-powerful-chrome/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/09/24/desgin-pattern-singleton/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -633,22 +576,22 @@
                 <div id="share-options-bar" class="share-options-bar" data-behavior="3">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/06/20/how-to-use-powerful-chrome/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/09/24/desgin-pattern-singleton/">
                 <i class="fa fa-twitter"></i><span>Share on Twitter</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/06/20/how-to-use-powerful-chrome/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/09/24/desgin-pattern-singleton/">
                 <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/06/20/how-to-use-powerful-chrome/&amp;title=善用强大的Chrome浏览器">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/09/24/desgin-pattern-singleton/&amp;title=设计模式篇之除了你之外我都不要">
                 <i class="fa fa-weibo"></i><span>Share on Weibo</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/06/20/how-to-use-powerful-chrome/&amp;title=善用强大的Chrome浏览器">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/09/24/desgin-pattern-singleton/&amp;title=设计模式篇之除了你之外我都不要">
                 <i class="fa fa-qq"></i><span>Share on QQ</span>
             </a>
         </li>
