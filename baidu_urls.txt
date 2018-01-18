@@ -1,3 +1,4 @@
+http://blog.tsukasa.moe/2018/01/18/build-high-efficiency-os/
 http://blog.tsukasa.moe/2017/12/06/huawei-software-camp-java/
 http://blog.tsukasa.moe/2017/10/09/jvm-readingnotes/
 http://blog.tsukasa.moe/2017/09/24/desgin-pattern-singleton/

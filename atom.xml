@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.tsukasa.moe/"/>
-  <updated>2017-12-10T13:00:09.128Z</updated>
+  <updated>2018-01-18T11:55:55.163Z</updated>
   <id>http://blog.tsukasa.moe/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>建立高效率Windows操作环境</title>
+    <link href="http://blog.tsukasa.moe/2018/01/18/build-high-efficiency-os/"/>
+    <id>http://blog.tsukasa.moe/2018/01/18/build-high-efficiency-os/</id>
+    <published>2018-01-18T11:52:29.000Z</published>
+    <updated>2018-01-18T11:55:55.163Z</updated>
+    
+    <content type="html"><![CDATA[<!-- excerpt --><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>每次系统重装后都需要进行各种环境、软件、插件、脚本的安装与配置，建立适合自己工作娱乐的环境，是一件费时费力的事情，相对地带给你的价值是日后的使用中效率提升，这篇文章给出了我的Windows操作环境配置方案，主要包括了以下内容：</p><!-- excerpt --><h1 id="基础系列"><a href="#基础系列" class="headerlink" title="基础系列"></a>基础系列</h1><p>首先，要给计算机配置常用的软件和效率工具，保证系统能够完成基本的功能，比如解压打包，快速下载等。</p><ul><li>Shadowsocks</li><li>WinRAR</li><li>Chrome</li><li>迅雷极速版</li><li>WGestures</li><li>Listary</li><li>CCleaner</li><li>有道翻译</li><li>DirectX</li><li>Bandicam</li><li>Folder Sizes 8</li><li>VMware</li><li>常用软件</li></ul><h3 id="Shadowsocks"><a href="#Shadowsocks" class="headerlink" title="Shadowsocks"></a>Shadowsocks</h3><p>科学上网，使用最棒的搜索，畅游墙外的世界。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/shadowsocks.jpg" alt=""><br>配置：</p><ul><li>无需安装，可执行文件放置于工作盘<code>D:\Programfiles\Shadowsocks</code>中，双击运行</li><li>在托盘Shadowsocks图标上右键，根据<code>服务器</code>菜单项选用<code>编辑服务器</code>或者<code>扫描屏幕上的二维码</code>进行信息配置</li></ul><h3 id="WinRAR"><a href="#WinRAR" class="headerlink" title="WinRAR"></a>WinRAR</h3><p>一款解压缩收费软件，可采用破解版。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/winrar.jpg" alt=""><br>安装破解：运行破解版安装文件即可</p><h3 id="Chrome"><a href="#Chrome" class="headerlink" title="Chrome"></a>Chrome</h3><p>世界上最强大的浏览器，没有之一，强大的扩展能力，无数的插件，配合谷歌账号，轻松实现多端同步，唯一需要动一下手的是我的油桃脚本需要重新安装。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/chrome.jpg" alt=""><br>安装：下载并在线安装<br>配置：</p><ul><li>登陆Google账号，同步书签，插件</li><li>油桃脚本添加各种脚本，油桃脚本列表</li></ul><h3 id="pandownload"><a href="#pandownload" class="headerlink" title="pandownload"></a><del>pandownload</del></h3><p>将下载链接转换为下载直链，百度网盘多线程下载器。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/pandownload.png" alt=""><br>配置：无需安装，存放于工作盘<code>D:\Programfiles\PanDownload</code>中，运行程序登陆账号即可使用<br>备注：于2018.01.16停用</p><h3 id="迅雷极速版"><a href="#迅雷极速版" class="headerlink" title="迅雷极速版"></a>迅雷极速版</h3><p>告别广告，专注下载。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/xunlei.jpg" alt=""><br>安装破解：</p><ul><li>解压缩<code>迅雷极速版-v1.0.35.366-v2-by-小俊.7z</code>至需要安装的目录如<code>C:\Program Files\Software\Thunder</code></li><li>以管理员身份运行<code>绿化和卸载.bat</code>，根据提示进行绿化</li><li>将<code>迅雷极速版兼容Win10最新版补丁.7z</code>的补丁覆盖<code>C:\Program Files\Software\Thunder\Program</code>的<code>zlib1.dll</code></li><li>Have fun</li></ul><h3 id="WGestures"><a href="#WGestures" class="headerlink" title="WGestures"></a>WGestures</h3><p>全局鼠标手势，个性化定制手势，支持触发角 &amp; 摩擦边，简单高效。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/wgestures.jpg" alt=""><br>安装：下载并安装即可</p><h3 id="Listary"><a href="#Listary" class="headerlink" title="Listary"></a>Listary</h3><p>不仅仅是搜索神器。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/listary.jpg" alt=""><br>安装破解：</p><ul><li>解压得到<code>Listary.Pro.5.00.2410.fix</code>文件夹，双击<code>Listary.exe</code>安装</li><li>安装完毕退出软件，并结束掉进程中的Listary服务</li><li>打开<code>gen.crack</code>文件夹，将其中的<code>MSVCP140.dll</code>替换到软件安装目录</li><li>运行Listary，打开设置界面，选择<code>关于</code> =&gt; <code>升级到Listary Pro</code>出现注册框</li><li>打开<code>key.txt</code>，将注册信息对应填入上面的注册框中完成注册</li><li>愉快的玩耍吧</li></ul><h3 id="CCleaner"><a href="#CCleaner" class="headerlink" title="CCleaner"></a>CCleaner</h3><p>简洁，可以删除流氓软件了。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/ccleaner.jpg" alt=""><br>安装破解：</p><ul><li>运行安装程序安装</li><li>断开网络，打开CCleaner–选项–关于–升级专业版，</li><li>输入注册名称<code>Registered User</code>和密钥<code>CBB4-FJN4-EPC6-G5P6-QT4C</code></li><li>注册完成</li></ul><h3 id="有道翻译"><a href="#有道翻译" class="headerlink" title="有道翻译"></a>有道翻译</h3><p>翻译必备<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/youdao-translate.jpg" alt=""><br>设置：取消取词，禁止开机启动，检查快捷键冲突，关闭每日推荐</p><h3 id="DirectX"><a href="#DirectX" class="headerlink" title="DirectX"></a>DirectX</h3><p>是一组低级“应用程序编程接口(API)”，可为Windows 程序提供高性能的硬件加速多媒体支持。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/directX.jpg" alt=""><br>安装：打开压缩包，直接运行安装程序<code>DXSETUP.exe</code>即可</p><h3 id="Bandicam"><a href="#Bandicam" class="headerlink" title="Bandicam"></a>Bandicam</h3><p>一款录屏软件，简明的操作，流畅的录制，超清的画质。</p><h3 id="Folder-Sizes-8"><a href="#Folder-Sizes-8" class="headerlink" title="Folder Sizes 8"></a>Folder Sizes 8</h3><p>直观了解磁盘使用情况<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/foldersize8.jpg" alt=""><br>安装破解：</p><ul><li>解压后运行<code>fs8-setup.exe</code>安装</li><li>打开软件，点击<code>Enter License code</code>，从<code>Key.txt</code>选择一行许可密钥输入</li><li>Done</li></ul><h3 id="VMware"><a href="#VMware" class="headerlink" title="VMware"></a>VMware</h3><p>虚拟机器<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/vmware.jpg" alt=""><br>安装破解：</p><ul><li>安装完成后，断开网络</li><li>输入<code>key.txt</code>的许可密钥</li></ul><h3 id="Microsoft-Office-2016"><a href="#Microsoft-Office-2016" class="headerlink" title="Microsoft Office 2016"></a>Microsoft Office 2016</h3><p>必备办公软件<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/office.jpg" alt=""><br>安装破解：安装完成使用KMSpico软件破解即可</p><h3 id="常用软件"><a href="#常用软件" class="headerlink" title="常用软件"></a>常用软件</h3><p>下面几款几乎是生活中必备的吧，根据需要自行下载安装，不会下载安装的可以洗洗睡了╮(╯▽╰)╭</p><ul><li>Tim：取消声音提醒，消息闪烁，禁止开机启动</li><li>微信：取消声音提醒，消息闪烁，禁止开机启动</li><li>网易云音乐：禁止开机启动</li><li>PotPlayer：单击，双击设置</li><li>Steam：设置下载位置</li></ul><h1 id="工作系列"><a href="#工作系列" class="headerlink" title="工作系列"></a>工作系列</h1><p>作为一个Web后台开发人员，下面的软件基本上是必备的：</p><ul><li>Sublime Text</li><li>Visual Studio Code</li><li>Git</li><li>C-Free</li><li>Xshell</li><li>Xftp</li><li>Mysql</li><li>Navicat</li><li>Beyond Compare</li><li>Eclipse</li><li>Intellij IDEA</li><li>PyCharm</li></ul><h3 id="Sublime-Text"><a href="#Sublime-Text" class="headerlink" title="Sublime Text"></a>Sublime Text</h3><p>支持扩展的轻量级别文本编辑器，前端神器之一<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/sublime-text.jpg" alt=""><br>安装破解：</p><ul><li>不破解也可以，只是保存时弹窗有点烦</li></ul><p>配置：</p><ul><li>插件安装可以通过在线安装，离线安装只需将下载好的插件放在<code>C:\Users\LuoWe\AppData\Roaming\Sublime Text 3\Packages</code>中</li><li>重启插件会自动安装好</li></ul><p>本人常用插件列表：<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/sublime-text-extensions.jpg" alt=""></p><h3 id="Visual-Studio-Code"><a href="#Visual-Studio-Code" class="headerlink" title="Visual Studio Code"></a>Visual Studio Code</h3><p>新一代代码编辑神器<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/vscode.jpg" alt=""><br>安装：下载并安装即可<br>配置：配置插件<br>本人插件列表如下：<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/visual-studio-code-extensions.jpg" alt=""></p><h3 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h3><p>一个分布式版本控制系统。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/Git.jpg" alt=""><br>安装：<code>https://git-scm.com/</code>上下载安装Git即可使用Git进行版本管理<br>配置：密钥生成与配置</p><h3 id="C-Free"><a href="#C-Free" class="headerlink" title="C-Free"></a>C-Free</h3><p>小型C，C++集成开发环境<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/cfree.jpg" alt=""><br>安装破解：</p><ul><li>安装完成后，打开<code>帮助</code> =&gt; <code>注册</code>窗口</li><li>输入<code>c-free注册.txt</code>中的注册信息</li></ul><h3 id="Xshell"><a href="#Xshell" class="headerlink" title="Xshell"></a>Xshell</h3><p>Xshell是一款强大,著名的终端模拟软件，被广泛的用于服务器运维和管理,Xshell支持SSH，SFTP，TELNET，RLOGIN和SERIAL功能。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/xshell.jpg" alt=""><br>安装：官网下载安装即可</p><h3 id="Xftp"><a href="#Xftp" class="headerlink" title="Xftp"></a>Xftp</h3><p>是一个基于 MS windows 平台的功能强大的SFTP、FTP 文件传输软件。使用了 Xftp 以后，MS windows 用户能安全地在 UNIX/Linux 和 Windows PC 之间传输文件。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/xftp.jpg" alt=""><br>安装：官网下载安装即可</p><h3 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h3><p>Mysql是最流行的关系型数据库管理系统，在WEB应用方面MySQL是最好的RDBMS。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/mysql.jpg" alt=""><br>安装：官网下载安装</p><h3 id="Navicat"><a href="#Navicat" class="headerlink" title="Navicat"></a>Navicat</h3><p>Navicat是一套快速、可靠并价格相当便宜的数据库管理工具，专为简化数据库的管理及降低系统管理成本而设。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/navicat.jpg" alt=""><br>安装破解：</p><ul><li>运行对应位数的安装程序进行安装</li><li>运行<code>PatchNavicat.exe</code>，选中安装目录下的navicat启动文件，确定</li><li>弹出“Patch Success!”则破解成功</li></ul><h3 id="Beyond-Compare"><a href="#Beyond-Compare" class="headerlink" title="Beyond Compare"></a>Beyond Compare</h3><p>一款文件比对工具，可结合Git使用。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/beyond-compare.jpg" alt=""><br>安装破解：安装完成后，输入提供序列号</p><h3 id="Eclipse"><a href="#Eclipse" class="headerlink" title="Eclipse"></a>Eclipse</h3><p>Java开发人员主要的集成开发环境之一。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/eclipse.jpg" alt=""><br>安装：需要JDK环境，官网下载Java EE版本安装<br>配置：Tomcat，Maven，插件。</p><h3 id="Intellij-IDEA"><a href="#Intellij-IDEA" class="headerlink" title="Intellij IDEA"></a>Intellij IDEA</h3><p>推荐使用的Java开发人员主要的集成开发环境之一。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/Intellij-IDEA.jpg" alt=""><br>安装破解：</p><ul><li>需要JDK环境，官网下载安装，学生认证期间免费使用</li><li>购买或者可选用<code>http://idea.lanyus.com/</code>提供的注册码破解</li></ul><p>配置：Tomcat，Maven，插件。</p><h3 id="PyCharm"><a href="#PyCharm" class="headerlink" title="PyCharm"></a>PyCharm</h3><p>一款Python集成开发环境。<br><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/PyCharm.jpg" alt=""><br>安装：需要Python环境，官网下载安装<br>配置：interpreter配置</p><h1 id="后期系列"><a href="#后期系列" class="headerlink" title="后期系列"></a>后期系列</h1><h3 id="Adobe系列"><a href="#Adobe系列" class="headerlink" title="Adobe系列"></a>Adobe系列</h3><p>安装到电脑中占点内存吧，后期技术的一点点执念Ψ(￣∀￣)Ψ</p><ul><li>Adobe Photoshop CC</li><li>Adobe After Effect CC</li><li>Adobe Premiere CC</li><li>Adobe Illustrator CC</li></ul><p><img src="http://ozcg0skpp.bkt.clouddn.com/2018/01/Adobe.jpg" alt=""><br>安装破解：</p><ul><li>下载Adobe Creative Cloud并安装，在应用上登陆账号，安装需要的Adobe系列软件</li><li>断开网络，以试用模式安装 Adobe 各类软件程序</li><li>运行 AMT Emulator，选择对应的软件版本</li><li>点击Install替换各个软件安装目录下的amtlib.dll，并生成painter.ini配置文件</li><li>Done</li></ul><h1 id="其他系列"><a href="#其他系列" class="headerlink" title="其他系列"></a>其他系列</h1><h3 id="Locale-Emulator"><a href="#Locale-Emulator" class="headerlink" title="Locale Emulator"></a>Locale Emulator</h3><p>galgame必备，专区工具<br>安装：运行<code>LEInstall.exe</code>进行安装</p><blockquote><p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en" target="_blank" rel="external">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;script src=&quot;\assets\js\APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;p&gt;这篇文章归纳整理了我的工作环境常用的软件以及其安装破解方法，分类如下所示：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;基础系列&lt;/li&gt;
+&lt;li&gt;工作系列&lt;/li&gt;
+&lt;li&gt;后期系列&lt;/li&gt;
+&lt;li&gt;其他系列&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="管理方案" scheme="http://blog.tsukasa.moe/categories/%E7%AE%A1%E7%90%86%E6%96%B9%E6%A1%88/"/>
+    
+    
+      <category term="Windows" scheme="http://blog.tsukasa.moe/tags/Windows/"/>
+    
+  </entry>
   
   <entry>
     <title>华为软件训练营（Java语言）学习笔记</title>
@@ -507,35 +535,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>正则表达式总结</title>
-    <link href="http://blog.tsukasa.moe/2017/04/28/regex-expression/"/>
-    <id>http://blog.tsukasa.moe/2017/04/28/regex-expression/</id>
-    <published>2017-04-28T14:17:25.000Z</published>
-    <updated>2017-11-15T18:36:21.744Z</updated>
-    
-    <content type="html"><![CDATA[<!-- excerpt --><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文对正则表达式做一个简要概括，主要包括五点：</p><ul><li>常规</li><li>量词</li><li>捕获</li><li>断言</li><li>注释</li></ul><h1 id="常规"><a href="#常规" class="headerlink" title="常规"></a>常规</h1><ul><li><code>^</code>：匹配字符串开始</li><li><code>$</code>：匹配字符串结束</li><li><code>\b</code>：单词的开头或结尾，即单词的边界;<code>\B</code> 则是非词的边界</li><li><code>\d</code>：数字字符匹配；<code>\D</code> 非数字字符匹配</li><li><code>\s</code>：空白字符，等价于<code>[\f\b\n\r\t\v]</code></li><li><code>\w</code>：匹配任何字类字符，包括下划线；<code>\W</code> 与任何非单词字符匹配，等价于<code>[^A-Za-z0-9_]</code></li></ul><h1 id="量词"><a href="#量词" class="headerlink" title="量词"></a>量词</h1><ul><li><code>?</code>：零次或一次</li><li><code>+</code>：一次或多次</li><li><code>*</code>：零次或多次;通配符<code>.*</code>表示任意数量的不包含换行的字符</li><li><code>.</code>：除<code>\n</code>外的任意单个字符，要匹配<code>\n</code>则使用<code>[\s\S]</code></li><li><code>{n}</code>：正好匹配n次</li><li><code>{n,}</code>：至少匹配n次</li><li><code>{n,m}</code>：至少匹配n次，至多匹配m次</li></ul><h1 id="捕获"><a href="#捕获" class="headerlink" title="捕获"></a>捕获</h1><ul><li><code>(pattern)</code>：匹配pattern并捕获该匹配的子表达式</li><li><code>(?&lt;name&gt;pattern)</code>：匹配pattern并捕获文本到名称name的组里，等价于<code>(?&#39;name&#39;pattern)</code></li><li><code>(?:pattern)</code>：匹配pattern但不捕获该匹配的子表达式</li></ul><h1 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h1><ul><li><code>(?=pattern)</code>：匹配pattern前面的位置</li><li><code>(?&lt;=pattern)</code>：匹配pattern后面的位置</li><li><code>(?!pattern)</code>：匹配后面跟的不是pattern的位置</li><li><code>(?&lt;!pattern)</code>：匹配前面不是pattern的位置</li></ul><h1 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h1><ul><li><code>(?#comment)</code>：不对正则表达式处理产生任何影响，用于提供注释让人阅读</li></ul><blockquote><p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en" target="_blank" rel="external">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      &lt;script src=&quot;\assets\js\APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;p&gt;本文对正则表达式做一个简要概括，主要包括五点：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;常规&lt;/li&gt;
-&lt;li&gt;量词&lt;/li&gt;
-&lt;li&gt;捕获&lt;/li&gt;
-&lt;li&gt;断言&lt;/li&gt;
-&lt;li&gt;注释&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="编程开发" scheme="http://blog.tsukasa.moe/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/"/>
-    
-    
-      <category term="正则表达式" scheme="http://blog.tsukasa.moe/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
     
   </entry>
   
