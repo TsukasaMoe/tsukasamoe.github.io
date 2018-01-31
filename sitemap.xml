@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.tsukasa.moe/2017/12/06/huawei-software-camp-java/</loc>
+    
+    <lastmod>2018-01-31T07:25:20.235Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.tsukasa.moe/2017/10/09/jvm-readingnotes/</loc>
+    
+    <lastmod>2018-01-31T07:19:07.067Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.tsukasa.moe/2018/01/26/how-to-make-a-decision/</loc>
     
     <lastmod>2018-01-26T14:41:42.161Z</lastmod>
@@ -12,13 +26,6 @@
     <loc>http://blog.tsukasa.moe/2018/01/18/build-high-efficiency-os/</loc>
     
     <lastmod>2018-01-26T14:26:32.802Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.tsukasa.moe/2017/12/06/huawei-software-camp-java/</loc>
-    
-    <lastmod>2017-12-10T13:00:09.128Z</lastmod>
     
   </url>
   
@@ -82,13 +89,6 @@
     <loc>http://blog.tsukasa.moe/donate/index.html</loc>
     
     <lastmod>2017-11-28T17:35:47.634Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.tsukasa.moe/2017/10/09/jvm-readingnotes/</loc>
-    
-    <lastmod>2017-11-18T15:34:06.392Z</lastmod>
     
   </url>
   
