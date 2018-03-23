@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.tsukasa.moe/donate/index.html</loc>
+    
+    <lastmod>2018-03-23T07:05:08.091Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.tsukasa.moe/2018/03/01/bodily-representaion-japanese-phrase/</loc>
     
     <lastmod>2018-03-17T09:28:24.859Z</lastmod>
@@ -89,13 +96,6 @@
     <loc>http://blog.tsukasa.moe/acg/index.html</loc>
     
     <lastmod>2017-11-28T18:46:17.257Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.tsukasa.moe/donate/index.html</loc>
-    
-    <lastmod>2017-11-28T17:35:47.634Z</lastmod>
     
   </url>
   
