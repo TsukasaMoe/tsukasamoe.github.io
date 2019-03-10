@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Tsukasa の 部屋">
 <meta property="og:description" content="中午，走在前往新校的最初的路上，听一曲纯音，虽然是有点炎热的夏，不过迎面不缺清风。穿行于放学归寝的人流中，沉浸于那份悠闲舒适，这一两个月来的种种不快与烦闷，仿佛随着空气的流动般飘散了。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-03-10T10:15:33.966Z">
+<meta property="og:updated_time" content="2019-03-10T15:41:22.060Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="生活充满美好">
 <meta name="twitter:description" content="中午，走在前往新校的最初的路上，听一曲纯音，虽然是有点炎热的夏，不过迎面不缺清风。穿行于放学归寝的人流中，沉浸于那份悠闲舒适，这一两个月来的种种不快与烦闷，仿佛随着空气的流动般飘散了。">
@@ -300,8 +300,23 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <!-- excerpt -->
-<div class="aplayer" data-id="32303027" data-server="netease" data-type="song" data-mode="single"></div>
-
+<div id="aplayer1" class="aplayer" style="margin-bottom: 20px;"></div>
+		<script>
+			var ap = new APlayer({
+				element: document.getElementById("aplayer1"),
+				narrow: false,
+				autoplay: true,
+				showlrc: 0,
+				music: {
+					title: "WHITE ALBUM PIANO",
+					author: "石川真也",
+					url: "http://static.tsukasa.moe/music/WHITE_ALBUM_PIANO.mp3",
+					pic: "",
+				}
+			});
+			window.aplayers || (window.aplayers = []);
+			window.aplayers.push(ap);
+		</script>
 <p>中午，走在前往新校的最初的路上，听一曲纯音，虽然是有点炎热的夏，不过迎面不缺清风。穿行于放学归寝的人流中，沉浸于那份悠闲舒适，这一两个月来的种种不快与烦闷，仿佛随着空气的流动般飘散了。</p>
 <hr>
 <p>路上的景色，仔细看看，与三年前改变了许多。环绕路边整排的商店，已化作平坦长草的荒地，常去的店，也不记得是如何模样了。或许一个人很静的时候，才会感受到时间在流逝，吐息之间，心脏每一次跳动，分外真实。</p>
