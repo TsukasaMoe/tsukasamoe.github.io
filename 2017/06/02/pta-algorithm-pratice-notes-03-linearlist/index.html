@@ -1,0 +1,692 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Tsukasa の 部屋">
+    <title>算法刷题笔记三之线性结构篇 - Tsukasa の 部屋</title>
+    <meta name="author" content="Tsukasa">
+    
+    
+        <link rel="icon" href="http://blog.tsukasa.moe/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="PTA算法刷题笔记三，主要是针对线性结构运用进行考察，题目包括了：  两个有序链表序列的合并 一元多项式的乘法与加法运算 Pop Sequence">
+<meta name="keywords" content="数据结构与算法,PTA">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="算法刷题笔记三之线性结构篇">
+<meta property="og:url" content="http://blog.tsukasa.moe/2017/06/02/pta-algorithm-pratice-notes-03-linearlist/index.html">
+<meta property="og:site_name" content="Tsukasa の 部屋">
+<meta property="og:description" content="PTA算法刷题笔记三，主要是针对线性结构运用进行考察，题目包括了：  两个有序链表序列的合并 一元多项式的乘法与加法运算 Pop Sequence">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-10T10:37:14.831Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法刷题笔记三之线性结构篇">
+<meta name="twitter:description" content="PTA算法刷题笔记三，主要是针对线性结构运用进行考察，题目包括了：  两个有序链表序列的合并 一元多项式的乘法与加法运算 Pop Sequence">
+<meta name="twitter:creator" content="@TsukasaMoe">
+    
+        <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/avatars.jpg" />
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/cover-hime.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/cover-hime.jpg" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <script src="https://cdn.bootcss.com/aplayer/1.6.0/APlayer.min.js"></script>
+<script src="https://api.i-meto.com/music/aplayer.min.js"></script>
+<!-- Define author's picture -->
+
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Tsukasa の 部屋</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon st-search-show-outputs"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatars.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">Tsukasa</span>
+            <span class="sidebar-profile-moto">好きな事を行い、している事を愛しなさいあははは</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-circle-o"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-star-o"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bars"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-terminal"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/TsukasaMoe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:luowenqingsmail@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://portfolio.tsukasa.moe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-at"></i>
+                    <span class="sidebar-button-desc">Portfolio</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/messages"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-comment-o"></i>
+                    <span class="sidebar-button-desc">Messages</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/friends"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-mars"></i>
+                    <span class="sidebar-button-desc">Friends</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/links"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-link"></i>
+                    <span class="sidebar-button-desc">Links</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/donate"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-usd"></i>
+                    <span class="sidebar-button-desc">Donate</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    post-header-cover--full"
+             style="background-image:url('http://blog.tsukasa.moe/assets/images/cover-hime.jpg');"
+             data-behavior="3">
+            
+                
+<div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            算法刷题笔记三之线性结构篇
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Fri Jun 02 2017 23:39:45 GMT+0800">
+	
+		    Jun 02, 2017
+    	
+    </time>
+    
+        <span> |  </span>
+        
+    <a class="category-link" href="/categories/编程开发/">编程开发</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h1 id="1-两个有序链表序列的合并"><a href="#1-两个有序链表序列的合并" class="headerlink" title="1.两个有序链表序列的合并"></a>1.两个有序链表序列的合并</h1><p>Problem<br>已知两个非降序链表序列S1与S2，设计函数构造出S1与S2的并集新非降序链表S3。<a href="https://pta.patest.cn/pta/test/15/exam/4/question/2992" target="_blank" rel="external">详细描述</a></p>
+<p>Analysys</p>
+<ol>
+<li>分三步：构造两个链表；合并链表；遍历打印。</li>
+<li>合并链表可以新建一条新链表，根据归并排序中得merge思想，每次选择小接到新链表得尾部，然后将另一条链表剩下部分(已经有序)直接接到新链表尾部。</li>
+<li>空表特殊情况处理。</li>
+</ol>
+<p>Code</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> ElementType;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Node</span> *<span class="title">PtrToNode</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span> &#123;</span></span><br><span class="line">    ElementType Data;</span><br><span class="line">    PtrToNode   Next;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">typedef</span> PtrToNode List;</span><br><span class="line"></span><br><span class="line"><span class="function">List <span class="title">Read</span><span class="params">()</span></span>; <span class="comment">/* 细节在此不表 */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Print</span><span class="params">( List L )</span></span>; <span class="comment">/* 细节在此不表；空链表将输出NULL */</span></span><br><span class="line"></span><br><span class="line"><span class="function">List <span class="title">Merge</span><span class="params">( List L1, List L2 )</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    List L1, L2, L;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> ONLINE_JUDGE</span></span><br><span class="line">    freopen(<span class="string">"in.txt"</span>, <span class="string">"r"</span>, <span class="built_in">stdin</span>);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    L1 = Read();</span><br><span class="line">    L2 = Read();</span><br><span class="line">    L = Merge(L1, L2);</span><br><span class="line">    Print(L);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化链表 </span></span><br><span class="line"><span class="function">List <span class="title">Read</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    List L = (List)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(struct Node));</span><br><span class="line">    L-&gt;Next = <span class="literal">NULL</span>;</span><br><span class="line">    PtrToNode rear = L;</span><br><span class="line">    ElementType data;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;data);</span><br><span class="line">        <span class="keyword">if</span>(data != <span class="number">-1</span>) &#123;</span><br><span class="line">            PtrToNode p = (PtrToNode)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(struct Node));</span><br><span class="line">            p-&gt;Data = data;</span><br><span class="line">            p-&gt;Next = <span class="literal">NULL</span>;</span><br><span class="line">            rear-&gt;Next = p;</span><br><span class="line">            rear = p;       </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> L-&gt;Next;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 归并链表</span></span><br><span class="line"><span class="function">List <span class="title">Merge</span><span class="params">( List L1, List L2 )</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(L1 == <span class="literal">NULL</span> &amp;&amp; L2 == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    List p1 = L1;</span><br><span class="line">    List p2 = L2;</span><br><span class="line">    </span><br><span class="line">    List LM = (List)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(struct Node));</span><br><span class="line">    LM-&gt;Next = <span class="literal">NULL</span>;</span><br><span class="line">    List rear = LM;</span><br><span class="line">    <span class="keyword">while</span>(p1 &amp;&amp; p2) &#123;</span><br><span class="line">        <span class="keyword">if</span>(p1-&gt;Data &lt; p2-&gt;Data) &#123;</span><br><span class="line">            rear-&gt;Next = p1;</span><br><span class="line">            rear = p1;</span><br><span class="line">            p1 = p1-&gt;Next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            rear-&gt;Next = p2;</span><br><span class="line">            rear = p2;</span><br><span class="line">            p2 = p2-&gt;Next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    rear-&gt;Next = p1 ? p1 : p2;  </span><br><span class="line">    <span class="keyword">return</span> LM-&gt;Next;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Print</span><span class="params">( List L )</span></span>&#123;</span><br><span class="line">    List p = L;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(p == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"NULL"</span>);</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(p) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>, p-&gt;Data);</span><br><span class="line">        p = p-&gt;Next;</span><br><span class="line">        <span class="keyword">if</span>(p!=<span class="literal">NULL</span>) <span class="built_in">printf</span>(<span class="string">" "</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="2-一元多项式的乘法与加法运算"><a href="#2-一元多项式的乘法与加法运算" class="headerlink" title="2.一元多项式的乘法与加法运算"></a>2.一元多项式的乘法与加法运算</h1><p>Problem<br>设计函数分别求两个一元多项式的乘积与和。<a href="https://pta.patest.cn/pta/test/15/exam/4/question/710" target="_blank" rel="external">详细描述</a></p>
+<p>Analysys</p>
+<ol>
+<li>链表保存多项式的系数和系数，设计出程序框架,根据各部分分别实现函数。</li>
+<li>加法：新建第三条链表，根据两个链表对应每一项指数大小关系，不等时添加大的一项，相等时判断系数和是否为0，不为0又该怎么移动。最后将链表剩余部分依次拷贝出来添加到第三条链表后面。</li>
+<li>乘法：两种思路，一种是将乘法转化加法即将P1当前项(ci,ei)乘P2多项式，再加到结果多项式中。我选用另一种方法——逐项插入，即将当前P1当前项与P2当前项相乘，找到插入位置插入多项式。</li>
+<li>乘法需要注意的细节：保证多项式指数递减顺序；指数相同与指数不同情况；指数相同系数和是否为0.</li>
+</ol>
+<p>Code</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt; </span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义数据结构</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">PolyNode</span>* <span class="title">Polynomial</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">PolyNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> ceof; <span class="comment">// 系数 </span></span><br><span class="line">    <span class="keyword">int</span> expon; <span class="comment">// 指数</span></span><br><span class="line">    Polynomial next; </span><br><span class="line">&#125; ;</span><br><span class="line"><span class="comment">// 函数声明部分;需要设计的函数 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printPoly</span><span class="params">(Polynomial P)</span> </span>;</span><br><span class="line"><span class="function">Polynomial <span class="title">readPoly</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">Polynomial <span class="title">mult</span><span class="params">(Polynomial P1, Polynomial P2)</span></span>;</span><br><span class="line"><span class="function">Polynomial <span class="title">add</span><span class="params">(Polynomial P1, Polynomial P2)</span></span>;</span><br><span class="line"><span class="comment">// 函数实现部分 </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printPoly</span><span class="params">(Polynomial P)</span></span>&#123;</span><br><span class="line">    <span class="comment">// 链表为空</span></span><br><span class="line">    <span class="keyword">if</span>(P == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"0 0\n"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">// 链表非空</span></span><br><span class="line">    <span class="keyword">bool</span> flag = <span class="literal">false</span>; </span><br><span class="line">    <span class="keyword">while</span>(P)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!flag) flag = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">" "</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d %d"</span>, P-&gt;ceof, P-&gt;expon);</span><br><span class="line">        P = P-&gt;next;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">attach</span><span class="params">(<span class="keyword">int</span> c, <span class="keyword">int</span> e, Polynomial* pRear)</span></span>&#123;</span><br><span class="line">    Polynomial P;</span><br><span class="line">    </span><br><span class="line">    P = (Polynomial)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(PolyNode));</span><br><span class="line">    P-&gt;ceof = c;</span><br><span class="line">    P-&gt;expon = e;</span><br><span class="line">    P-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">    (*pRear)-&gt;next = P;</span><br><span class="line">    (*pRear) = P;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Polynomial <span class="title">readPoly</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">    </span><br><span class="line">    Polynomial P,rear,t;</span><br><span class="line">    P = (Polynomial)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(PolyNode));</span><br><span class="line">    P-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">    rear = P;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> c,e;</span><br><span class="line">    <span class="keyword">while</span>(n--) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d %d"</span>, &amp;c, &amp;e);</span><br><span class="line">        attach(c, e, &amp;rear);</span><br><span class="line">    &#125;</span><br><span class="line">    t = P; </span><br><span class="line">    P = P-&gt;next; </span><br><span class="line">    <span class="built_in">free</span>(t);</span><br><span class="line">    <span class="keyword">return</span> P;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Polynomial <span class="title">add</span><span class="params">(Polynomial P1, Polynomial P2)</span> </span>&#123;</span><br><span class="line">    Polynomial PS,p1,p2,rear,t;</span><br><span class="line">    </span><br><span class="line">    p1 = P1;p2 = P2;</span><br><span class="line">    PS = (Polynomial)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(PolyNode));</span><br><span class="line">    PS-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">    rear = PS;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(p1 &amp;&amp; p2) &#123;</span><br><span class="line">        <span class="keyword">if</span>(p1-&gt;expon &gt; p2-&gt;expon) &#123;</span><br><span class="line">            attach(p1-&gt;ceof, p1-&gt;expon, &amp;rear);</span><br><span class="line">            p1 = p1-&gt;next;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(p1-&gt;expon == p2-&gt;expon) &#123;</span><br><span class="line">            <span class="keyword">if</span>(p1-&gt;ceof + p2-&gt;ceof != <span class="number">0</span>) &#123;</span><br><span class="line">                attach(p1-&gt;ceof + p2-&gt;ceof, p1-&gt;expon, &amp;rear);</span><br><span class="line">            &#125;</span><br><span class="line">            p1 = p1-&gt;next;</span><br><span class="line">            p2 = p2-&gt;next;  </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            attach(p2-&gt;ceof, p2-&gt;expon, &amp;rear);</span><br><span class="line">            p2 = p2-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(p1) &#123;</span><br><span class="line">        attach(p1-&gt;ceof, p1-&gt;expon, &amp;rear); </span><br><span class="line">        p1 = p1-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// for(; p1; p1 = p1-&gt;next) attach(p1-&gt;ceof, p1-&gt;expon, &amp;rear);</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(p2) &#123;</span><br><span class="line">        attach(p2-&gt;ceof, p2-&gt;expon, &amp;rear); </span><br><span class="line">        p2 = p2-&gt;next;  </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    rear-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">    t = PS;</span><br><span class="line">    PS = PS-&gt;next;</span><br><span class="line">    <span class="built_in">free</span>(t);</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> PS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Polynomial <span class="title">mult</span><span class="params">(Polynomial P1, Polynomial P2)</span> </span>&#123;</span><br><span class="line">    Polynomial p1,p2,PP,rear, t;</span><br><span class="line">    <span class="keyword">int</span> c,e;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(!P1 || !P2) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    </span><br><span class="line">    PP = (Polynomial)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(PolyNode));</span><br><span class="line">    PP-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">    </span><br><span class="line">    p1 = P1;</span><br><span class="line">    p2 = P2;</span><br><span class="line">    rear = PP;</span><br><span class="line">    <span class="comment">// p1乘p2</span></span><br><span class="line">    <span class="keyword">while</span>(p2) &#123;</span><br><span class="line">        attach(p1-&gt;ceof*p2-&gt;ceof,p1-&gt;expon+p2-&gt;expon,&amp;rear);</span><br><span class="line">        p2 = p2-&gt;next;</span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">    p1 = p1-&gt;next; <span class="comment">// 从第二项开始 </span></span><br><span class="line">    <span class="comment">// 逐项插入 </span></span><br><span class="line">    <span class="keyword">while</span>(p1) &#123;</span><br><span class="line">        <span class="comment">// p2每次初始化为多项式2得头，rear为新链表的头，插入删除操作都在PP链表(有一个空的节点)中进行 </span></span><br><span class="line">        p2 = P2;</span><br><span class="line">        rear = PP;</span><br><span class="line">        <span class="keyword">while</span>(p2) &#123;</span><br><span class="line">            c = p1-&gt;ceof*p2-&gt;ceof;</span><br><span class="line">            e = p1-&gt;expon+p2-&gt;expon;</span><br><span class="line">            <span class="keyword">while</span>(rear-&gt;next &amp;&amp; rear-&gt;next-&gt;expon &gt; e)&#123; <span class="comment">// 找到插入位置 </span></span><br><span class="line">                rear = rear-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(rear-&gt;next &amp;&amp; rear-&gt;next-&gt;expon == e)&#123; <span class="comment">// 当前指数次数相同，合并 </span></span><br><span class="line">                <span class="keyword">if</span>(rear-&gt;next-&gt;ceof+c != <span class="number">0</span>)&#123; <span class="comment">// 和不为0  </span></span><br><span class="line">                    rear-&gt;next-&gt;ceof += c;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123; <span class="comment">// 和为0 </span></span><br><span class="line">                    t = rear-&gt;next;</span><br><span class="line">                    rear-&gt;next = t-&gt;next;</span><br><span class="line">                    <span class="built_in">free</span>(t);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">// 当前指数不相同，后插 </span></span><br><span class="line">                t = (Polynomial)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(PolyNode));</span><br><span class="line">                t-&gt;ceof = c;</span><br><span class="line">                t-&gt;expon = e;</span><br><span class="line">                </span><br><span class="line">                t-&gt;next = rear-&gt;next;</span><br><span class="line">                rear-&gt;next = t;</span><br><span class="line">                rear = rear-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            p2 = p2-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        p1 = p1-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    p2 = PP;</span><br><span class="line">    PP = PP-&gt;next;</span><br><span class="line">    <span class="built_in">free</span>(p2);</span><br><span class="line">    <span class="keyword">return</span> PP;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 主函数入口</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Polynomial P1,P2,PP,PS; </span><br><span class="line">    </span><br><span class="line">    <span class="meta">#<span class="meta-keyword">ifndef</span> ONLINE_JUDGE</span></span><br><span class="line">    freopen(<span class="string">"Polymial.txt"</span>, <span class="string">"r"</span>, <span class="built_in">stdin</span>);</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 读入多项式1</span></span><br><span class="line">    P1 = readPoly();</span><br><span class="line">    <span class="comment">// 读入多项式2</span></span><br><span class="line">    P2 = readPoly();</span><br><span class="line">    <span class="comment">// 乘法运算并输出</span></span><br><span class="line">    PP = mult(P1, P2);</span><br><span class="line">    printPoly(PP);</span><br><span class="line">    <span class="comment">// 加法运算并输出 </span></span><br><span class="line">    PS = add(P1, P2);</span><br><span class="line">    printPoly(PS);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="3-Pop-Sequence"><a href="#3-Pop-Sequence" class="headerlink" title="3.Pop Sequence"></a>3.Pop Sequence</h1><p>Problem<br>Given a stack which can keep M numbers at most. Push N numbers in the order of 1, 2, 3, …, N and pop randomly. You are supposed to tell if a given sequence of numbers is a possible pop sequence of the stack. <a href="https://pta.patest.cn/pta/test/16/exam/4/question/665" target="_blank" rel="external">详细描述</a></p>
+<p>Analysys</p>
+<ol>
+<li>假设当前元素出栈，则比它小的元素都要入栈，这些元素什么时候出栈我们不管。当栈顶元素等于序列当前元素时，出栈，不等证明该序列不是出栈序列.</li>
+<li>序列元素后移，重复此操作。</li>
+</ol>
+<p>Code</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 1001</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">check</span><span class="params">(<span class="keyword">int</span> seq[], <span class="keyword">int</span> M, <span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; stack1;</span><br><span class="line">    stack1.push(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">int</span> index = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(index &lt;= N)&#123;</span><br><span class="line">        <span class="keyword">while</span>(seq[index] &gt; stack1.top() &amp;&amp; stack1.size() &lt;= M)&#123;</span><br><span class="line">            stack1.push(num++);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(seq[index] == stack1.top())&#123;</span><br><span class="line">            stack1.pop();</span><br><span class="line">            index++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> M, N, K;</span><br><span class="line">    <span class="keyword">int</span> seq[MAXN];</span><br><span class="line">    </span><br><span class="line">    <span class="meta">#<span class="meta-keyword">ifndef</span> ONLINE_JUDGE</span></span><br><span class="line">    freopen(<span class="string">"PopSequence.txt"</span>, <span class="string">"r"</span>, <span class="built_in">stdin</span>);</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d %d %d"</span>, &amp;M, &amp;N, &amp;K); </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(K--) &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; i++) &#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;seq[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(check(seq, M, N)) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"YES\n"</span>);    </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"NO\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en" target="_blank" rel="external">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
+</blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/PTA/">PTA</a> <a class="tag tag--primary tag--small t-link" href="/tags/数据结构与算法/">数据结构与算法</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/04/pta-algorithm-practice-04-binary-tree/"  data-tooltip="算法刷题笔记四之二叉树上篇">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/05/31/design-pattern-factory/" data-tooltip="设计模式篇之工厂三个妹子不可能这么可爱系列">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/06/02/pta-algorithm-pratice-notes-03-linearlist/&amp;title=算法刷题笔记三之线性结构篇">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/06/02/pta-algorithm-pratice-notes-03-linearlist/&amp;title=算法刷题笔记三之线性结构篇">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/06/02/pta-algorithm-pratice-notes-03-linearlist/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/06/02/pta-algorithm-pratice-notes-03-linearlist/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#lv-container">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">给作者投食戳这里OwO</a>
+                <br>
+            </div>
+            <div id="donate_guide" class="donate_bar center hidden" >
+                <img src="/assets/images/qr-alipay.jpg" alt="支付宝打赏">
+                <img src="/assets/images/qr-wechatpay.png" alt="微信打赏">
+            </div>
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide').removeClass('hidden');
+                }
+            </script>
+        </div>
+        
+            
+                <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTg0My84NDA3">
+</div>
+<!-- City版安装代码已完成 -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<div id="footer-img"></div>
+    <span class="copyrights">
+    	<p>Powder by <a href="https://hexo.io/zh-cn/">Hexo</a>. Theme - <a href="https://github.com/kaedea/hexo-theme-themia">Themia</a> Modified by <a href="http://tsukasa.moe">Tsukasa</a>.<br>
+			License - <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">Attribution-NonCommercial-NoDerivatives 4.0 International</a>.<br>
+			<span id="busuanzi_container_site_uv">
+  				Total <span id="busuanzi_value_site_uv"></span> visitors.
+			</span>
+			<span id="busuanzi_container_site_pv">
+			    Total visit <span id="busuanzi_value_site_pv"></span> times.
+			</span>
+			<span id="run_time"></span>
+		</p>
+        Copyrights &copy; 2023 Tsukasa. All Rights Reserved.(≧∀≦)
+    </span>
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<script>
+    function secondToDate(second) {
+        if (!second) {
+            return 0;
+        }
+        var time = new Array(0, 0, 0, 0, 0);
+        // if (second >= 365 * 24 * 3600) {
+        //     time[0] = parseInt(second / (365 * 24 * 3600));
+        //     second %= 365 * 24 * 3600;
+        // }
+        if (second >= 24 * 3600) {
+            time[1] = parseInt(second / (24 * 3600));
+            second %= 24 * 3600;
+        }
+        if (second >= 3600) {
+            time[2] = parseInt(second / 3600);
+            second %= 3600;
+        }
+        if (second >= 60) {
+            time[3] = parseInt(second / 60);
+            second %= 60;
+        }
+        if (second > 0) {
+            time[4] = second;
+        }
+        return time;
+    }
+</script>
+<script type="text/javascript" language="javascript">
+    function setTime() {
+        var create_time = Math.round(new Date(Date.UTC(2017, 2, 6, 2, 23, 0))
+                .getTime() / 1000);
+        var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+        currentTime = secondToDate((timestamp - create_time));
+        currentTimeHtml = "Blog ages: "+ currentTime[1] + ' days '
+                + currentTime[2] + ' h ' 
+                + currentTime[3] + ' m ' 
+                + currentTime[4] + ' s.';
+        document.getElementById("run_time").innerHTML = currentTimeHtml;
+    }
+    setInterval(setTime, 1000);
+</script>
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/04/pta-algorithm-practice-04-binary-tree/"  data-tooltip="算法刷题笔记四之二叉树上篇">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/05/31/design-pattern-factory/" data-tooltip="设计模式篇之工厂三个妹子不可能这么可爱系列">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/06/02/pta-algorithm-pratice-notes-03-linearlist/&amp;title=算法刷题笔记三之线性结构篇">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/06/02/pta-algorithm-pratice-notes-03-linearlist/&amp;title=算法刷题笔记三之线性结构篇">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/06/02/pta-algorithm-pratice-notes-03-linearlist/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/06/02/pta-algorithm-pratice-notes-03-linearlist/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#lv-container">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/06/02/pta-algorithm-pratice-notes-03-linearlist/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/06/02/pta-algorithm-pratice-notes-03-linearlist/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/06/02/pta-algorithm-pratice-notes-03-linearlist/&amp;title=算法刷题笔记三之线性结构篇">
+                <i class="fa fa-weibo"></i><span>Share on Weibo</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/06/02/pta-algorithm-pratice-notes-03-linearlist/&amp;title=算法刷题笔记三之线性结构篇">
+                <i class="fa fa-qq"></i><span>Share on QQ</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatars.jpg"/>
+        
+            <h4 id="about-card-name">Tsukasa</h4>
+        
+            <h5 id="about-card-bio"><p><a href="http://tsukasa.moe">「My Homepage」</a><br><a href="http://me.tsukasa.moe">「About Me」</a><br><a href="http://notes.tsukasa.moe">「My Notes」</a><br><a href="http://blog.tsukasa.moe/links">「My Links」</a></p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Shenzhen
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover-neko.jpg');"></div>
+    <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+    <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+<!--PANGU AUTO SPACE-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.2.1/pangu.min.js"></script>
+<script> pangu.spacingPage(); </script>
+<!--PANGU AUTO SPACE END-->
+
+
+   
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+    </script>
+
+    
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','DibYiq_42u2sq4ziXd_y','2.0.0');
+    </script>
+
+
+</html>

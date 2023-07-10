@@ -1,0 +1,684 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Tsukasa の 部屋">
+    <title>算法刷题笔记六之二叉树下篇 - Tsukasa の 部屋</title>
+    <meta name="author" content="Tsukasa">
+    
+    
+        <link rel="icon" href="http://blog.tsukasa.moe/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="这篇文章是PTA算法刷题笔记，针对二叉树结构的练习题，题目包括了：  堆中的路径 File Transfer">
+<meta name="keywords" content="数据结构与算法,PTA">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="算法刷题笔记六之二叉树下篇">
+<meta property="og:url" content="http://blog.tsukasa.moe/2017/06/14/pta-algorithm-practice-06-binary-tree/index.html">
+<meta property="og:site_name" content="Tsukasa の 部屋">
+<meta property="og:description" content="这篇文章是PTA算法刷题笔记，针对二叉树结构的练习题，题目包括了：  堆中的路径 File Transfer">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://static.tsukasa.moe/images/post-images/2017/06/file-transfer.jpg">
+<meta property="og:updated_time" content="2019-03-10T17:11:21.223Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法刷题笔记六之二叉树下篇">
+<meta name="twitter:description" content="这篇文章是PTA算法刷题笔记，针对二叉树结构的练习题，题目包括了：  堆中的路径 File Transfer">
+<meta name="twitter:image" content="http://static.tsukasa.moe/images/post-images/2017/06/file-transfer.jpg">
+<meta name="twitter:creator" content="@TsukasaMoe">
+    
+        <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/avatars.jpg" />
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/cover-hime.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/cover-hime.jpg" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <script src="https://cdn.bootcss.com/aplayer/1.6.0/APlayer.min.js"></script>
+<script src="https://api.i-meto.com/music/aplayer.min.js"></script>
+<!-- Define author's picture -->
+
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Tsukasa の 部屋</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon st-search-show-outputs"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatars.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">Tsukasa</span>
+            <span class="sidebar-profile-moto">好きな事を行い、している事を愛しなさいあははは</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-circle-o"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-star-o"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bars"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-terminal"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/TsukasaMoe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:luowenqingsmail@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://portfolio.tsukasa.moe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-at"></i>
+                    <span class="sidebar-button-desc">Portfolio</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/messages"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-comment-o"></i>
+                    <span class="sidebar-button-desc">Messages</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/friends"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-mars"></i>
+                    <span class="sidebar-button-desc">Friends</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/links"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-link"></i>
+                    <span class="sidebar-button-desc">Links</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/donate"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-usd"></i>
+                    <span class="sidebar-button-desc">Donate</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    post-header-cover--full"
+             style="background-image:url('http://blog.tsukasa.moe/assets/images/cover-hime.jpg');"
+             data-behavior="3">
+            
+                
+<div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            算法刷题笔记六之二叉树下篇
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Wed Jun 14 2017 13:39:01 GMT+0800">
+	
+		    Jun 14, 2017
+    	
+    </time>
+    
+        <span> |  </span>
+        
+    <a class="category-link" href="/categories/编程开发/">编程开发</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h1 id="1-堆中的路径"><a href="#1-堆中的路径" class="headerlink" title="1.堆中的路径"></a>1.堆中的路径</h1><p>Problem<br>将一系列给定数字插入一个初始为空的小顶堆H[]。随后对任意给定的下标i，打印从H[i]到根结点的路径。<a href="https://pta.patest.cn/pta/test/15/exam/4/question/713" target="_blank" rel="external">详细描述</a></p>
+<p>Analysis</p>
+<ol>
+<li>首先建堆有两种方式：(1)元素先用数组按顺序存放好使之满足完全二叉树结构，要构造一个堆，那么我们只需要左右子树为堆，然后调整当前堆为堆即可。(2)首先堆为空，然后按照完全二叉树的结构每次插入一个节点，然后调整当前树为一个堆，即找出插入节点应该在的位置进行插入，与插入排序类似。因为建堆的时间复杂度为O(logN)，有N个元素，时间复杂度为O(NlogN)。根据题目描述只能选择第二种建堆方式。</li>
+<li>建堆过程中可以使用哨兵，如果是最小堆，则H[0]定义为一个足够小的值使得堆元素都大于它。同理可推最大堆应选用一个足够大的值。</li>
+</ol>
+<p>Code</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MINDATA -10001</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printHeap</span><span class="params">(<span class="keyword">int</span> numbers[], <span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> flag = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(index &gt;= <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d "</span>, numbers[index]);</span><br><span class="line">        index /= <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, numbers[<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insertHeap</span><span class="params">(<span class="keyword">int</span> numbers[], <span class="keyword">int</span> data, <span class="keyword">int</span> index)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = index;</span><br><span class="line">    <span class="keyword">for</span>(; numbers[i/<span class="number">2</span>] &gt; data; i /= <span class="number">2</span>) &#123; <span class="comment">// 只要插入元素比父节点i/2小，证明插入元素不再位置i上</span></span><br><span class="line">        numbers[i] = numbers[i/<span class="number">2</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    numbers[i] = data;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N, M;</span><br><span class="line">    <span class="keyword">int</span> index, data;</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">ifndef</span> ONLINE_JUDGE</span></span><br><span class="line">    freopen(<span class="string">"MinHeap.txt"</span>, <span class="string">"r"</span>, <span class="built_in">stdin</span>);</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d %d\n"</span>, &amp;N, &amp;M);</span><br><span class="line">    <span class="keyword">int</span> numbers[N+<span class="number">1</span>];</span><br><span class="line">    numbers[<span class="number">0</span>] = MINDATA; <span class="comment">// 哨兵 </span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; i++) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;data);</span><br><span class="line">        insertHeap(numbers, data, i);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= M; i++) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;index);</span><br><span class="line">        printHeap(numbers, index);  </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="2-File-Transfer"><a href="#2-File-Transfer" class="headerlink" title="2.File Transfer"></a>2.File Transfer</h1><p>Problem<br>We have a network of computers and a list of bi-directional connections. Each of these connections allows a file transfer from one computer to another. Is it possible to send a file from any computer on the network to any other?<a href="https://pta.patest.cn/pta/test/15/exam/4/question/713" target="_blank" rel="external">详细描述</a></p>
+<p>Analysis</p>
+<ol>
+<li>考察集合的并查集，即查找集合中的元素，求集合并集。</li>
+<li>思路是数组下标i表示各台电脑，s[i]表示电脑的根，如果电脑属于同一个集合那么两台电脑相互连通，根为负数证明该节点是根节点，这里可以利用根节点的根s[root]表示树高的负数或者表示树规模的负数，都称为按秩归并，进行路径压缩可以加快查找效率。</li>
+</ol>
+<p><img src="http://static.tsukasa.moe/images/post-images/2017/06/file-transfer.jpg" alt=""></p>
+<p>Code</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> count;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">int</span> s[], <span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; length; i++) &#123;</span><br><span class="line">        s[i] = <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> s[], <span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(s[x] &lt; <span class="number">0</span>) <span class="keyword">return</span> x;</span><br><span class="line">    <span class="keyword">return</span> s[x] = find(s, s[x]); <span class="comment">// 不仅将所属树根返回，而且进行了路径压缩 </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Union</span><span class="params">(<span class="keyword">int</span> x1, <span class="keyword">int</span> x2, <span class="keyword">int</span> s[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> root1 = find(s, x1);</span><br><span class="line">    <span class="keyword">int</span> root2 = find(s, x2);</span><br><span class="line">    <span class="keyword">if</span>(root1 != root2) &#123;</span><br><span class="line">        <span class="keyword">if</span>(s[root2] &lt; s[root1]) &#123; <span class="comment">// 如果root2的树高大于root1的树高，矮的root1贴在高的root2上面,即根节点为root2 </span></span><br><span class="line">            s[root2] += s[root1];</span><br><span class="line">            s[root1] = root2;</span><br><span class="line">            count--;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            s[root1] += s[root2];</span><br><span class="line">            s[root2] = root1;</span><br><span class="line">            count--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">#<span class="meta-keyword">ifndef</span> ONLINE_JUDGE</span></span><br><span class="line">    freopen(<span class="string">"FileTransfer.txt"</span>, <span class="string">"r"</span>, <span class="built_in">stdin</span>);</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">    count = n;</span><br><span class="line">    <span class="keyword">int</span> s[n+<span class="number">1</span>];</span><br><span class="line">    init(s, n+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">char</span> ch;</span><br><span class="line">    <span class="keyword">int</span> x, y;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%c"</span>, &amp;ch);</span><br><span class="line">    <span class="keyword">while</span>(ch != <span class="string">'S'</span>) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d %d"</span>, &amp;x, &amp;y);</span><br><span class="line">        <span class="keyword">if</span>(ch == <span class="string">'I'</span>) &#123;</span><br><span class="line">            Union(x, y, s);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(ch == <span class="string">'C'</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span>(find(s, x) == find(s, y)) <span class="built_in">printf</span>(<span class="string">"yes\n"</span>);</span><br><span class="line">            <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"no\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%c"</span>, &amp;ch);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(count == <span class="number">1</span>) <span class="built_in">printf</span>(<span class="string">"The network is connected.\n"</span>);  </span><br><span class="line">    <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"There are %d components.\n"</span>, count);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en" target="_blank" rel="external">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
+</blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/PTA/">PTA</a> <a class="tag tag--primary tag--small t-link" href="/tags/数据结构与算法/">数据结构与算法</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/20/how-to-use-powerful-chrome/"  data-tooltip="善用强大的Chrome浏览器">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/05/pta-algorithm-practice-05-binary-tree/" data-tooltip="算法刷题笔记五之二叉树中篇">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/06/14/pta-algorithm-practice-06-binary-tree/&amp;title=算法刷题笔记六之二叉树下篇">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/06/14/pta-algorithm-practice-06-binary-tree/&amp;title=算法刷题笔记六之二叉树下篇">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/06/14/pta-algorithm-practice-06-binary-tree/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/06/14/pta-algorithm-practice-06-binary-tree/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#lv-container">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">给作者投食戳这里OwO</a>
+                <br>
+            </div>
+            <div id="donate_guide" class="donate_bar center hidden" >
+                <img src="/assets/images/qr-alipay.jpg" alt="支付宝打赏">
+                <img src="/assets/images/qr-wechatpay.png" alt="微信打赏">
+            </div>
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide').removeClass('hidden');
+                }
+            </script>
+        </div>
+        
+            
+                <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTg0My84NDA3">
+</div>
+<!-- City版安装代码已完成 -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<div id="footer-img"></div>
+    <span class="copyrights">
+    	<p>Powder by <a href="https://hexo.io/zh-cn/">Hexo</a>. Theme - <a href="https://github.com/kaedea/hexo-theme-themia">Themia</a> Modified by <a href="http://tsukasa.moe">Tsukasa</a>.<br>
+			License - <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">Attribution-NonCommercial-NoDerivatives 4.0 International</a>.<br>
+			<span id="busuanzi_container_site_uv">
+  				Total <span id="busuanzi_value_site_uv"></span> visitors.
+			</span>
+			<span id="busuanzi_container_site_pv">
+			    Total visit <span id="busuanzi_value_site_pv"></span> times.
+			</span>
+			<span id="run_time"></span>
+		</p>
+        Copyrights &copy; 2023 Tsukasa. All Rights Reserved.(≧∀≦)
+    </span>
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<script>
+    function secondToDate(second) {
+        if (!second) {
+            return 0;
+        }
+        var time = new Array(0, 0, 0, 0, 0);
+        // if (second >= 365 * 24 * 3600) {
+        //     time[0] = parseInt(second / (365 * 24 * 3600));
+        //     second %= 365 * 24 * 3600;
+        // }
+        if (second >= 24 * 3600) {
+            time[1] = parseInt(second / (24 * 3600));
+            second %= 24 * 3600;
+        }
+        if (second >= 3600) {
+            time[2] = parseInt(second / 3600);
+            second %= 3600;
+        }
+        if (second >= 60) {
+            time[3] = parseInt(second / 60);
+            second %= 60;
+        }
+        if (second > 0) {
+            time[4] = second;
+        }
+        return time;
+    }
+</script>
+<script type="text/javascript" language="javascript">
+    function setTime() {
+        var create_time = Math.round(new Date(Date.UTC(2017, 2, 6, 2, 23, 0))
+                .getTime() / 1000);
+        var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+        currentTime = secondToDate((timestamp - create_time));
+        currentTimeHtml = "Blog ages: "+ currentTime[1] + ' days '
+                + currentTime[2] + ' h ' 
+                + currentTime[3] + ' m ' 
+                + currentTime[4] + ' s.';
+        document.getElementById("run_time").innerHTML = currentTimeHtml;
+    }
+    setInterval(setTime, 1000);
+</script>
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/20/how-to-use-powerful-chrome/"  data-tooltip="善用强大的Chrome浏览器">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/05/pta-algorithm-practice-05-binary-tree/" data-tooltip="算法刷题笔记五之二叉树中篇">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/06/14/pta-algorithm-practice-06-binary-tree/&amp;title=算法刷题笔记六之二叉树下篇">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/06/14/pta-algorithm-practice-06-binary-tree/&amp;title=算法刷题笔记六之二叉树下篇">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/06/14/pta-algorithm-practice-06-binary-tree/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/06/14/pta-algorithm-practice-06-binary-tree/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#lv-container">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/06/14/pta-algorithm-practice-06-binary-tree/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/06/14/pta-algorithm-practice-06-binary-tree/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/06/14/pta-algorithm-practice-06-binary-tree/&amp;title=算法刷题笔记六之二叉树下篇">
+                <i class="fa fa-weibo"></i><span>Share on Weibo</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/06/14/pta-algorithm-practice-06-binary-tree/&amp;title=算法刷题笔记六之二叉树下篇">
+                <i class="fa fa-qq"></i><span>Share on QQ</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatars.jpg"/>
+        
+            <h4 id="about-card-name">Tsukasa</h4>
+        
+            <h5 id="about-card-bio"><p><a href="http://tsukasa.moe">「My Homepage」</a><br><a href="http://me.tsukasa.moe">「About Me」</a><br><a href="http://notes.tsukasa.moe">「My Notes」</a><br><a href="http://blog.tsukasa.moe/links">「My Links」</a></p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Shenzhen
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover-neko.jpg');"></div>
+    <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+    <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+<!--PANGU AUTO SPACE-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.2.1/pangu.min.js"></script>
+<script> pangu.spacingPage(); </script>
+<!--PANGU AUTO SPACE END-->
+
+
+   
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+    </script>
+
+    
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','DibYiq_42u2sq4ziXd_y','2.0.0');
+    </script>
+
+
+</html>

@@ -1,0 +1,681 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Tsukasa の 部屋">
+    <title>算法刷题笔记二 - Tsukasa の 部屋</title>
+    <meta name="author" content="Tsukasa">
+    
+    
+        <link rel="icon" href="http://blog.tsukasa.moe/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="这篇文章的算法题全部来自PTA，笔试发现在线编程题自己太水，计划每周坚持刷些ACM题。">
+<meta name="keywords" content="数据结构与算法,PTA">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="算法刷题笔记二">
+<meta property="og:url" content="http://blog.tsukasa.moe/2017/04/03/pta-algorithm-practice-notes-02/index.html">
+<meta property="og:site_name" content="Tsukasa の 部屋">
+<meta property="og:description" content="这篇文章的算法题全部来自PTA，笔试发现在线编程题自己太水，计划每周坚持刷些ACM题。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-10T10:37:11.401Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法刷题笔记二">
+<meta name="twitter:description" content="这篇文章的算法题全部来自PTA，笔试发现在线编程题自己太水，计划每周坚持刷些ACM题。">
+<meta name="twitter:creator" content="@TsukasaMoe">
+    
+        <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/avatars.jpg" />
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/cover-hime.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/cover-hime.jpg" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <script src="https://cdn.bootcss.com/aplayer/1.6.0/APlayer.min.js"></script>
+<script src="https://api.i-meto.com/music/aplayer.min.js"></script>
+<!-- Define author's picture -->
+
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Tsukasa の 部屋</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon st-search-show-outputs"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatars.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">Tsukasa</span>
+            <span class="sidebar-profile-moto">好きな事を行い、している事を愛しなさいあははは</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-circle-o"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-star-o"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bars"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-terminal"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/TsukasaMoe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:luowenqingsmail@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://portfolio.tsukasa.moe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-at"></i>
+                    <span class="sidebar-button-desc">Portfolio</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/messages"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-comment-o"></i>
+                    <span class="sidebar-button-desc">Messages</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/friends"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-mars"></i>
+                    <span class="sidebar-button-desc">Friends</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/links"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-link"></i>
+                    <span class="sidebar-button-desc">Links</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/donate"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-usd"></i>
+                    <span class="sidebar-button-desc">Donate</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    post-header-cover--full"
+             style="background-image:url('http://blog.tsukasa.moe/assets/images/cover-hime.jpg');"
+             data-behavior="3">
+            
+                
+<div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            算法刷题笔记二
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Mon Apr 03 2017 15:58:46 GMT+0800">
+	
+		    Apr 03, 2017
+    	
+    </time>
+    
+        <span> |  </span>
+        
+    <a class="category-link" href="/categories/编程开发/">编程开发</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这篇文章的算法题全部来自PTA，笔试发现在线编程题自己太水，计划每周坚持刷些ACM题。</p>
+<h3 id="4-6-求单链表结点的阶乘和"><a href="#4-6-求单链表结点的阶乘和" class="headerlink" title="4-6 求单链表结点的阶乘和"></a>4-6 求单链表结点的阶乘和</h3><p>本题要求实现一个函数，求单链表L结点的阶乘和。这里默认所有结点的值非负，且题目保证结果在int范围内。==&gt;<a href="https://pta.patest.cn/pta/test/14/exam/3/question/738" target="_blank" rel="external">传送门</a></p>
+<p>代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Node</span> *<span class="title">PtrToNode</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> Data; <span class="comment">/* 存储结点数据 */</span></span><br><span class="line">    PtrToNode Next; <span class="comment">/* 指向下一个结点的指针 */</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">typedef</span> PtrToNode List; <span class="comment">/* 定义单链表类型 */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">FactorialSum</span><span class="params">( List L )</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N, i;</span><br><span class="line">    List L, p;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;N);</span><br><span class="line">    L = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i &lt; N; i++ ) &#123;</span><br><span class="line">        p = (List)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(struct Node));</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;p-&gt;Data);</span><br><span class="line">        p-&gt;Next = L;  </span><br><span class="line">        L = p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, FactorialSum(L));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fac</span><span class="params">(<span class="keyword">int</span> n)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> result = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        result *= i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">FactorialSum</span><span class="params">( List L )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    List p = L;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(p)</span><br><span class="line">    &#123;</span><br><span class="line">        sum += fac(p-&gt;Data);</span><br><span class="line">        p = p-&gt;Next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-7-统计某类完全平方数"><a href="#4-7-统计某类完全平方数" class="headerlink" title="4-7 统计某类完全平方数"></a>4-7 统计某类完全平方数</h3><p>本题要求实现一个函数，判断任一给定整数N是否满足条件：它是完全平方数，又至少有两位数字相同，如144、676等。 ==&gt;<a href="https://pta.patest.cn/pta/test/14/exam/3/question/739" target="_blank" rel="external">传送门</a></p>
+<p>代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 10</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">float</span> ElementType;</span><br><span class="line"></span><br><span class="line"><span class="function">ElementType <span class="title">Median</span><span class="params">( ElementType A[], <span class="keyword">int</span> N )</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ElementType A[MAXN];</span><br><span class="line">    <span class="keyword">int</span> N, i;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;N);</span><br><span class="line">    <span class="keyword">for</span> ( i=<span class="number">0</span>; i &lt; N; i++ )</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%f"</span>,&amp;A[i]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%.2f\n"</span>, Median(A, N));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ElementType <span class="title">Median</span><span class="params">( ElementType A[], <span class="keyword">int</span> N )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pos;</span><br><span class="line">    ElementType temp;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N / <span class="number">2</span> + <span class="number">1</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        pos = i;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i+<span class="number">1</span>; j &lt; N; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(A[pos] &lt; A[j])</span><br><span class="line">            &#123;</span><br><span class="line">                pos = j;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i != pos)</span><br><span class="line">        &#123;</span><br><span class="line">            temp = A[i];</span><br><span class="line">            A[i] = A[pos];</span><br><span class="line">            A[pos] = temp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> A[N/<span class="number">2</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-9-统计个位数字"><a href="#4-9-统计个位数字" class="headerlink" title="4-9 统计个位数字"></a>4-9 统计个位数字</h3><p>本题要求实现一个函数，可统计任一整数中某个位数出现的次数。例如-21252中，2出现了3次，则该函数应该返回3。 ==&gt;<a href="https://pta.patest.cn/pta/test/14/exam/3/question/741" target="_blank" rel="external">传送门</a></p>
+<p>代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Count_Digit</span><span class="params">( <span class="keyword">const</span> <span class="keyword">int</span> N, <span class="keyword">const</span> <span class="keyword">int</span> D )</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N, D;         </span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d %d"</span>,&amp;N,&amp;D);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, Count_Digit(N, D));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Count_Digit</span> <span class="params">( <span class="keyword">const</span> <span class="keyword">int</span> N, <span class="keyword">const</span> <span class="keyword">int</span> D )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n = N;</span><br><span class="line">    <span class="keyword">if</span>(N &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        n = -N;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (N == <span class="number">0</span> &amp;&amp; D == N) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> times[<span class="number">10</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">while</span>(n) </span><br><span class="line">    &#123;</span><br><span class="line">        times[n%<span class="number">10</span>]++;</span><br><span class="line">        n = n / <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> times[D];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-10-阶乘计算升级版"><a href="#4-10-阶乘计算升级版" class="headerlink" title="4-10 阶乘计算升级版"></a>4-10 阶乘计算升级版</h3><p>本题要求实现一个打印非负整数阶乘的函数。 ==&gt;<a href="https://pta.patest.cn/pta/test/14/exam/3/question/742" target="_blank" rel="external">传送门</a></p>
+<p>代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Print_Factorial</span> <span class="params">( <span class="keyword">const</span> <span class="keyword">int</span> N )</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;N);</span><br><span class="line">    Print_Factorial(N);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fac</span><span class="params">(<span class="keyword">int</span> n)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> result = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        result *= i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Print_Factorial</span> <span class="params">( <span class="keyword">const</span> <span class="keyword">int</span> N )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (N &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Invalid input"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> result[<span class="number">5001</span>] = &#123;<span class="number">0</span>&#125;; <span class="comment">// 保存结果的数组 </span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> len = <span class="number">1</span>;        <span class="comment">// 保存当前数组的长度 </span></span><br><span class="line">        <span class="keyword">int</span> carry_bit;          <span class="comment">// 进位</span></span><br><span class="line">        <span class="keyword">int</span> temp;           </span><br><span class="line"></span><br><span class="line">        result[<span class="number">1</span>] = <span class="number">1</span>;      <span class="comment">// 第一个计算时置为1 </span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= N; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 按位乘,计算阶乘 </span></span><br><span class="line">            carry_bit = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= len; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                temp = result[j] * i + carry_bit;</span><br><span class="line">                result[j] = temp % <span class="number">10</span>;</span><br><span class="line">                carry_bit = temp / <span class="number">10</span>;</span><br><span class="line">            &#125; </span><br><span class="line">            <span class="comment">// 进位,构造下一轮的数组 </span></span><br><span class="line">            <span class="keyword">while</span> (carry_bit != <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                len++;</span><br><span class="line">                result[len] = carry_bit % <span class="number">10</span>;</span><br><span class="line">                carry_bit = carry_bit / <span class="number">10</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = len; i &gt;= <span class="number">1</span>; i--)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d"</span>, result[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-然后是几点"><a href="#5-2-然后是几点" class="headerlink" title="5-2 然后是几点"></a>5-2 然后是几点</h3><p>读入两个数字，第一个数字以这样的四位数字表示当前时间，第二个数字表示分钟数，计算当前时间经过那么多分钟后是几点，结果也表示为四位数字。 ==&gt;<a href="https://pta.patest.cn/pta/test/14/exam/4/question/782" target="_blank" rel="external">传送门</a></p>
+<p>代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by LuoWenqing on 2017/5/9.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main5_2</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Scanner sc = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        <span class="keyword">int</span> start, passed;</span><br><span class="line">        <span class="keyword">int</span> startHour, startMinute, totalMinute;</span><br><span class="line">        <span class="keyword">int</span> resultHour, resultMinute;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (sc.hasNext()) &#123;</span><br><span class="line">            start = sc.nextInt();</span><br><span class="line">            passed = sc.nextInt();</span><br><span class="line"></span><br><span class="line">            startHour = start / <span class="number">100</span>;</span><br><span class="line">            startMinute = start % <span class="number">100</span>;</span><br><span class="line">            totalMinute = startHour * <span class="number">60</span> + startMinute;</span><br><span class="line"></span><br><span class="line">            totalMinute += passed;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (totalMinute == <span class="number">0</span>) &#123;</span><br><span class="line">                resultHour = <span class="number">0</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                resultHour = totalMinute / <span class="number">60</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            resultMinute = totalMinute % <span class="number">60</span>;</span><br><span class="line"></span><br><span class="line">            System.out.<span class="built_in">printf</span>(<span class="string">"%d%02d"</span>, resultHour, resultMinute);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en" target="_blank" rel="external">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
+</blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/PTA/">PTA</a> <a class="tag tag--primary tag--small t-link" href="/tags/数据结构与算法/">数据结构与算法</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/04/04/sorting-algorithm/"  data-tooltip="常用排序算法Java实现">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/25/algorithm-practice-notes-01/" data-tooltip="算法刷题笔记一">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/04/03/pta-algorithm-practice-notes-02/&amp;title=算法刷题笔记二">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/04/03/pta-algorithm-practice-notes-02/&amp;title=算法刷题笔记二">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/04/03/pta-algorithm-practice-notes-02/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/04/03/pta-algorithm-practice-notes-02/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#lv-container">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">给作者投食戳这里OwO</a>
+                <br>
+            </div>
+            <div id="donate_guide" class="donate_bar center hidden" >
+                <img src="/assets/images/qr-alipay.jpg" alt="支付宝打赏">
+                <img src="/assets/images/qr-wechatpay.png" alt="微信打赏">
+            </div>
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide').removeClass('hidden');
+                }
+            </script>
+        </div>
+        
+            
+                <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTg0My84NDA3">
+</div>
+<!-- City版安装代码已完成 -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<div id="footer-img"></div>
+    <span class="copyrights">
+    	<p>Powder by <a href="https://hexo.io/zh-cn/">Hexo</a>. Theme - <a href="https://github.com/kaedea/hexo-theme-themia">Themia</a> Modified by <a href="http://tsukasa.moe">Tsukasa</a>.<br>
+			License - <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">Attribution-NonCommercial-NoDerivatives 4.0 International</a>.<br>
+			<span id="busuanzi_container_site_uv">
+  				Total <span id="busuanzi_value_site_uv"></span> visitors.
+			</span>
+			<span id="busuanzi_container_site_pv">
+			    Total visit <span id="busuanzi_value_site_pv"></span> times.
+			</span>
+			<span id="run_time"></span>
+		</p>
+        Copyrights &copy; 2023 Tsukasa. All Rights Reserved.(≧∀≦)
+    </span>
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<script>
+    function secondToDate(second) {
+        if (!second) {
+            return 0;
+        }
+        var time = new Array(0, 0, 0, 0, 0);
+        // if (second >= 365 * 24 * 3600) {
+        //     time[0] = parseInt(second / (365 * 24 * 3600));
+        //     second %= 365 * 24 * 3600;
+        // }
+        if (second >= 24 * 3600) {
+            time[1] = parseInt(second / (24 * 3600));
+            second %= 24 * 3600;
+        }
+        if (second >= 3600) {
+            time[2] = parseInt(second / 3600);
+            second %= 3600;
+        }
+        if (second >= 60) {
+            time[3] = parseInt(second / 60);
+            second %= 60;
+        }
+        if (second > 0) {
+            time[4] = second;
+        }
+        return time;
+    }
+</script>
+<script type="text/javascript" language="javascript">
+    function setTime() {
+        var create_time = Math.round(new Date(Date.UTC(2017, 2, 6, 2, 23, 0))
+                .getTime() / 1000);
+        var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+        currentTime = secondToDate((timestamp - create_time));
+        currentTimeHtml = "Blog ages: "+ currentTime[1] + ' days '
+                + currentTime[2] + ' h ' 
+                + currentTime[3] + ' m ' 
+                + currentTime[4] + ' s.';
+        document.getElementById("run_time").innerHTML = currentTimeHtml;
+    }
+    setInterval(setTime, 1000);
+</script>
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/04/04/sorting-algorithm/"  data-tooltip="常用排序算法Java实现">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/25/algorithm-practice-notes-01/" data-tooltip="算法刷题笔记一">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/04/03/pta-algorithm-practice-notes-02/&amp;title=算法刷题笔记二">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/04/03/pta-algorithm-practice-notes-02/&amp;title=算法刷题笔记二">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/04/03/pta-algorithm-practice-notes-02/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/04/03/pta-algorithm-practice-notes-02/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#lv-container">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/04/03/pta-algorithm-practice-notes-02/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/04/03/pta-algorithm-practice-notes-02/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/04/03/pta-algorithm-practice-notes-02/&amp;title=算法刷题笔记二">
+                <i class="fa fa-weibo"></i><span>Share on Weibo</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/04/03/pta-algorithm-practice-notes-02/&amp;title=算法刷题笔记二">
+                <i class="fa fa-qq"></i><span>Share on QQ</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatars.jpg"/>
+        
+            <h4 id="about-card-name">Tsukasa</h4>
+        
+            <h5 id="about-card-bio"><p><a href="http://tsukasa.moe">「My Homepage」</a><br><a href="http://me.tsukasa.moe">「About Me」</a><br><a href="http://notes.tsukasa.moe">「My Notes」</a><br><a href="http://blog.tsukasa.moe/links">「My Links」</a></p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Shenzhen
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover-neko.jpg');"></div>
+    <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+    <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+<!--PANGU AUTO SPACE-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.2.1/pangu.min.js"></script>
+<script> pangu.spacingPage(); </script>
+<!--PANGU AUTO SPACE END-->
+
+
+   
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+    </script>
+
+    
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','DibYiq_42u2sq4ziXd_y','2.0.0');
+    </script>
+
+
+</html>

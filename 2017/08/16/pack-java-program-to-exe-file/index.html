@@ -1,0 +1,685 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Tsukasa の 部屋">
+    <title>Intellij IDEA的Swing程序打包为exe可执行文件 - Tsukasa の 部屋</title>
+    <meta name="author" content="Tsukasa">
+    
+    
+        <link rel="icon" href="http://blog.tsukasa.moe/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="本人要将基于Spring Boot + JPA/Hibernate框架写的Swing程序打包为exe可执行文件发布，踩了各种坑，虽然结果不尽人意，但不做点记录感觉对不起自己浪费的时间。">
+<meta name="keywords" content="Intellij IDEA,Swing">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Intellij IDEA的Swing程序打包为exe可执行文件">
+<meta property="og:url" content="http://blog.tsukasa.moe/2017/08/16/pack-java-program-to-exe-file/index.html">
+<meta property="og:site_name" content="Tsukasa の 部屋">
+<meta property="og:description" content="本人要将基于Spring Boot + JPA/Hibernate框架写的Swing程序打包为exe可执行文件发布，踩了各种坑，虽然结果不尽人意，但不做点记录感觉对不起自己浪费的时间。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-10T10:37:00.411Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Intellij IDEA的Swing程序打包为exe可执行文件">
+<meta name="twitter:description" content="本人要将基于Spring Boot + JPA/Hibernate框架写的Swing程序打包为exe可执行文件发布，踩了各种坑，虽然结果不尽人意，但不做点记录感觉对不起自己浪费的时间。">
+<meta name="twitter:creator" content="@TsukasaMoe">
+    
+        <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/avatars.jpg" />
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/cover-hime.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/cover-hime.jpg" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <script src="https://cdn.bootcss.com/aplayer/1.6.0/APlayer.min.js"></script>
+<script src="https://api.i-meto.com/music/aplayer.min.js"></script>
+<!-- Define author's picture -->
+
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Tsukasa の 部屋</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon st-search-show-outputs"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatars.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">Tsukasa</span>
+            <span class="sidebar-profile-moto">好きな事を行い、している事を愛しなさいあははは</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-circle-o"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-star-o"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bars"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-terminal"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/TsukasaMoe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:luowenqingsmail@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://portfolio.tsukasa.moe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-at"></i>
+                    <span class="sidebar-button-desc">Portfolio</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/messages"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-comment-o"></i>
+                    <span class="sidebar-button-desc">Messages</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/friends"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-mars"></i>
+                    <span class="sidebar-button-desc">Friends</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/links"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-link"></i>
+                    <span class="sidebar-button-desc">Links</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/donate"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-usd"></i>
+                    <span class="sidebar-button-desc">Donate</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    post-header-cover--full"
+             style="background-image:url('http://blog.tsukasa.moe/assets/images/cover-hime.jpg');"
+             data-behavior="3">
+            
+                
+<div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            Intellij IDEA的Swing程序打包为exe可执行文件
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Wed Aug 16 2017 01:57:43 GMT+0800">
+	
+		    Aug 16, 2017
+    	
+    </time>
+    
+        <span> |  </span>
+        
+    <a class="category-link" href="/categories/编程开发/">编程开发</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本人要将基于Spring Boot + JPA/Hibernate框架写的Swing程序打包为exe可执行文件发布，踩了各种坑，虽然结果不尽人意，但不做点记录感觉对不起自己浪费的时间。</p>
+<h1 id="了解jar与exe"><a href="#了解jar与exe" class="headerlink" title="了解jar与exe"></a>了解jar与exe</h1><p>Java程序创建出可执行jar包需要满足的是：首先要确定Main Class，即是应用程序的入口，其次是需要Java运行环境。而运行环境本身包括了你在项目的依赖，以及运行java程序所需的环境即JVM。</p>
+<p>生成jar包在不同平台有不同方法，这里只给出Intellij IDEA平台的解决方案。</p>
+<p>exe4j不支持将jre打包进入exe的，要让你的java变身成为的exe变得可执行，意味着什么呢？你需要告诉最终的exe文件去哪里找jre，exe4j打包是提供了查找jre几个方式：注册表，环境变量，或者某个路径。</p>
+<p>当然我打包出来的目的肯定是要拿到没有jre环境的pc下使用，解决方案有两种：</p>
+<ol>
+<li>给电脑jre环境，装jdk（或者说至少要装个jre吧），还要看环境变量，麻烦；</li>
+<li>指定jre相对路径，一起放到一个目录下，虽然不能融为一体，但是可以朝夕相伴嘛，当然你要将她保护起来也行。</li>
+</ol>
+<h1 id="创建可执行jar包"><a href="#创建可执行jar包" class="headerlink" title="创建可执行jar包"></a>创建可执行jar包</h1><p>打开<code>Project Structure（ctrl+shift+alt+s）</code>——&gt; <code>Artifacts</code> ——&gt; 点加号添加jar ——&gt; <code>From modules with dependecies...</code>,选择程序入口主类，Apply配置完成，生成<code>META-INF/MANIFEST.MF</code>文件，格式是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Manifest-Version: 1.0</span><br><span class="line">Main-Class: cn.tsukasalwq.productmanager.ProductmanagerApplication</span><br></pre></td></tr></table></figure>
+<p>Main-Class就是我们上面说到的主类，程序入口没错，不过请注意后面使用exe4j转为exe可执行文件时有变动。</p>
+<p>因为用的是Maven做项目管理依赖，使用Maven进行jar打包。底部Terminal窗口，目录为当前工作根目录（和<code>pom.xml</code>同级）,命令如下，参数<code>-Dmaven.test.skip=true</code>表示排除测试代码后打包，不然有可能失败。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn clean package  -Dmaven.test.skip=true</span><br></pre></td></tr></table></figure>
+<p>不加参数在测试类没问题时候则一切正常，是直接在打开右边的Maven project面板，Lifecycle的双击package相当于执行<code>mvn package</code>命令生成jar包。</p>
+<p>等在target文件中生成jar包后，用命令行，或双击执行它，前者可以看到控制台打印的信息。如果没什么差错，创建可执行jar包成功。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar  target/spring-boot-scheduler-<span class="number">1.0</span>.0.jar</span><br></pre></td></tr></table></figure>
+<h1 id="jar转换为exe文件"><a href="#jar转换为exe文件" class="headerlink" title="jar转换为exe文件"></a>jar转换为exe文件</h1><p>前置工作：新建一个目录App,目录下放从jdk下拷贝出来的jre文件夹和之前创建的可执行jar包，相互厮守，记得不要忽略。</p>
+<p>打开破解版的exe4j，设置各种参数：如exe名称，输出目录；Executable info下的程序是32位还是64位；Java invocation下添加需要打包的jar包并选择主类，重点了，要选择主类是<code>org.springframework.boot.loader.JarLauncher</code>，而不是我们写的，不过不用担心，这点等我弄清楚原因在更新。设置JRE下的最小jre版本，并将Search sequence下三种jre查找方式删除，添加刚才新建文件夹App下的jre目录，如果与jar包同级，添加完成后显示有<code>.\jre</code>。</p>
+<p>打包完成后将jre文件夹和exe文件放在同级目录运行即可成功运行。</p>
+<blockquote>
+<p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en" target="_blank" rel="external">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
+</blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Intellij-IDEA/">Intellij IDEA</a> <a class="tag tag--primary tag--small t-link" href="/tags/Swing/">Swing</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/09/14/data-structure-bintree/"  data-tooltip="二叉树必知必会">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/07/30/eclipse-create-ssm-project/" data-tooltip="Eclipse如何构建一个SSM项目">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/08/16/pack-java-program-to-exe-file/&amp;title=Intellij IDEA的Swing程序打包为exe可执行文件">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/08/16/pack-java-program-to-exe-file/&amp;title=Intellij IDEA的Swing程序打包为exe可执行文件">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/08/16/pack-java-program-to-exe-file/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/08/16/pack-java-program-to-exe-file/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#lv-container">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">给作者投食戳这里OwO</a>
+                <br>
+            </div>
+            <div id="donate_guide" class="donate_bar center hidden" >
+                <img src="/assets/images/qr-alipay.jpg" alt="支付宝打赏">
+                <img src="/assets/images/qr-wechatpay.png" alt="微信打赏">
+            </div>
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide').removeClass('hidden');
+                }
+            </script>
+        </div>
+        
+            
+                <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTg0My84NDA3">
+</div>
+<!-- City版安装代码已完成 -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<div id="footer-img"></div>
+    <span class="copyrights">
+    	<p>Powder by <a href="https://hexo.io/zh-cn/">Hexo</a>. Theme - <a href="https://github.com/kaedea/hexo-theme-themia">Themia</a> Modified by <a href="http://tsukasa.moe">Tsukasa</a>.<br>
+			License - <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">Attribution-NonCommercial-NoDerivatives 4.0 International</a>.<br>
+			<span id="busuanzi_container_site_uv">
+  				Total <span id="busuanzi_value_site_uv"></span> visitors.
+			</span>
+			<span id="busuanzi_container_site_pv">
+			    Total visit <span id="busuanzi_value_site_pv"></span> times.
+			</span>
+			<span id="run_time"></span>
+		</p>
+        Copyrights &copy; 2023 Tsukasa. All Rights Reserved.(≧∀≦)
+    </span>
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<script>
+    function secondToDate(second) {
+        if (!second) {
+            return 0;
+        }
+        var time = new Array(0, 0, 0, 0, 0);
+        // if (second >= 365 * 24 * 3600) {
+        //     time[0] = parseInt(second / (365 * 24 * 3600));
+        //     second %= 365 * 24 * 3600;
+        // }
+        if (second >= 24 * 3600) {
+            time[1] = parseInt(second / (24 * 3600));
+            second %= 24 * 3600;
+        }
+        if (second >= 3600) {
+            time[2] = parseInt(second / 3600);
+            second %= 3600;
+        }
+        if (second >= 60) {
+            time[3] = parseInt(second / 60);
+            second %= 60;
+        }
+        if (second > 0) {
+            time[4] = second;
+        }
+        return time;
+    }
+</script>
+<script type="text/javascript" language="javascript">
+    function setTime() {
+        var create_time = Math.round(new Date(Date.UTC(2017, 2, 6, 2, 23, 0))
+                .getTime() / 1000);
+        var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+        currentTime = secondToDate((timestamp - create_time));
+        currentTimeHtml = "Blog ages: "+ currentTime[1] + ' days '
+                + currentTime[2] + ' h ' 
+                + currentTime[3] + ' m ' 
+                + currentTime[4] + ' s.';
+        document.getElementById("run_time").innerHTML = currentTimeHtml;
+    }
+    setInterval(setTime, 1000);
+</script>
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/09/14/data-structure-bintree/"  data-tooltip="二叉树必知必会">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/07/30/eclipse-create-ssm-project/" data-tooltip="Eclipse如何构建一个SSM项目">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/08/16/pack-java-program-to-exe-file/&amp;title=Intellij IDEA的Swing程序打包为exe可执行文件">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/08/16/pack-java-program-to-exe-file/&amp;title=Intellij IDEA的Swing程序打包为exe可执行文件">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/08/16/pack-java-program-to-exe-file/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/08/16/pack-java-program-to-exe-file/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#lv-container">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/08/16/pack-java-program-to-exe-file/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/08/16/pack-java-program-to-exe-file/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/08/16/pack-java-program-to-exe-file/&amp;title=Intellij IDEA的Swing程序打包为exe可执行文件">
+                <i class="fa fa-weibo"></i><span>Share on Weibo</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/08/16/pack-java-program-to-exe-file/&amp;title=Intellij IDEA的Swing程序打包为exe可执行文件">
+                <i class="fa fa-qq"></i><span>Share on QQ</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatars.jpg"/>
+        
+            <h4 id="about-card-name">Tsukasa</h4>
+        
+            <h5 id="about-card-bio"><p><a href="http://tsukasa.moe">「My Homepage」</a><br><a href="http://me.tsukasa.moe">「About Me」</a><br><a href="http://notes.tsukasa.moe">「My Notes」</a><br><a href="http://blog.tsukasa.moe/links">「My Links」</a></p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Shenzhen
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover-neko.jpg');"></div>
+    <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+    <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+<!--PANGU AUTO SPACE-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.2.1/pangu.min.js"></script>
+<script> pangu.spacingPage(); </script>
+<!--PANGU AUTO SPACE END-->
+
+
+   
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+    </script>
+
+    
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','DibYiq_42u2sq4ziXd_y','2.0.0');
+    </script>
+
+
+</html>
