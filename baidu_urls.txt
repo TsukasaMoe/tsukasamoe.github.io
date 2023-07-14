@@ -1,3 +1,4 @@
+http://blog.tsukasa.moe/2023/07/14/Intellij-IDEA-custom-configurations/
 http://blog.tsukasa.moe/2023/07/14/Use-Github-and-PicGo-to-integrate-picture-bed/
 http://blog.tsukasa.moe/2023/07/10/record-some-normal-command-of-git/
 http://blog.tsukasa.moe/2021/04/18/MySQL-basics-knowledge-summary/
