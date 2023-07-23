@@ -4,6 +4,69 @@
 
     
   <url>
+    <loc>http://blog.tsukasa.moe/2023/07/23/Learning-notes-for-java-8-new-feature-lambda-expression/</loc>
+    <lastmod>2023-07-23T15:38:08.406Z</lastmod>
+    <data>
+        <display>
+        <title>Java 8新特性Lambda表达式学习笔记</title>
+        <pubTime>2023-07-23T15:36:36.000Z</pubTime>
+        
+        <tag>Java 8</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://blog.tsukasa.moe/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.tsukasa.moe/2023/07/23/Reading-notes-for-Clean-code/</loc>
+    <lastmod>2023-07-23T15:34:23.704Z</lastmod>
+    <data>
+        <display>
+        <title>《代码整洁之道》读书笔记</title>
+        <pubTime>2023-07-23T15:32:36.000Z</pubTime>
+        
+        <tag>Clean Code</tag>
+         
+         
+           
+             
+              <breadCrumb title="Clean Code" url="http://blog.tsukasa.moe/categories/Clean-Code/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.tsukasa.moe/2023/07/23/Anylysis-thread-pool-of-java-project/</loc>
+    <lastmod>2023-07-23T15:30:12.053Z</lastmod>
+    <data>
+        <display>
+        <title>盘点Java项目中的线程池</title>
+        <pubTime>2023-07-23T15:28:50.000Z</pubTime>
+        
+        <tag>线程池</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://blog.tsukasa.moe/categories/Java/"/>
+          
+             
+              <breadCrumb title="线程池" url="http://blog.tsukasa.moe/categories/Java/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.tsukasa.moe/2023/07/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/</loc>
     <lastmod>2023-07-23T15:18:37.134Z</lastmod>
     <data>

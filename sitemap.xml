@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.tsukasa.moe/2023/07/23/Learning-notes-for-java-8-new-feature-lambda-expression/</loc>
+    
+    <lastmod>2023-07-23T15:38:08.406Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.tsukasa.moe/2023/07/23/Reading-notes-for-Clean-code/</loc>
+    
+    <lastmod>2023-07-23T15:34:23.704Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.tsukasa.moe/2023/07/23/Anylysis-thread-pool-of-java-project/</loc>
+    
+    <lastmod>2023-07-23T15:30:12.053Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.tsukasa.moe/2023/07/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/</loc>
     
     <lastmod>2023-07-23T15:18:37.134Z</lastmod>
