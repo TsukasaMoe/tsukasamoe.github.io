@@ -23,13 +23,13 @@
 <meta property="og:site_name" content="Tsukasa の 部屋">
 <meta property="og:description" content="这篇文章是我读《深入理解Java虚拟机》后的笔记总结，对每一个Java开发者来说这是一本值得多看几遍的好书，文章主要内容包括：  自动内存管理 类加载与执行引擎 程序编译与代码优化 并发与线程安全">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://static.tsukasa.moe/images/post-images/2017/10/jvm-model.jpg">
-<meta property="og:image" content="http://static.tsukasa.moe/images/post-images/2017/10/jvm-run.gif">
-<meta property="og:updated_time" content="2019-03-10T13:30:04.644Z">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307242152841.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307242153374.gif">
+<meta property="og:updated_time" content="2023-07-24T13:53:37.510Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="「深入理解Java虚拟机」读书笔记">
 <meta name="twitter:description" content="这篇文章是我读《深入理解Java虚拟机》后的笔记总结，对每一个Java开发者来说这是一本值得多看几遍的好书，文章主要内容包括：  自动内存管理 类加载与执行引擎 程序编译与代码优化 并发与线程安全">
-<meta name="twitter:image" content="http://static.tsukasa.moe/images/post-images/2017/10/jvm-model.jpg">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307242152841.png">
 <meta name="twitter:creator" content="@TsukasaMoe">
     
         <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
@@ -41,12 +41,12 @@
         <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
     
     
-        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/avatars.jpg" />
+        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/icons/202307242135670.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/icons/202307242135670.jpg" />
     
     
-        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/cover-hime.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/cover-hime.jpg" />
+        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242152040.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242152040.jpg" />
     
     
     <!--STYLES-->
@@ -274,7 +274,7 @@
         <div class="post-header-cover
                     text-center
                     post-header-cover--full"
-             style="background-image:url('http://blog.tsukasa.moe/assets/images/cover-hime.jpg');"
+             style="background-image:url('https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242152040.jpg');"
              data-behavior="3">
             
                 
@@ -344,7 +344,7 @@
 </li>
 <li>小结 Java的内存模型除了程序计数器区域没有定义<code>OutOfMemoryError</code>异常，其他区域都存在<code>OutOfMemoryError</code>异常，虚拟机栈与本地方法栈中存在<code>StackOverFlowError</code>异常</li>
 </ul>
-<p><img src="http://static.tsukasa.moe/images/post-images/2017/10/jvm-model.jpg" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307242152841.png" alt=""></p>
 <p>对象在内存中存储的布局可以分为三块区域：</p>
 <ul>
 <li>Header（对象头）：存储对象自身运行时数据，比如HashCode、GC分代年龄等信息，类型指针</li>
@@ -513,7 +513,7 @@
 </ul>
 <p>下面是一段Java程序的执行过程</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">int</span> c = (a + b) * <span class="number">5</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="http://static.tsukasa.moe/images/post-images/2017/10/jvm-run.gif" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307242153374.gif" alt=""></p>
 <h2 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h2><p>方法调用阶段的唯一任务是确定被调用方法的版本，不涉及方法内部的具体执行过程，通常会经过解析和分派的过程：</p>
 <ul>
 <li>解析：运行前可唯一确定一个可调用版本，并且该方法调用版本在运行期不可变的方法，能被invokestatic和invokespecial指令调用的方法例如静态方法、私有方法、实例构造器、父类方法以及使用invokevirtual调用的final方法，类加载解析阶段会将该方法的符号引用解析为直接引用，即编译期确定<ul>

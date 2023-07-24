@@ -23,14 +23,14 @@
 <meta property="og:site_name" content="Tsukasa の 部屋">
 <meta property="og:description" content="本文是针对设计模式中简单工厂模式，工厂方法模式，抽象工厂模式的学习笔记总结。">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://static.tsukasa.moe/images/post-images/2017/05/uml-simplefactory-demo.jpg">
-<meta property="og:image" content="http://static.tsukasa.moe/images/post-images/2017/05/uml-factorymethod-origin.jpg">
-<meta property="og:image" content="http://static.tsukasa.moe/images/post-images/2017/05/uml-abstractfactory-origin.jpg">
-<meta property="og:updated_time" content="2019-03-10T17:11:20.813Z">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307242105484.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307242106294.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307242106944.png">
+<meta property="og:updated_time" content="2023-07-24T13:06:35.975Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式篇之工厂三个妹子不可能这么可爱系列">
 <meta name="twitter:description" content="本文是针对设计模式中简单工厂模式，工厂方法模式，抽象工厂模式的学习笔记总结。">
-<meta name="twitter:image" content="http://static.tsukasa.moe/images/post-images/2017/05/uml-simplefactory-demo.jpg">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307242105484.png">
 <meta name="twitter:creator" content="@TsukasaMoe">
     
         <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
@@ -42,12 +42,12 @@
         <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
     
     
-        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/avatars.jpg" />
+        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/icons/202307242103808.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/icons/202307242103808.jpg" />
     
     
-        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/cover-hime.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/cover-hime.jpg" />
+        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242105522.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242105522.jpg" />
     
     
     <!--STYLES-->
@@ -275,7 +275,7 @@
         <div class="post-header-cover
                     text-center
                     post-header-cover--full"
-             style="background-image:url('http://blog.tsukasa.moe/assets/images/cover-hime.jpg');"
+             style="background-image:url('https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242105522.jpg');"
              data-behavior="3">
             
                 
@@ -317,14 +317,14 @@
             <!-- excerpt -->
 <h1 id="简单工厂模式-Simple-Factory-Pattern"><a href="#简单工厂模式-Simple-Factory-Pattern" class="headerlink" title="简单工厂模式(Simple Factory Pattern)"></a>简单工厂模式(Simple Factory Pattern)</h1><p>简单工厂模式不属于GoF 23种设计模式，学习入门用。它通过定义一个工厂类，根据不同参数返回不同实例，被创建的实例都具有共同的父类。因简单工厂模式创建实例的方法属于静态方法，故也称静态工厂方法模式。属于创建型模式。</p>
 <h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><p>只要传入一个正确的参数，就能获取需要的对象，而无需了解创建细节。但是在扩展功能的时候，需要对工厂类进行改写，破坏了开-闭原则。故一般不用，可以借鉴其思想改善设计。</p>
-<p>下面是大话数据结构中计算器的简单工厂模式UML表示图<br><img src="http://static.tsukasa.moe/images/post-images/2017/05/uml-simplefactory-demo.jpg" alt=""></p>
+<p>下面是大话数据结构中计算器的简单工厂模式UML表示图<br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307242105484.png" alt=""></p>
 <p><a href="https://github.com/solano-yume/DesignPatternDemo/tree/master/out/production/DesignPattern/simplefactory/demo" target="_blank" rel="external">code</a></p>
 <h1 id="工厂方法模式-Factory-Method-Pattern"><a href="#工厂方法模式-Factory-Method-Pattern" class="headerlink" title="工厂方法模式(Factory Method Pattern)"></a>工厂方法模式(Factory Method Pattern)</h1><h4 id="模式定义"><a href="#模式定义" class="headerlink" title="模式定义"></a>模式定义</h4><p>定义一个用于创建对象的接口，让子类决定实例化哪一个类，工厂方法模式使得一个类的实例化延迟到子类。与简单工厂模式相比是引入了抽象工厂角色。</p>
-<p>具体工厂对象的获取：将具体工厂类的类名存储在配置文件（如XML文件）中，通过读取配置文件获取类名字符串，再使用Java的反射机制，根据类名字符串生成对象。Java反射机制与配置文件读取技术的运用使得系统更灵活。<br><img src="http://static.tsukasa.moe/images/post-images/2017/05/uml-factorymethod-origin.jpg" alt=""></p>
+<p>具体工厂对象的获取：将具体工厂类的类名存储在配置文件（如XML文件）中，通过读取配置文件获取类名字符串，再使用Java的反射机制，根据类名字符串生成对象。Java反射机制与配置文件读取技术的运用使得系统更灵活。<br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307242106294.png" alt=""></p>
 <h4 id="模式优点"><a href="#模式优点" class="headerlink" title="模式优点"></a>模式优点</h4><p>用户只需关心所需产品对应的工厂，无需关心创建细节。<br>系统假如新产品时，只需添加一个具体工厂和具体产品即可，符合开闭原则。</p>
 <h4 id="模式缺点"><a href="#模式缺点" class="headerlink" title="模式缺点"></a>模式缺点</h4><p>每次增加一个产品时，都需要增加一个具体类和对象实现工厂，使得系统中类的个数成倍增加。实现时可能需要用到DOM、反射等技术，一定程度上增加了系统复杂度。</p>
 <h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><p>客户端不知道它所需要的对象的类，只需知道对应工厂即可，抽象子类通过子类指定创建哪个对象。</p>
-<h1 id="抽象工厂模式-Abstract-Factory-Pattern"><a href="#抽象工厂模式-Abstract-Factory-Pattern" class="headerlink" title="抽象工厂模式(Abstract Factory Pattern)"></a>抽象工厂模式(Abstract Factory Pattern)</h1><h4 id="模式定义-1"><a href="#模式定义-1" class="headerlink" title="模式定义"></a>模式定义</h4><p>提供一个创建一系列或相互依赖对象的接口，无需指定它们具体的类。主要解决接口选择的问题。围绕工厂与产品，抽象的工厂和抽象的产品提供统一的接口，具体的工厂创建具体的产品，增加产品需要确定抽象产品类，具体工厂类，<br><img src="http://static.tsukasa.moe/images/post-images/2017/05/uml-abstractfactory-origin.jpg" alt=""></p>
+<h1 id="抽象工厂模式-Abstract-Factory-Pattern"><a href="#抽象工厂模式-Abstract-Factory-Pattern" class="headerlink" title="抽象工厂模式(Abstract Factory Pattern)"></a>抽象工厂模式(Abstract Factory Pattern)</h1><h4 id="模式定义-1"><a href="#模式定义-1" class="headerlink" title="模式定义"></a>模式定义</h4><p>提供一个创建一系列或相互依赖对象的接口，无需指定它们具体的类。主要解决接口选择的问题。围绕工厂与产品，抽象的工厂和抽象的产品提供统一的接口，具体的工厂创建具体的产品，增加产品需要确定抽象产品类，具体工厂类，<br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307242106944.png" alt=""></p>
 <p><a href="https://github.com/solano-yume/DesignPatternDemo/tree/master/src/abstractfactory/origin" target="_blank" rel="external">code</a></p>
 <p>产品等级结构：抽象产品与具体产品构成产品等级结构，即继承结构<br>产品族：同一个工厂生产的，位于不同产品等级结构的一组产品</p>
 <h4 id="模式特点"><a href="#模式特点" class="headerlink" title="模式特点"></a>模式特点</h4><p>抽象工厂的开闭原则具有“倾斜性”：</p>
