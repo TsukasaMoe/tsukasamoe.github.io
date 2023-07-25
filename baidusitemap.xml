@@ -3,6 +3,30 @@
 
 
     
+  <url>
+    <loc>http://blog.tsukasa.moe/2023/07/23/Reading-notes-for-Clean-code/</loc>
+    <lastmod>2023-07-25T04:58:15.940Z</lastmod>
+    <data>
+        <display>
+        <title>《代码整洁之道》读书笔记</title>
+        <pubTime>2023-07-23T15:32:36.000Z</pubTime>
+        
+        <tag>Clean Code</tag>
+         
+        <tag>重构</tag>
+         
+         
+           
+             
+              <breadCrumb title="编程开发" url="http://blog.tsukasa.moe/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
     
     
     
@@ -60,26 +84,6 @@
            
              
               <breadCrumb title="Java" url="http://blog.tsukasa.moe/categories/Java/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.tsukasa.moe/2023/07/23/Reading-notes-for-Clean-code/</loc>
-    <lastmod>2023-07-24T16:16:41.393Z</lastmod>
-    <data>
-        <display>
-        <title>《代码整洁之道》读书笔记</title>
-        <pubTime>2023-07-23T15:32:36.000Z</pubTime>
-        
-        <tag>Clean Code</tag>
-         
-         
-           
-             
-              <breadCrumb title="Clean Code" url="http://blog.tsukasa.moe/categories/Clean-Code/"/>
           
         </display>
     </data>
@@ -757,8 +761,6 @@
     </data>
     </url>
 
-    
-    
     
     
     

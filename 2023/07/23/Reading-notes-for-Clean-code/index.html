@@ -15,18 +15,18 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="通常开发只关注交付本身，而忽略了质量，质量是上百万次全身心投入的结果，需要落实到每天，每小时之中。稍后等于永不(Later equals never)小处诚实，首先要放下身段，谦虚审慎承认代码现状，做到不自欺，而后思改进。">
-<meta name="keywords" content="Clean Code">
+    <meta name="description" content="有时候业务交付压力使得开发人员只关注了交付本身，而忽略了质量，但作为一名研发人员，质量上是不能够作让步的。有些业务金融敏感，搞砸了很可能损害公司商业利益，自己也丢掉饭碗。因此，重申质量的重要性是很有必要的。">
+<meta name="keywords" content="Clean Code,重构">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="《代码整洁之道》读书笔记">
 <meta property="og:url" content="http://blog.tsukasa.moe/2023/07/23/Reading-notes-for-Clean-code/index.html">
 <meta property="og:site_name" content="Tsukasa の 部屋">
-<meta property="og:description" content="通常开发只关注交付本身，而忽略了质量，质量是上百万次全身心投入的结果，需要落实到每天，每小时之中。稍后等于永不(Later equals never)小处诚实，首先要放下身段，谦虚审慎承认代码现状，做到不自欺，而后思改进。">
+<meta property="og:description" content="有时候业务交付压力使得开发人员只关注了交付本身，而忽略了质量，但作为一名研发人员，质量上是不能够作让步的。有些业务金融敏感，搞砸了很可能损害公司商业利益，自己也丢掉饭碗。因此，重申质量的重要性是很有必要的。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2023-07-24T16:16:41.393Z">
+<meta property="og:updated_time" content="2023-07-25T04:58:15.940Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《代码整洁之道》读书笔记">
-<meta name="twitter:description" content="通常开发只关注交付本身，而忽略了质量，质量是上百万次全身心投入的结果，需要落实到每天，每小时之中。稍后等于永不(Later equals never)小处诚实，首先要放下身段，谦虚审慎承认代码现状，做到不自欺，而后思改进。">
+<meta name="twitter:description" content="有时候业务交付压力使得开发人员只关注了交付本身，而忽略了质量，但作为一名研发人员，质量上是不能够作让步的。有些业务金融敏感，搞砸了很可能损害公司商业利益，自己也丢掉饭碗。因此，重申质量的重要性是很有必要的。">
 <meta name="twitter:creator" content="@TsukasaMoe">
     
         <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
@@ -290,7 +290,7 @@
     
         <span> |  </span>
         
-    <a class="category-link" href="/categories/Clean-Code/">Clean Code</a>
+    <a class="category-link" href="/categories/编程开发/">编程开发</a>
 
 
     
@@ -311,10 +311,15 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <!-- excerpt -->
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>通常开发只关注交付本身，而忽略了质量，质量是上百万次全身心投入的结果，需要落实到每天，每小时之中。<br>稍后等于永不(Later equals never)<br>小处诚实，首先要放下身段，谦虚审慎承认代码现状，做到不自欺，而后思改进。</p>
-<p>衡量代码质量的唯一有效标准：WTF/min in code review</p>
-<p>写代码跟写文章一样，结构条理清晰，如白居易的诗一样通俗易懂，代码即注释，注释太多可能预示着功能的难以理解，代码含义应由自身表达。<br>以实际的代码，写出重构的思路</p>
-<h1 id="整洁代码定义"><a href="#整洁代码定义" class="headerlink" title="整洁代码定义"></a>整洁代码定义</h1><p>写整洁代码，要遵循大量小技巧。<br>破窗理论</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>有时候业务交付压力使得开发人员只关注了交付本身，而忽略了质量，但作为一名研发人员，质量上是不能够作让步的。有些业务金融敏感，搞砸了很可能损害公司商业利益，自己也丢掉饭碗。因此，重申质量的重要性是很有必要的。</p>
+<p>质量是上百万次全身心投入的结果，需要落实到每天，每小时之中。开发工作中，我们通常会遇到2种情形，一种是新特性开发，特点是与原有代码关联较少，另一种是特性增强，需要改大量原有代码。开发人员通常会想先把功能开发完成，再去重构、优化，虽然说出发点不错，但稍后等于永不(Later equals never)。</p>
+<p>这里我提出自己的想法，对于自己编写和改动的部分，有重构思路可以直接着手修改，不然拖到转测了后只会不了了之。对于非特性开发范围的不合理的代码，需要认真评估。<br>对于有把握的重构、优化(必须能够评估影响)，不要害怕修改。重构其实不意味着重写，提取方法，修改参数命名等等利用IDE是比较安全便捷的。我们要胆大心细，谨慎地修改，修改后一定要自测通过，确保DevOps测试用例通过，最好申请重构单号，单独做一次commit，在代码评审时请大家评审自己的改动。<br>对于无法评估的影响范围和后果的修改，坚决不修改，要学会敬畏，否则一个配置的改动将引发大灾难。</p>
+<p>作为开发，要做到小处诚实，放下身段，谦虚审慎承认代码现状，做到不自欺，而后思改进。</p>
+<p>写代码跟写文章一样，结构条理清晰，如白居易的诗一样通俗易懂，代码即注释，注释太多可能预示着功能的难以理解，代码含义应由自身表达，重构时直接以用代码代替文字描述列大纲，从上到下去编写。<br>此外重构的过程，遵循小步快跑，重构完一个独立的代码片段应该及时验证。</p>
+<h1 id="整洁代码定义"><a href="#整洁代码定义" class="headerlink" title="整洁代码定义"></a>整洁代码定义</h1><p>衡量代码质量的唯一有效标准：WTF/minute in code review，意思是代码评审者每分钟骂出”WTF”的频率=w=</p>
+<p>写整洁代码，要遵循大量小技巧。</p>
+<p>把写代码当成故事来讲，让听故事的人能够清晰的了解整个故事情节。</p>
+<p>破窗理论：一栋建筑的窗户破了，如果没人去修理，那将越来越多人的破坏其他窗户。意思是环境中的不良现象如果被放任存在，会诱使人们仿效，甚至变本加厉。<br>代码开发中深受破窗理论影响，想必每个开发都会遇到代码中一串长长的if else if条件代码块在不断膨胀，因为人们刚开始觉得不对劲，但是想了想应该有历史原因而效仿着前辈，继续写着shit code，却没有人想着用多态或者查表得方式重构下。</p>
 <h2 id="什么是整洁代码"><a href="#什么是整洁代码" class="headerlink" title="什么是整洁代码"></a>什么是整洁代码</h2><p>几乎没有改进的余地的代码即好代码</p>
 <ul>
 <li>通过所有测试</li>
@@ -324,17 +329,24 @@
 <p>消除重复和提高表达力</p>
 <p>所有程序都由极为相似的元素构成，如“在集合中查找某物”，一旦出现这种情况，可以把实现手段封装到更抽象的方法中。</p>
 <p>一个人写代码的过程，读与写花费时间的比例超过10:1，因此要先让代码易读。<br>让营地比你来时更干净。<br>明确是王道</p>
-<h1 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h1><p>名副其实</p>
+<h1 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h1><p><strong>名副其实</strong></p>
 <ul>
 <li>一旦发现更好的名称，就换掉旧的。</li>
 <li>上下文在代码中要被明确的体现出来，降低代码的模糊度。</li>
 </ul>
-<p>避免误导<br>举例：accountList的list有特殊含义，考虑accounts, accountGroup, bunchOfAccounts</p>
-<p>做有意义的区分<br>xxxInfo，xxxData是废话</p>
-<p>使用读得出来的名称<br>使用可搜索的名称<br>避免使用新的编码约定<br>类名应是名词或名词短语</p>
+<p><strong>避免误导</strong><br>举例：accountList的list有特殊含义，考虑accounts, accountGroup, bunchOfAccounts</p>
+<p><strong>做有意义的区分</strong><br>xxxInfo，xxxData是废话</p>
+<p><strong>一些准则</strong></p>
 <ul>
-<li>避免使用Manager, Processor等？<br>方法名应当是动词或动词短语<br>使用解决方案领域名称<br>添加有意义的语境</li>
-<li>前缀<br>不要添加没有用的语境，短名称足够清楚就比长名称好</li>
+<li>使用读得出来的名称</li>
+<li>使用可搜索的名称</li>
+<li>避免使用新的编码约定</li>
+<li>类名应是名词或名词短语</li>
+<li>避免使用Manager, Processor等？</li>
+<li>方法名应当是动词或动词短语</li>
+<li>使用解决方案领域名称</li>
+<li>添加有意义的语境</li>
+<li>前缀不要添加没有用的语境，短名称足够清楚就比长名称好</li>
 </ul>
 <h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><ul>
 <li>短小、还要更短小。100行以内，20行最佳</li>
@@ -343,7 +355,7 @@
 <li>Switch语句可以考虑利用多态，移动到工厂底下</li>
 <li>使用描述性的名称，长而具有描述性的名称，比短而令人费解的名称好，比描述性的注释好；命名方式保持一致</li>
 <li>函数参数<ul>
-<li>函数参数尽量少，超过3个以上考虑参数对象的方式。没有参数时需要注意是否大量运用上下文，大量运用上下文不是一个好的设计。</li>
+<li>函数参数尽量少，超过3个参数可以考虑参数对象的方式。没有参数时需要注意是否大量运用上下文，大量运用上下文不是一个好的设计。</li>
 <li>标识参数丑陋不堪，不要往参数传入布尔值（意味着true做一件事，false做另一件事）</li>
 <li>遵循数学约定表示，如new Point(x, y)也是见参知义。</li>
 <li>动词、动名词做为参数名称</li>
@@ -355,7 +367,6 @@
 <li>使用异常替代错误码，因为返回错误码意味着可能要马上进行处理</li>
 <li>抽离try/catch块</li>
 </ul>
-<p>把写代码当成故事来讲</p>
 <h1 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h1><ul>
 <li>别给糟糕的代码加注释，重新写吧。</li>
 <li>注释的恰当用法是弥补我们在用代码表达意图时遭遇的失败，注释总是一种失败。把力气用在写清楚代码上。</li>
@@ -376,7 +387,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Clean-Code/">Clean Code</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Clean-Code/">Clean Code</a> <a class="tag tag--primary tag--small t-link" href="/tags/重构/">重构</a>
 
             </div>
         
