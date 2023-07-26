@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.tsukasa.moe/2023/07/14/Intellij-IDEA-custom-configurations/</loc>
+    
+    <lastmod>2023-07-26T15:51:32.040Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.tsukasa.moe/2023/07/25/Maven-configuration-guide-01/</loc>
     
-    <lastmod>2023-07-26T15:09:51.240Z</lastmod>
+    <lastmod>2023-07-26T15:33:58.601Z</lastmod>
     
   </url>
   
@@ -19,13 +26,6 @@
     <loc>http://blog.tsukasa.moe/2019/01/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/</loc>
     
     <lastmod>2023-07-25T15:47:40.282Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.tsukasa.moe/2023/07/14/Intellij-IDEA-custom-configurations/</loc>
-    
-    <lastmod>2023-07-25T07:24:09.019Z</lastmod>
     
   </url>
   

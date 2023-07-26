@@ -52,7 +52,8 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307151551310.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307142308902.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307150229472.png">
-<meta property="og:updated_time" content="2023-07-25T07:24:09.019Z">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307262350302.png">
+<meta property="og:updated_time" content="2023-07-26T15:51:32.040Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Intellij IDEA个性化配置">
 <meta name="twitter:description" content="文章记录我的Intellij IDEA配置，方便在新环境快速配置一个符合个人使用习惯的IDE">
@@ -583,6 +584,11 @@
 <td style="text-align:left">一款高分的主题，免费版提供10种配色方案</td>
 <td style="text-align:left"><a href="https://plugins.jetbrains.com/plugin/18922-gerry-themes" target="_blank" rel="external">https://plugins.jetbrains.com/plugin/18922-gerry-themes</a></td>
 </tr>
+<tr>
+<td>.ignore</td>
+<td style="text-align:left">提供.gitignore等等模板，推荐</td>
+<td style="text-align:left"><a href="https://plugins.jetbrains.com/plugin/7495--ignore" target="_blank" rel="external">https://plugins.jetbrains.com/plugin/7495--ignore</a></td>
+</tr>
 </tbody>
 </table>
 <p>上面插件根据需要安装和开启，避免过多占用内存和CPU，降低IDE响应效率。</p>
@@ -907,6 +913,10 @@
 <td><code>Ctrl+Alt+Shift+左/右</code></td>
 <td style="text-align:left">交换方法参数位置</td>
 </tr>
+<tr>
+<td><code>Ctrl+[或]</code></td>
+<td style="text-align:left">定位括号开始和结束</td>
+</tr>
 </tbody>
 </table>
 <h2 id="格式化代码"><a href="#格式化代码" class="headerlink" title="格式化代码"></a>格式化代码</h2><table>
@@ -1015,7 +1025,10 @@
 </table>
 <h1 id="配置迁移"><a href="#配置迁移" class="headerlink" title="配置迁移"></a>配置迁移</h1><p>IDEA的配置文件idea.properties默认的config如下</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">idea.config.path=$&#123;user.home&#125;/.IntelliJIdea/config</span><br><span class="line">idea.plugins.path=$&#123;idea.config.path&#125;/plugins</span><br></pre></td></tr></table></figure>
-<p>拷贝原来的Config和Plugin文件，重新指定下路径可以快速完成迁移。</p>
+<p>方法一：直接拷贝</p>
+<p>拷贝原来的Config和Plugin文件，重新指定下路径可以快速完成迁移。<br>本人的Intellij IDEA配置路径：<code>C:\Users\Tsukasa\AppData\Roaming\JetBrains\IdeaIC2023.1</code></p>
+<p>方法二：通过<code>Export Settings...</code>功能导出配置</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307262350302.png" alt=""></p>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://shortcutworld.com/IntelliJ-IDEA/win/IntelliJ_Shortcuts" target="_blank" rel="external">Intellij IDEA快捷键</a></p>
 <blockquote>
 <p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en" target="_blank" rel="external">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
