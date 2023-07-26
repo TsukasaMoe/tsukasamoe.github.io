@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Tsukasa の 部屋">
 <meta property="og:description" content="有时候业务交付压力使得开发人员只关注了交付本身，而忽略了质量，但作为一名研发人员，质量上是不能够作让步的。有些业务金融敏感，搞砸了很可能损害公司商业利益，自己也丢掉饭碗。因此，重申质量的重要性是很有必要的。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2023-07-25T04:58:15.940Z">
+<meta property="og:updated_time" content="2023-07-25T05:02:23.738Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《代码整洁之道》读书笔记">
 <meta name="twitter:description" content="有时候业务交付压力使得开发人员只关注了交付本身，而忽略了质量，但作为一名研发人员，质量上是不能够作让步的。有些业务金融敏感，搞砸了很可能损害公司商业利益，自己也丢掉饭碗。因此，重申质量的重要性是很有必要的。">
@@ -94,7 +94,7 @@
                     <img class="sidebar-profile-picture" src="/assets/images/avatars.jpg"/>
             </a>
             <span class="sidebar-profile-name">Tsukasa</span>
-            <span class="sidebar-profile-moto">好きな事を行い、している事を愛しなさいあははは</span>
+            <span class="sidebar-profile-moto">エロくて可愛い女の子大好きだ！</span>
         </div>
     
     
@@ -313,7 +313,11 @@
             <!-- excerpt -->
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>有时候业务交付压力使得开发人员只关注了交付本身，而忽略了质量，但作为一名研发人员，质量上是不能够作让步的。有些业务金融敏感，搞砸了很可能损害公司商业利益，自己也丢掉饭碗。因此，重申质量的重要性是很有必要的。</p>
 <p>质量是上百万次全身心投入的结果，需要落实到每天，每小时之中。开发工作中，我们通常会遇到2种情形，一种是新特性开发，特点是与原有代码关联较少，另一种是特性增强，需要改大量原有代码。开发人员通常会想先把功能开发完成，再去重构、优化，虽然说出发点不错，但稍后等于永不(Later equals never)。</p>
-<p>这里我提出自己的想法，对于自己编写和改动的部分，有重构思路可以直接着手修改，不然拖到转测了后只会不了了之。对于非特性开发范围的不合理的代码，需要认真评估。<br>对于有把握的重构、优化(必须能够评估影响)，不要害怕修改。重构其实不意味着重写，提取方法，修改参数命名等等利用IDE是比较安全便捷的。我们要胆大心细，谨慎地修改，修改后一定要自测通过，确保DevOps测试用例通过，最好申请重构单号，单独做一次commit，在代码评审时请大家评审自己的改动。<br>对于无法评估的影响范围和后果的修改，坚决不修改，要学会敬畏，否则一个配置的改动将引发大灾难。</p>
+<p>这里我提出自己的想法，抛砖引玉。</p>
+<ul>
+<li>对于自己编写和改动的部分，有重构思路可以直接着手修改，不然拖到转测了后只会不了了之。对于非特性开发范围的不合理的代码，需要认真评估。<br>对于有把握的重构、优化(必须能够评估影响)，不要害怕修改。重构其实不意味着重写，提取方法，修改参数命名等等利用IDE是比较安全便捷的。我们要胆大心细，谨慎地修改，修改后一定要自测通过，确保DevOps测试用例通过，最好申请重构单号，单独做一次commit，在代码评审时请大家评审自己的改动。</li>
+<li>对于无法评估的影响范围和后果的修改，坚决不修改，要学会敬畏，否则一个配置的改动将引发大灾难。</li>
+</ul>
 <p>作为开发，要做到小处诚实，放下身段，谦虚审慎承认代码现状，做到不自欺，而后思改进。</p>
 <p>写代码跟写文章一样，结构条理清晰，如白居易的诗一样通俗易懂，代码即注释，注释太多可能预示着功能的难以理解，代码含义应由自身表达，重构时直接以用代码代替文字描述列大纲，从上到下去编写。<br>此外重构的过程，遵循小步快跑，重构完一个独立的代码片段应该及时验证。</p>
 <h1 id="整洁代码定义"><a href="#整洁代码定义" class="headerlink" title="整洁代码定义"></a>整洁代码定义</h1><p>衡量代码质量的唯一有效标准：WTF/minute in code review，意思是代码评审者每分钟骂出”WTF”的频率=w=</p>
@@ -326,9 +330,8 @@
 <li>没有重复代码</li>
 <li>体现系统中的全部设计理念</li>
 </ul>
-<p>消除重复和提高表达力</p>
 <p>所有程序都由极为相似的元素构成，如“在集合中查找某物”，一旦出现这种情况，可以把实现手段封装到更抽象的方法中。</p>
-<p>一个人写代码的过程，读与写花费时间的比例超过10:1，因此要先让代码易读。<br>让营地比你来时更干净。<br>明确是王道</p>
+<p>一个人写代码的过程，读与写花费时间的比例超过10:1，因此要先让代码易读。<br>让营地比你来时更干净，消除重复和提高表达力。</p>
 <h1 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h1><p><strong>名副其实</strong></p>
 <ul>
 <li>一旦发现更好的名称，就换掉旧的。</li>
@@ -663,7 +666,7 @@
         
             <h4 id="about-card-name">Tsukasa</h4>
         
-            <h5 id="about-card-bio"><p><a href="http://tsukasa.moe">「My Homepage」</a><br><a href="http://me.tsukasa.moe">「About Me」</a><br><a href="http://notes.tsukasa.moe">「My Notes」</a><br><a href="http://blog.tsukasa.moe/links">「My Links」</a></p>
+            <h5 id="about-card-bio"><p><a href="http://tsukasa.moe">「My Homepage」</a><br><a href="http://me.tsukasa.moe">「About Me」</a><br><a href="http://blog.tsukasa.moe/links">「My Links」</a></p>
 </h5>
         
         

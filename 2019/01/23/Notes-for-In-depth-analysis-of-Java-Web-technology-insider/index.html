@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Tsukasa の 部屋">
 <meta property="og:description" content="《深入分析Java Web技术内幕》读书笔记，未完。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2023-07-24T09:01:07.397Z">
+<meta property="og:updated_time" content="2023-07-25T15:47:40.282Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入分析Java Web技术内幕读书笔记">
 <meta name="twitter:description" content="《深入分析Java Web技术内幕》读书笔记，未完。">
@@ -94,7 +94,7 @@
                     <img class="sidebar-profile-picture" src="/assets/images/avatars.jpg"/>
             </a>
             <span class="sidebar-profile-name">Tsukasa</span>
-            <span class="sidebar-profile-moto">好きな事を行い、している事を愛しなさいあははは</span>
+            <span class="sidebar-profile-moto">エロくて可愛い女の子大好きだ！</span>
         </div>
     
     
@@ -290,7 +290,7 @@
     
         <span> |  </span>
         
-    <a class="category-link" href="/categories/Java-Web/">Java Web</a>
+    <a class="category-link" href="/categories/编程开发/">编程开发</a>
 
 
     
@@ -311,6 +311,7 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <!-- excerpt -->
+<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#深入Web请求过程"><span class="toc-text">深入Web请求过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#DNS域名解析"><span class="toc-text">DNS域名解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#资源记录-Resource-Records"><span class="toc-text">资源记录(Resource Records)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS工具"><span class="toc-text">DNS工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见域名解析记录类型"><span class="toc-text">常见域名解析记录类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CDN工作机制"><span class="toc-text">CDN工作机制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#深入分析Java-I-O的工作机制"><span class="toc-text">深入分析Java I/O的工作机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-NIO"><span class="toc-text">Java NIO</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#深入理解Java-Web中的编码问题"><span class="toc-text">深入理解Java Web中的编码问题</span></a></li></ol>
 <h1 id="深入Web请求过程"><a href="#深入Web请求过程" class="headerlink" title="深入Web请求过程"></a>深入Web请求过程</h1><p>Web请求过程</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">                                http	        +----------+                                                                                                     </span><br><span class="line">                        +---------------------&gt;   DNS    |                                                                                                     </span><br><span class="line">                        |                     +----------+                                                                                                     </span><br><span class="line">                        |                                                                                                                                      </span><br><span class="line">                        |                            http             +----------------------+                                                                 </span><br><span class="line">                        |    +----------------------------------------&gt;        CDN           |         http反向代理                                                </span><br><span class="line">                        |    |                                        |css/js/img等静态资源   |<span class="tag">&lt;<span class="name">-----------------------+</span>                                        </span></span><br><span class="line"><span class="tag">                        |    |                                        +<span class="attr">----------------------</span>+                        |                                        </span></span><br><span class="line"><span class="tag">                        |    |                                            +<span class="attr">-------------------------------------------v---------</span>+                              </span></span><br><span class="line"><span class="tag">              +<span class="attr">---------</span>|<span class="attr">----</span>|<span class="attr">----</span>+        +<span class="attr">--------------------</span>+         | +<span class="attr">------------</span>+      +<span class="attr">----------------------------</span>+  |                              </span></span><br><span class="line"><span class="tag">              |   <span class="attr">User</span> <span class="attr">Browser</span>    |        |<span class="attr">Elastic</span> <span class="attr">Load</span> <span class="attr">Balance</span>|         | |<span class="attr">Load</span> <span class="attr">Balance</span>|      |    服务端系统               |  |                              </span></span><br><span class="line"><span class="tag"><span class="attr">--------------</span>&gt;</span>  css/html/js/img  |------&gt; |    +---------+     ------------&gt; +---------+|      |                            |  |                              </span><br><span class="line">              |                   |  http  |    |   ELB   |     |  http   | | |   SLB   ||      |  +----------+  +---------+ |  |                              </span><br><span class="line">              +-------------------+        |    +---------+     |         | | +---------+|------&gt;  |          |  |         | |  |                              </span><br><span class="line">                                           |    +---------+     |         | | +---------+|      |  |  AZ 1    |  |   AZ 2  | |  |                              </span><br><span class="line">                                           |    |   ELB   |     |         | | |   SLB   ||      |  +----------+  +---------+ |  |                              </span><br><span class="line">                                           |    +---------+     |         | | +---------+|      +----------------------------+  |                              </span><br><span class="line">                                           +--------------------+         | +------------+       ^         ^               ^    |                              </span><br><span class="line">                                                                          +----------------------|---------|---------------|----+                              </span><br><span class="line">                                                                                                 |         |               v                                   </span><br><span class="line">                                                                                     +-----------v-+   +---v--------+    +--------+                            </span><br><span class="line">                                                                                     |             |   |  文件系统   |    |        |                            </span><br><span class="line">                                                                                     |  分布式缓存  |   +------------+    | 数据库 |                            </span><br><span class="line">                                                                                     |             |                     |        |                            </span><br><span class="line">                                                                                     +-------------+                     +--------+</span><br></pre></td></tr></table></figure>
 <h2 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h2><h3 id="资源记录-Resource-Records"><a href="#资源记录-Resource-Records" class="headerlink" title="资源记录(Resource Records)"></a>资源记录(Resource Records)</h3><p>所有RRs的顶层格式都相同。</p>
@@ -532,7 +533,7 @@
         </li>
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#lv-container">
+                <a class="post-action-btn btn btn--default">
             
                 <i class="fa fa-comment-o"></i>
             </a>
@@ -540,7 +541,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
             
                 <i class="fa fa-list"></i>
             </a>
@@ -692,7 +693,7 @@
         </li>
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#lv-container">
+                <a class="post-action-btn btn btn--default">
             
                 <i class="fa fa-comment-o"></i>
             </a>
@@ -700,7 +701,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
             
                 <i class="fa fa-list"></i>
             </a>
@@ -754,7 +755,7 @@
         
             <h4 id="about-card-name">Tsukasa</h4>
         
-            <h5 id="about-card-bio"><p><a href="http://tsukasa.moe">「My Homepage」</a><br><a href="http://me.tsukasa.moe">「About Me」</a><br><a href="http://notes.tsukasa.moe">「My Notes」</a><br><a href="http://blog.tsukasa.moe/links">「My Links」</a></p>
+            <h5 id="about-card-bio"><p><a href="http://tsukasa.moe">「My Homepage」</a><br><a href="http://me.tsukasa.moe">「About Me」</a><br><a href="http://blog.tsukasa.moe/links">「My Links」</a></p>
 </h5>
         
         

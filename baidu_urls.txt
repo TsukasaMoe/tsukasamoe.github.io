@@ -1,3 +1,5 @@
+http://blog.tsukasa.moe/2023/07/25/Maven-configuration-guide-01/
+http://blog.tsukasa.moe/2023/07/25/Maven-configuration-for-windows/
 http://blog.tsukasa.moe/2023/07/23/Learning-notes-for-java-8-new-feature-lambda-expression/
 http://blog.tsukasa.moe/2023/07/23/Reading-notes-for-Clean-code/
 http://blog.tsukasa.moe/2023/07/23/Anylysis-thread-pool-of-java-project/
@@ -10,6 +12,7 @@ http://blog.tsukasa.moe/2018/03/01/bodily-representaion-japanese-phrase/
 http://blog.tsukasa.moe/2018/01/26/how-to-make-a-decision/
 http://blog.tsukasa.moe/2018/01/18/build-high-efficiency-os/
 http://blog.tsukasa.moe/2017/12/06/huawei-software-camp-java/
+http://blog.tsukasa.moe/2017/11/29/Galgame-clear-feeling-xin-ta-yun-2/
 http://blog.tsukasa.moe/2017/10/09/jvm-readingnotes/
 http://blog.tsukasa.moe/2017/09/24/desgin-pattern-singleton/
 http://blog.tsukasa.moe/2017/09/14/data-structure-bintree/
