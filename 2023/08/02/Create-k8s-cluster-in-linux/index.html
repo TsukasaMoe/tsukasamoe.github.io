@@ -1,0 +1,874 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Tsukasa の 部屋">
+    <title>K8s 集群搭建系列（三）：Harbor + Docker搭建K8s集群 - Tsukasa の 部屋</title>
+    <meta name="author" content="Tsukasa">
+    
+    
+        <link rel="icon" href="http://blog.tsukasa.moe/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="Harbor + Docker搭建K8s集群">
+<meta name="keywords" content="Kubernetes,Harbor,Docker">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="K8s 集群搭建系列（三）：Harbor + Docker搭建K8s集群">
+<meta property="og:url" content="http://blog.tsukasa.moe/2023/08/02/Create-k8s-cluster-in-linux/index.html">
+<meta property="og:site_name" content="Tsukasa の 部屋">
+<meta property="og:description" content="Harbor + Docker搭建K8s集群">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202308022353017.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202308030121841.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202308030133314.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307300117189.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202308030235232.png">
+<meta property="og:updated_time" content="2023-08-05T08:41:37.397Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="K8s 集群搭建系列（三）：Harbor + Docker搭建K8s集群">
+<meta name="twitter:description" content="Harbor + Docker搭建K8s集群">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202308022353017.png">
+<meta name="twitter:creator" content="@TsukasaMoe">
+    
+        <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+    
+    
+        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/icons/202308042106109.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/icons/202308042106109.jpg" />
+    
+    
+        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202308042109633.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202308042109633.jpg" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+    <link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <script src="https://cdn.bootcss.com/aplayer/1.6.0/APlayer.min.js"></script>
+<script src="https://api.i-meto.com/music/aplayer.min.js"></script>
+<!-- Define author's picture -->
+
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Tsukasa の 部屋</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon st-search-show-outputs"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatars.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">Tsukasa</span>
+            <span class="sidebar-profile-moto">エロくて可愛い女の子大好きだ！</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-circle-o"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-star-o"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bars"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-terminal"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/TsukasaMoe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:luowenqingsmail@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://portfolio.tsukasa.moe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-at"></i>
+                    <span class="sidebar-button-desc">Portfolio</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/messages"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-comment-o"></i>
+                    <span class="sidebar-button-desc">Messages</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/friends"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-mars"></i>
+                    <span class="sidebar-button-desc">Friends</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/links"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-link"></i>
+                    <span class="sidebar-button-desc">Links</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/donate"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-usd"></i>
+                    <span class="sidebar-button-desc">Donate</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    post-header-cover--full"
+             style="background-image:url('https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202308042109633.jpg');"
+             data-behavior="3">
+            
+                
+<div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            K8s 集群搭建系列（三）：Harbor + Docker搭建K8s集群
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Wed Aug 02 2023 22:57:10 GMT+0800">
+	
+		    Aug 02, 2023
+    	
+    </time>
+    
+        <span> |  </span>
+        
+    <a class="category-link" href="/categories/环境配置/">环境配置</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#系统资源"><span class="toc-text">系统资源</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一、系统基础配置"><span class="toc-text">一、系统基础配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#工作、日志及数据存储目录创建"><span class="toc-text">工作、日志及数据存储目录创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#取消SELINUX设定，关闭防火墙和关闭交换分区"><span class="toc-text">取消SELINUX设定，关闭防火墙和关闭交换分区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ulimit优化"><span class="toc-text">ulimit优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内核及网络参数优化"><span class="toc-text">内核及网络参数优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kubernetes主机hosts设置"><span class="toc-text">Kubernetes主机hosts设置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Deploy主机环境搭建"><span class="toc-text">Deploy主机环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker安装"><span class="toc-text">Docker安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-compose安装"><span class="toc-text">docker-compose安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Harbor安装"><span class="toc-text">Harbor安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#修改配置文件harbor-yml"><span class="toc-text">修改配置文件harbor.yml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#导入Harbor镜像"><span class="toc-text">导入Harbor镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动Harbor"><span class="toc-text">启动Harbor</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kubernetes集群配置"><span class="toc-text">Kubernetes集群配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker安装-1"><span class="toc-text">Docker安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kubernetes安装"><span class="toc-text">Kubernetes安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy主机下载镜像"><span class="toc-text">Deploy主机下载镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#可能遇到的问题"><span class="toc-text">可能遇到的问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Master节点"><span class="toc-text">Master节点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#部署首个Master"><span class="toc-text">部署首个Master</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置网络插件flannel"><span class="toc-text">配置网络插件flannel</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他Master"><span class="toc-text">其他Master</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Worker节点"><span class="toc-text">Worker节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可能遇到的问题-1"><span class="toc-text">可能遇到的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Pod状态显示ImagePullBackoff"><span class="toc-text">1.Pod状态显示ImagePullBackoff</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常用的定位命令"><span class="toc-text">常用的定位命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kubernetes常用命令"><span class="toc-text">Kubernetes常用命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#附录"><span class="toc-text">附录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#网络插件flannel的配置文件"><span class="toc-text">网络插件flannel的配置文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考文章"><span class="toc-text">参考文章</span></a></li></ol>
+<p>Harbor + Docker搭建K8s集群</p>
+<h1 id="系统资源"><a href="#系统资源" class="headerlink" title="系统资源"></a>系统资源</h1><table>
+<thead>
+<tr>
+<th style="text-align:left">IP</th>
+<th style="text-align:left">角色</th>
+<th style="text-align:left">主机名</th>
+<th style="text-align:left">组件</th>
+<th style="text-align:left">配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">192.168.2.183</td>
+<td style="text-align:left">Windows10，个人PC</td>
+<td style="text-align:left">Tsukasa</td>
+<td style="text-align:left">VMWare</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">192.168.2.100</td>
+<td style="text-align:left">deploy</td>
+<td style="text-align:left">tsukasa</td>
+<td style="text-align:left">ansible, docker, harbor</td>
+<td style="text-align:left">4Cx2Gx20G</td>
+</tr>
+<tr>
+<td style="text-align:left">192.168.2.100</td>
+<td style="text-align:left">kubernetes</td>
+<td style="text-align:left">k8s-master</td>
+<td style="text-align:left">kubectl, kubelet, kubeadm, flnanel</td>
+<td style="text-align:left">2Cx2Gx20G</td>
+</tr>
+<tr>
+<td style="text-align:left">192.168.2.101</td>
+<td style="text-align:left">kubernetes</td>
+<td style="text-align:left">k8s-worker01</td>
+<td style="text-align:left">kubectl</td>
+<td style="text-align:left">2Cx1Gx20G</td>
+</tr>
+<tr>
+<td style="text-align:left">192.168.2.102</td>
+<td style="text-align:left">kubernetes</td>
+<td style="text-align:left">k8s-worker02</td>
+<td style="text-align:left">kubectl</td>
+<td style="text-align:left">2Cx1Gx20G</td>
+</tr>
+<tr>
+<td style="text-align:left">192.168.2.103</td>
+<td style="text-align:left">etcd</td>
+<td style="text-align:left">etcd01</td>
+<td style="text-align:left">etcd</td>
+<td style="text-align:left">2Cx1Gx20G</td>
+</tr>
+<tr>
+<td style="text-align:left">192.168.2.104</td>
+<td style="text-align:left">etcd</td>
+<td style="text-align:left">etcd02</td>
+<td style="text-align:left">etcd</td>
+<td style="text-align:left">1Cx1Gx10G</td>
+</tr>
+<tr>
+<td style="text-align:left">192.168.2.105</td>
+<td style="text-align:left">etcd</td>
+<td style="text-align:left">etcd03(leader)</td>
+<td style="text-align:left">etcd</td>
+<td style="text-align:left">1Cx1Gx10G</td>
+</tr>
+<tr>
+<td style="text-align:left">192.168.2.106</td>
+<td style="text-align:left">mysql</td>
+<td style="text-align:left">mysql01</td>
+<td style="text-align:left">mysql</td>
+<td style="text-align:left">2Cx1Gx15G</td>
+</tr>
+<tr>
+<td style="text-align:left">192.168.2.107</td>
+<td style="text-align:left">mysql</td>
+<td style="text-align:left">mysql02</td>
+<td style="text-align:left">mysql</td>
+<td style="text-align:left">2Cx1Gx15G</td>
+</tr>
+</tbody>
+</table>
+<h1 id="一、系统基础配置"><a href="#一、系统基础配置" class="headerlink" title="一、系统基础配置"></a>一、系统基础配置</h1><h2 id="工作、日志及数据存储目录创建"><a href="#工作、日志及数据存储目录创建" class="headerlink" title="工作、日志及数据存储目录创建"></a>工作、日志及数据存储目录创建</h2><p>deploy节点执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在deploy主机也创建对应目录</span></span><br><span class="line">mkdir -p /<span class="built_in">export</span>/servers</span><br><span class="line">mkdir -p /<span class="built_in">export</span>/logs</span><br><span class="line">mkdir -p /<span class="built_in">export</span>/data</span><br><span class="line">mkdir -p /<span class="built_in">export</span>/upload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分发命令到所有节点</span></span><br><span class="line">ansible all -m <span class="built_in">command</span> -a <span class="string">"mkdir -p /export/servers"</span></span><br><span class="line">ansible all -m <span class="built_in">command</span> -a <span class="string">"mkdir -p /export/logs"</span></span><br><span class="line">ansible all -m <span class="built_in">command</span> -a <span class="string">"mkdir -p /export/data"</span></span><br><span class="line">ansible all -m <span class="built_in">command</span> -a <span class="string">"mkdir -p /export/upload"</span></span><br></pre></td></tr></table></figure>
+<h2 id="取消SELINUX设定，关闭防火墙和关闭交换分区"><a href="#取消SELINUX设定，关闭防火墙和关闭交换分区" class="headerlink" title="取消SELINUX设定，关闭防火墙和关闭交换分区"></a>取消SELINUX设定，关闭防火墙和关闭交换分区</h2><p>deploy节点执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 取消SELINUX设定</span></span><br><span class="line">ansible k8s -m command -a "setenforce 0"</span><br><span class="line">ansible k8s -m command -a "sed --follow-symlinks -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config"</span><br><span class="line"><span class="meta">#</span><span class="bash"> 关闭防火墙</span></span><br><span class="line">ansible k8s -m command -a "firewall-cmd --set-default-zone=trusted"</span><br><span class="line">ansible k8s -m command -a "firewall-cmd --complete-reload"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 临时关闭交换分区</span></span><br><span class="line">ansible k8s -m command -a "swapoff -a"</span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置系统加载时关闭交换分区</span></span><br><span class="line">ansible  k8s  -m shell -a "yes | cp /etc/fstab /etc/fstab_bak"</span><br><span class="line">ansible  k8s  -m shell -a "cat /etc/fstab_bak | grep -v swap &gt; /etc/fstab"</span><br><span class="line">ansible  k8s  -m shell -a "echo vm.swappiness = 0 &gt;&gt; /etc/sysctl.d/k8s.conf"</span><br><span class="line">ansible  k8s  -m shell -a "sysctl -p /etc/sysctl.d/k8s.conf"</span><br></pre></td></tr></table></figure>
+<p>如果对sysctl加载顺序感兴趣，可以执行<code>sysctl --system</code>查看</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202308022353017.png" alt=""></p>
+<h2 id="ulimit优化"><a href="#ulimit优化" class="headerlink" title="ulimit优化"></a>ulimit优化</h2><p>ulimit用来限制每个用户可以使用的资源，如CPU、内存、句柄等。</p>
+<p><code>/etc/security/limits.conf</code>设置以下内容：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">* soft memlock unlimited</span><br><span class="line">* hard memlock unlimited</span><br><span class="line">* soft nproc 102400</span><br><span class="line">* hard nproc 102400</span><br><span class="line">* soft nofile 1048576</span><br><span class="line">* hard nofile 1048576</span><br></pre></td></tr></table></figure>
+<p>ansible命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ansible all -m shell -a <span class="string">"cat &gt;&gt; /etc/security/limits.conf &lt;&lt; EOF</span></span><br><span class="line"><span class="string">* soft memlock unlimited</span></span><br><span class="line"><span class="string">* hard memlock unlimited</span></span><br><span class="line"><span class="string">* soft nproc 102400</span></span><br><span class="line"><span class="string">* hard nproc 102400</span></span><br><span class="line"><span class="string">* soft nofile 1048576</span></span><br><span class="line"><span class="string">* hard nofile 1048576</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">EOF"</span></span><br></pre></td></tr></table></figure>
+<h2 id="内核及网络参数优化"><a href="#内核及网络参数优化" class="headerlink" title="内核及网络参数优化"></a>内核及网络参数优化</h2><p>所有节点的<code>/etc/sysctl.conf</code>添加下面配置信息，可以通过ansible命令批量添加。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fs.file-max = 1048576</span><br><span class="line">net.ipv4.tcp_syncookies = 1</span><br><span class="line">net.ipv4.tcp_tw_reuse = 1</span><br><span class="line">net.ipv4.tcp_fin_timeout = 5</span><br><span class="line">net.ipv4.neigh.default.gc_stale_time = 120</span><br><span class="line">net.ipv4.conf.default.rp_filter = 0</span><br><span class="line">net.ipv4.conf.all.rp_filter = 0</span><br><span class="line">net.ipv4.conf.all.arp_announce = 2</span><br><span class="line">net.ipv4.conf.lo.arp_announce = 2 </span><br><span class="line">vm.max_map_count = 262144</span><br></pre></td></tr></table></figure>
+<p>ansible命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ansible all -m shell -a <span class="string">"cat &gt;&gt; /etc/sysctl.conf &lt;&lt; EOF</span></span><br><span class="line"><span class="string">fs.file-max = 1048576</span></span><br><span class="line"><span class="string">net.ipv4.tcp_syncookies = 1</span></span><br><span class="line"><span class="string">net.ipv4.tcp_tw_reuse = 1</span></span><br><span class="line"><span class="string">net.ipv4.tcp_fin_timeout = 5</span></span><br><span class="line"><span class="string">net.ipv4.neigh.default.gc_stale_time = 120</span></span><br><span class="line"><span class="string">net.ipv4.conf.default.rp_filter = 0</span></span><br><span class="line"><span class="string">net.ipv4.conf.all.rp_filter = 0</span></span><br><span class="line"><span class="string">net.ipv4.conf.all.arp_announce = 2</span></span><br><span class="line"><span class="string">net.ipv4.conf.lo.arp_announce = 2 </span></span><br><span class="line"><span class="string">vm.max_map_count = 262144</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">EOF"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新加载让配置生效</span></span><br><span class="line">ansible all -m <span class="built_in">command</span> -a <span class="string">"sysctl -p"</span></span><br><span class="line"><span class="comment"># 查询所有配置，根据需要执行</span></span><br><span class="line">sysctl -a</span><br></pre></td></tr></table></figure>
+<h2 id="Kubernetes主机hosts设置"><a href="#Kubernetes主机hosts设置" class="headerlink" title="Kubernetes主机hosts设置"></a>Kubernetes主机hosts设置</h2><p><code>cd /export/upload &amp;&amp; vim hosts_set.sh</code>，输入下面内容:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">cat &gt; /etc/hosts &lt;&lt; EOF1</span><br><span class="line">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4</span><br><span class="line">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</span><br><span class="line">192.168.2.99 deploy harbor</span><br><span class="line">192.168.2.100 master01</span><br><span class="line">192.168.2.101 worker01</span><br><span class="line">192.168.2.102 worker02</span><br><span class="line"></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>deploy主机执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ansible k8s -m copy -a <span class="string">'src=/export/upload/hosts_set.sh dest=/export/upload'</span></span><br><span class="line">ansible k8s -m <span class="built_in">command</span> -a <span class="string">'sh /export/upload/hosts_set.sh'</span></span><br></pre></td></tr></table></figure>
+<h1 id="Deploy主机环境搭建"><a href="#Deploy主机环境搭建" class="headerlink" title="Deploy主机环境搭建"></a>Deploy主机环境搭建</h1><h2 id="Docker安装"><a href="#Docker安装" class="headerlink" title="Docker安装"></a>Docker安装</h2><p>deploy主机的docker主要用于harbor针对镜像的操作，包括镜像的打tag以及push，用于后期部署pod的时候直接通过harbor私有镜像库拉取。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在线安装</span></span><br><span class="line">yum -y install docker-ce-20.10.17</span><br><span class="line"><span class="comment"># 或者提前上传docker及其依赖rpm包，进行离线安装：yum -y ./*rpm</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动docker</span></span><br><span class="line">systemctl start docker</span><br><span class="line"><span class="comment"># 查看Docker状态</span></span><br><span class="line">systemctl status docker</span><br><span class="line"><span class="comment"># 查看docker版本</span></span><br><span class="line">docker version</span><br><span class="line"><span class="comment"># 设置开机自启</span></span><br><span class="line">systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
+<h2 id="docker-compose安装"><a href="#docker-compose安装" class="headerlink" title="docker-compose安装"></a>docker-compose安装</h2><p>harbor私有镜像库的依赖docker-compose，deploy主机安装。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 可以打开下面网址，用PC下载docker-compose-linux-x86_64后，通过ftp上传到deploy服务器，目录需要有写权限</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> curl -L https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-linux-x86_64 -o docker-compose</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 移动到/usr/<span class="built_in">local</span>/bin/并添加执行权限</span></span><br><span class="line">mv docker-compose /usr/local/bin/</span><br><span class="line">chmod +x /usr/local/bin/docker-compose</span><br><span class="line">docker-compose version</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看docker-compose的版本</span></span><br><span class="line">docker-compose version</span><br></pre></td></tr></table></figure>
+<h2 id="Harbor安装"><a href="#Harbor安装" class="headerlink" title="Harbor安装"></a>Harbor安装</h2><p>私有镜像仓库，deploy主机安装。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载</span></span><br><span class="line">wget https://github.com/goharbor/harbor/releases/download/v2.4.3/harbor-offline-installer-v2.4.3.tgz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压并进行配置</span></span><br><span class="line">tar -xzvf harbor-offline-installer-v2.4.3.tgz -C /<span class="built_in">export</span>/servers/</span><br><span class="line"><span class="built_in">cd</span> /<span class="built_in">export</span>/servers/harbor</span><br><span class="line">mv harbor.yml.tmpl harbor.yml</span><br></pre></td></tr></table></figure>
+<h3 id="修改配置文件harbor-yml"><a href="#修改配置文件harbor-yml" class="headerlink" title="修改配置文件harbor.yml"></a>修改配置文件harbor.yml</h3><p>执行配置文件修改<code>vim harbor.yml</code>：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.修改对应配置如下，注意配置文件为yml，修改需要符合yml语法</span></span><br><span class="line"><span class="attr">hostname:</span> <span class="number">192.168</span><span class="number">.2</span><span class="number">.99</span></span><br><span class="line"><span class="attr">http:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8090</span></span><br><span class="line"></span><br><span class="line"><span class="attr">data_volume:</span> <span class="string">/export/data/harbor</span></span><br><span class="line"></span><br><span class="line"><span class="attr">log:</span></span><br><span class="line"><span class="attr">  location:</span> <span class="string">/export/logs/harbor</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.注释下面内容</span></span><br><span class="line"><span class="comment"># https related config</span></span><br><span class="line"><span class="comment">#https:</span></span><br><span class="line">  <span class="comment"># https port for harbor, default is 443</span></span><br><span class="line">  <span class="comment">#port: 443</span></span><br><span class="line">  <span class="comment"># The path of cert and key files for nginx</span></span><br><span class="line">  <span class="comment">#certificate: /your/certificate/path</span></span><br><span class="line">  <span class="comment">#private_key: /your/private/key/path</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3.配置管理员密码</span></span><br><span class="line"><span class="attr">harbor_admin_password:</span> <span class="string">harbor950101</span></span><br><span class="line"><span class="attr">database:</span></span><br><span class="line">  <span class="comment"># The password for the root user of Harbor DB. Change this before any production use.</span></span><br><span class="line"><span class="attr">  password:</span> <span class="string">admin</span></span><br></pre></td></tr></table></figure>
+<p>执行命令使配置文件修改生效</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./prepare  <span class="comment"># 如果有二次修改harbor.yml文件，需执行该命令让配置文件生效</span></span><br><span class="line">./install.sh --<span class="built_in">help</span> <span class="comment"># 查看启动参数</span></span><br></pre></td></tr></table></figure>
+<h3 id="导入Harbor镜像"><a href="#导入Harbor镜像" class="headerlink" title="导入Harbor镜像"></a>导入Harbor镜像</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /<span class="built_in">export</span>/servers/harbor</span><br><span class="line"><span class="comment"># harbor-offline-installer-v2.4.3.tgz解压后可以看到harbor.v2.4.3.tar.gz，用docker导入</span></span><br><span class="line">docker load -i harbor.v2.4.3.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看镜像</span></span><br><span class="line">docker images</span><br><span class="line"></span><br><span class="line">REPOSITORY                      TAG       IMAGE ID       CREATED       SIZE</span><br><span class="line">goharbor/harbor-exporter        v2.4.3    776ac6ee91f4   4 weeks ago   81.5MB</span><br><span class="line">goharbor/chartmuseum-photon     v2.4.3    f39a9694988d   4 weeks ago   172MB</span><br><span class="line">goharbor/redis-photon           v2.4.3    b168e9750dc8   4 weeks ago   154MB</span><br><span class="line">goharbor/trivy-adapter-photon   v2.4.3    a406a715461c   4 weeks ago   251MB</span><br><span class="line">goharbor/notary-server-photon   v2.4.3    da89404c7cf9   4 weeks ago   109MB</span><br><span class="line">goharbor/notary-signer-photon   v2.4.3    38468ac13836   4 weeks ago   107MB</span><br><span class="line">goharbor/harbor-registryctl     v2.4.3    61243a84642b   4 weeks ago   135MB</span><br><span class="line">goharbor/registry-photon        v2.4.3    9855479dd6fa   4 weeks ago   77.9MB</span><br><span class="line">goharbor/nginx-photon           v2.4.3    0165c71ef734   4 weeks ago   44.4MB</span><br><span class="line">goharbor/harbor-log             v2.4.3    57ceb170dac4   4 weeks ago   161MB</span><br><span class="line">goharbor/harbor-jobservice      v2.4.3    7fea87c4b884   4 weeks ago   219MB</span><br><span class="line">goharbor/harbor-core            v2.4.3    d864774a3b8f   4 weeks ago   197MB</span><br><span class="line">goharbor/harbor-portal          v2.4.3    85f00db66862   4 weeks ago   53.4MB</span><br><span class="line">goharbor/harbor-db              v2.4.3    7693d44a2ad6   4 weeks ago   225MB</span><br><span class="line">goharbor/prepare                v2.4.3    c882d74725ee   4 weeks ago   268MB</span><br></pre></td></tr></table></figure>
+<p>如果没有按照<code>编辑harbor.yml</code>章节注释，会遇到下面报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">prepare base dir is set to /export/servers/harbor</span><br><span class="line">Error happened in config validation...</span><br><span class="line">ERROR:root:Error: The protocol is https but attribute ssl_cert is not set</span><br></pre></td></tr></table></figure>
+<h3 id="启动Harbor"><a href="#启动Harbor" class="headerlink" title="启动Harbor"></a>启动Harbor</h3><p>如果配置文件harbor.yml有改动，需要执行<code>./prepare</code>使配置修改生效后再启动。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./install.sh --with-chartmuseum</span><br></pre></td></tr></table></figure>
+<p>启动成功后，浏览器可以直接访问Harbor：<code>http://192.168.2.99:8090/</code>，根据harbor.yml配置的管理员帐号和密码登陆</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202308030121841.png" alt=""></p>
+<p><strong>配置对Harbor的HTTPS访问请参考：</strong><br><a href="https://blog.csdn.net/RtxTitanV/article/details/107140001" target="_blank" rel="external">https://blog.csdn.net/RtxTitanV/article/details/107140001</a></p>
+<h1 id="Kubernetes集群配置"><a href="#Kubernetes集群配置" class="headerlink" title="Kubernetes集群配置"></a>Kubernetes集群配置</h1><h2 id="Docker安装-1"><a href="#Docker安装-1" class="headerlink" title="Docker安装"></a>Docker安装</h2><p>docker离线下载地址：<a href="https://download.docker.com/linux/static/stable/x86_64/" target="_blank" rel="external">https://download.docker.com/linux/static/stable/x86_64/</a></p>
+<p>配置docker-ce.repo的镜像仓库</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo</span><br><span class="line"><span class="comment"># 或者通过下面方式添加下面方式添加镜像仓库</span></span><br><span class="line"><span class="comment"># yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span></span><br></pre></td></tr></table></figure>
+<p>我们要在所有K8s节点安装Docker，因此下载回来后离线安装更快捷。</p>
+<p>yum命令只下载不安装命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install --downloadonly -downloaddir /<span class="built_in">export</span>/upload docker-ce-20.10.17</span><br></pre></td></tr></table></figure>
+<p>deploy主机执行下面的ansible命令，将打包好的压缩包分发给k8s集群机器，并执行解压、安装，启动docker等操作。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 分发安装包</span></span><br><span class="line">ansible k8s -m copy -a <span class="string">"src=/export/upload/docker-rpm.tar.gz dest=/export/upload/"</span></span><br><span class="line"><span class="comment"># 解压并安装</span></span><br><span class="line">ansible k8s -m shell -a <span class="string">"tar -xzvf /export/upload/docker-rpm.tar.gz -C /export/upload/ &amp;&amp; yum -y install /export/upload/docker-rpm/*"</span></span><br><span class="line"><span class="comment"># 设置Docker开机自启，以及启动Docker</span></span><br><span class="line">ansible k8s -m shell -a <span class="string">"systemctl enable docker &amp;&amp; systemctl start docker"</span></span><br><span class="line"><span class="comment"># 查看Docker启动状态</span></span><br><span class="line">ansible k8s -m shell -a <span class="string">"docker version"</span></span><br></pre></td></tr></table></figure>
+<p>所有k8s节点返回下面消息证明完成安装</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202308030133314.png" alt=""></p>
+<p><strong>附：常用压缩打包、解压缩命令</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打包</span></span><br><span class="line">tar –cvf xxx.tar &lt;file or dir&gt;</span><br><span class="line"><span class="comment"># 打包并且压缩</span></span><br><span class="line">tar –zcvf docker-rpm.tar.gz &lt;file or dir&gt;</span><br><span class="line"><span class="comment"># 解压缩到指定位置</span></span><br><span class="line">tar -xzvf docker-rpm.tar.gz  -C &lt;位置&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="Kubernetes安装"><a href="#Kubernetes安装" class="headerlink" title="Kubernetes安装"></a>Kubernetes安装</h2><p>deploy节点执行，所有k8s节点需要安装。</p>
+<p>1、添加阿里云YUM的kubernetes软件源：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; /etc/yum.repos.d/kubernetes.repo &lt;&lt; EOF</span><br><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line">repo_gpgcheck=0</span><br><span class="line">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>2、下载kubelet、kubeadm、kubectl组件但不安装：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y kubelet-1.22.4 kubeadm-1.22.4 kubectl-1.22.4 --downloadonly --downloaddir /<span class="built_in">export</span>/download/kubeadm-rpm</span><br></pre></td></tr></table></figure>
+<p>3、执行解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /export/download</span><br><span class="line">tar -zcvf kubeadm-rpm.tgz kubeadm-rpm</span><br></pre></td></tr></table></figure>
+<p>4、分发到k8s集群所有节点并解压安装</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ansible k8s -m copy -a <span class="string">"src=/export/upload/kubeadm-rpm.tgz dest=/export/upload/"</span></span><br><span class="line">ansible k8s -m shell -a <span class="string">"tar xzvf /export/upload/kubeadm-rpm.tgz -C /export/upload/ &amp;&amp; yum -y install /export/upload/kubeadm-rpm/*"</span></span><br></pre></td></tr></table></figure>
+<p>5、启动kubelet并设置开机自启</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible k8s -m shell -a <span class="string">"systemctl enable kubelet &amp;&amp; systemctl start kubelet"</span></span><br></pre></td></tr></table></figure>
+<p>注：此时kubelet启动失败，会进入不断重启，这个是正常现象，执行init或join后问题会自动解决，对此官网有如下描述，也就是此时不用理会kubelet.service，可执行发下命令查看kubelet状态。</p>
+<p><code>journalctl -xefu kubelet</code>可以查看日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Jul 29 08:34:33 k8s-worker02 systemd[1]: Starting kubelet: The Kubernetes Node Agent...</span><br><span class="line">-- Subject: Unit kubelet.service has begun start-up</span><br><span class="line">-- Defined-By: systemd</span><br><span class="line">-- Support: http://lists.freedesktop.org/mailman/listinfo/systemd-devel</span><br><span class="line">--</span><br><span class="line">-- Unit kubelet.service has begun starting up.</span><br><span class="line">Jul 29 08:34:33 k8s-worker02 kubelet[9377]: E0729 08:34:33.685622    9377 server.go:206] &quot;Failed to load kubelet config file&quot; err=&quot;failed to load Kubelet config file /var/lib/kubelet/config.yaml, error failed to read kubelet config file \&quot;/var/lib/kubelet/config.yaml\&quot;, error: open /var/lib/kubelet/config.yaml: no such file or directory&quot; path=&quot;/var/lib/kubelet/config.yaml&quot;</span><br><span class="line">Jul 29 08:34:33 k8s-worker02 systemd[1]: kubelet.service: main process exited, code=exited, status=1/FAILURE</span><br><span class="line">Jul 29 08:34:33 k8s-worker02 systemd[1]: Unit kubelet.service entered failed state.</span><br><span class="line">Jul 29 08:34:33 k8s-worker02 systemd[1]: kubelet.service failed.</span><br><span class="line">Jul 29 08:34:43 k8s-worker02 systemd[1]: kubelet.service holdoff time over, scheduling restart.</span><br><span class="line">Jul 29 08:34:43 k8s-worker02 systemd[1]: Started kubelet: The Kubernetes Node Agent.</span><br></pre></td></tr></table></figure>
+<h3 id="Deploy主机下载镜像"><a href="#Deploy主机下载镜像" class="headerlink" title="Deploy主机下载镜像"></a>Deploy主机下载镜像</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Docker拉取镜像</span></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/coredns:v1.8.4</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/etcd:3.5.0-0</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v1.22.4</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1.22.4</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v1.22.4</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.22.4</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.5</span><br><span class="line">docker pull rancher/mirrored-flannelcni-flannel-cni-plugin:v1.1.0</span><br><span class="line">docker pull rancher/mirrored-flannelcni-flannel:v0.19.1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 导出镜像到/export/upload/docker-images/位置</span></span><br><span class="line">mkdir -p /<span class="built_in">export</span>/upload/docker-images/</span><br><span class="line">docker save -o /<span class="built_in">export</span>/upload/docker-images/rancher-mirrored-flannelcni-flannel-v0.19.1.tar rancher/mirrored-flannelcni-flannel </span><br><span class="line">docker save -o /<span class="built_in">export</span>/upload/docker-images/rancher-mirrored-flannelcni-flannel-cni-plugin-v1.1.0.tar rancher/mirrored-flannelcni-flannel-cni-plugin </span><br><span class="line">docker save -o /<span class="built_in">export</span>/upload/docker-images/google_containers-kube-apiserver-v1.22.4.tar registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver </span><br><span class="line">docker save -o /<span class="built_in">export</span>/upload/docker-images/google_containers-kube-controller-manager-v1.22.4.tar registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager </span><br><span class="line">docker save -o /<span class="built_in">export</span>/upload/docker-images/google_containers-kube-scheduler-v1.22.4.tar registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler </span><br><span class="line">docker save -o /<span class="built_in">export</span>/upload/docker-images/google_containers-kube-proxy-v1.22.4.tar registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy </span><br><span class="line">docker save -o /<span class="built_in">export</span>/upload/docker-images/google_containers-etcd-3.5.0-0.tar registry.cn-hangzhou.aliyuncs.com/google_containers/etcd </span><br><span class="line">docker save -o /<span class="built_in">export</span>/upload/docker-images/google_containers-coredns-v1.8.4.tar registry.cn-hangzhou.aliyuncs.com/google_containers/coredns </span><br><span class="line">docker save -o /<span class="built_in">export</span>/upload/docker-images/google_containers-pause-3.5.tar registry.cn-hangzhou.aliyuncs.com/google_containers/pause </span><br><span class="line"></span><br><span class="line"><span class="comment"># Docker导入镜像</span></span><br><span class="line"><span class="built_in">cd</span> /<span class="built_in">export</span>/upload/docker-images/</span><br><span class="line">docker load -i rancher-mirrored-flannelcni-flannel-v0.19.1.tar</span><br><span class="line">docker load -i rancher-mirrored-flannelcni-flannel-cni-plugin-v1.1.0.tar</span><br><span class="line">docker load -i google_containers-kube-apiserver-v1.22.4.tar</span><br><span class="line">docker load -i google_containers-kube-controller-manager-v1.22.4.tar</span><br><span class="line">docker load -i google_containers-kube-scheduler-v1.22.4.tar</span><br><span class="line">docker load -i google_containers-kube-proxy-v1.22.4.tar</span><br><span class="line">docker load -i google_containers-etcd-3.5.0-0.tar</span><br><span class="line">docker load -i google_containers-coredns-v1.8.4.tar</span><br><span class="line">docker load -i google_containers-pause-3.5.tar</span><br><span class="line"></span><br><span class="line"><span class="comment"># 镜像打harbor镜像库tag</span></span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/coredns:v1.8.4 192.168.2.99:8090/community/coredns:v1.8.4</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/etcd:3.5.0-0 192.168.2.99:8090/community/etcd:3.5.0-0</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v1.22.4 192.168.2.99:8090/community/kube-apiserver:v1.22.4</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1.22.4 192.168.2.99:8090/community/kube-controller-manager:v1.22.4</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v1.22.4 192.168.2.99:8090/community/kube-proxy:v1.22.4</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.22.4 192.168.2.99:8090/community/kube-scheduler:v1.22.4</span><br><span class="line">docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.5 192.168.2.99:8090/community/pause:3.5</span><br><span class="line">docker tag rancher/mirrored-flannelcni-flannel-cni-plugin:v1.1.0 192.168.2.99:8090/community/mirrored-flannelcni-flannel-cni-plugin:v1.1.0</span><br><span class="line">docker tag rancher/mirrored-flannelcni-flannel:v0.19.1 192.168.2.99:8090/community/mirrored-flannelcni-flannel:v0.19.1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送至harbor镜像库，后续可以通过docker pull从harbor中直接拉取</span></span><br><span class="line">docker push 192.168.2.99:8090/community/coredns:v1.8.4</span><br><span class="line">docker push 192.168.2.99:8090/community/etcd:3.5.0-0</span><br><span class="line">docker push 192.168.2.99:8090/community/kube-apiserver:v1.22.4</span><br><span class="line">docker push 192.168.2.99:8090/community/kube-controller-manager:v1.22.4</span><br><span class="line">docker push 192.168.2.99:8090/community/kube-proxy:v1.22.4</span><br><span class="line">docker push 192.168.2.99:8090/community/kube-scheduler:v1.22.4</span><br><span class="line">docker push 192.168.2.99:8090/community/pause:3.5</span><br><span class="line">docker push 192.168.2.99:8090/community/mirrored-flannelcni-flannel-cni-plugin:v1.1.0</span><br><span class="line">docker push 192.168.2.99:8090/community/mirrored-flannelcni-flannel:v0.19.1</span><br></pre></td></tr></table></figure>
+<h4 id="可能遇到的问题"><a href="#可能遇到的问题" class="headerlink" title="可能遇到的问题"></a>可能遇到的问题</h4><p><strong>1、docker push推送过程中可能会报错，提示docker推送要求为https，而harbor服务端通信协议为http。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@tsukasa docker-images]# docker push 192.168.2.99:8090/community/mirrored-flannelcni-flannel:v0.19.1</span><br><span class="line">The push refers to repository [192.168.2.99:8090/community/mirrored-flannelcni-flannel]</span><br><span class="line">Get &quot;https://192.168.2.99:8090/v2/&quot;: http: server gave HTTP response to HTTPS client</span><br></pre></td></tr></table></figure>
+<p>修改docker的配置文件/etc/docker/daemon.json（文件不存在则新增），添加下面内容，下面IP端口为harbor的http配置：</p>
+<p><code>vim /etc/docker/daemon.json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"insecure-registries"</span>:[<span class="string">"192.168.2.99:8090"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重启docker服务、重新加载harbor镜像</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker.service</span><br><span class="line"><span class="comment"># 重新加载harbor</span></span><br><span class="line">docker load -i harbor.v2.4.3.tar.gz</span><br><span class="line"><span class="comment"># 启动Harbor</span></span><br><span class="line"><span class="built_in">cd</span> /<span class="built_in">export</span>/servers/harbor</span><br><span class="line">./install.sh --with-chartmuseum</span><br></pre></td></tr></table></figure>
+<p><strong>2、docker push推送过程中提示project community not found: project community not found</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@tsukasa harbor]<span class="comment"># docker push 192.168.2.99:8090/community/coredns:v1.8.4</span></span><br><span class="line">The push refers to repository [192.168.2.99:8090/community/coredns]</span><br><span class="line">f72781b18181: Preparing</span><br><span class="line">225df95e717c: Preparing</span><br><span class="line">unauthorized: project community not found: project community not found</span><br></pre></td></tr></table></figure>
+<p>解决办法是在harbor管理台创建项目</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307300117189.png" alt=""></p>
+<p><strong>3、docker push进行推送时出现unauthorized: unauthorized to access repository</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@tsukasa harbor]# docker push 192.168.2.99:8090/community/coredns:v1.8.4</span><br><span class="line">The push refers to repository [192.168.2.99:8090/community/coredns]</span><br><span class="line">f72781b18181: Preparing</span><br><span class="line">225df95e717c: Preparing</span><br><span class="line">unauthorized: unauthorized to access repository: community/coredns, action: push: unauthorized to access repository: community/coredns, action: push</span><br></pre></td></tr></table></figure>
+<p>解决办法是在需要推送镜像的主机上（这里是deploy）登陆harbor：<code>docker login 192.168.2.99:8090</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@tsukasa harbor]<span class="comment"># docker login 192.168.2.99:8090</span></span><br><span class="line">Username: admin</span><br><span class="line">Password:</span><br><span class="line">WARNING! Your password will be stored unencrypted <span class="keyword">in</span> /root/.docker/config.json.</span><br><span class="line">Configure a credential helper to remove this warning. See</span><br><span class="line">https://docs.docker.com/engine/reference/commandline/login/<span class="comment">#credentials-store</span></span><br></pre></td></tr></table></figure>
+<h3 id="Master节点"><a href="#Master节点" class="headerlink" title="Master节点"></a>Master节点</h3><p>通常地，k8s集群Master节点有多个，本地因资源问题，只创建了一台master。</p>
+<h4 id="部署首个Master"><a href="#部署首个Master" class="headerlink" title="部署首个Master"></a>部署首个Master</h4><p>1、在docker配置文件/etc/docker/daemon.json中添加下面内容，重启docker</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"exec-opts"</span>: [<span class="string">"native.cgroupdriver=systemd"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重启docker</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
+<p>3、在k8s-master(ip:192.168.2.100)执行初始化：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果初始化失败，先强制重置kubeadm再初始化：kubeadm reset -f</span></span><br><span class="line"><span class="comment"># 初始化</span></span><br><span class="line">kubeadm init \</span><br><span class="line">--control-plane-endpoint <span class="string">"192.168.2.100:6443"</span> \</span><br><span class="line">--image-repository 192.168.2.99:8090/community \</span><br><span class="line">--kubernetes-version v1.22.4 \</span><br><span class="line">--service-cidr=172.16.0.0/16 \</span><br><span class="line">--pod-network-cidr=10.244.0.0/16 \</span><br><span class="line">--token <span class="string">"abcdef.0123456789abcdef"</span> \</span><br><span class="line">--token-ttl <span class="string">"0"</span> \</span><br><span class="line">--upload-certs</span><br></pre></td></tr></table></figure>
+<p><code>--image-repository</code>参数是镜像仓库，目前设置为搭建的harbor，也可以使用阿里云<code>registry.aliyuncs.com/google_containers</code></p>
+<p>执行后的控台输出如下，进行其他Master和Worker节点初始化需要用到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]# kubeadm init \</span><br><span class="line">&gt; --control-plane-endpoint &quot;192.168.2.100:6443&quot; \</span><br><span class="line">&gt; --image-repository 192.168.2.99:8090/community \</span><br><span class="line">&gt; --kubernetes-version v1.22.4 \</span><br><span class="line">&gt; --service-cidr=172.16.0.0/16 \</span><br><span class="line">&gt; --pod-network-cidr=10.244.0.0/16 \</span><br><span class="line">&gt; --token &quot;abcdef.0123456789abcdef&quot; \</span><br><span class="line">&gt; --token-ttl &quot;0&quot; \</span><br><span class="line">&gt; --upload-certs</span><br><span class="line">[init] Using Kubernetes version: v1.22.4</span><br><span class="line">[preflight] Running pre-flight checks</span><br><span class="line">        [WARNING Firewalld]: firewalld is active, please ensure ports [6443 10250] are open or your cluster may not function correctly</span><br><span class="line">        [WARNING Hostname]: hostname &quot;k8s-master&quot; could not be reached</span><br><span class="line">        [WARNING Hostname]: hostname &quot;k8s-master&quot;: lookup k8s-master on 223.5.5.5:53: no such host</span><br><span class="line">[preflight] Pulling images required for setting up a Kubernetes cluster</span><br><span class="line">[preflight] This might take a minute or two, depending on the speed of your internet connection</span><br><span class="line">[preflight] You can also perform this action in beforehand using &apos;kubeadm config images pull&apos;</span><br><span class="line">[certs] Using certificateDir folder &quot;/etc/kubernetes/pki&quot;</span><br><span class="line">[certs] Generating &quot;ca&quot; certificate and key</span><br><span class="line">[certs] Generating &quot;apiserver&quot; certificate and key</span><br><span class="line">[certs] apiserver serving cert is signed for DNS names [k8s-master kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [172.16.0.1 192.168.2.100]</span><br><span class="line">[certs] Generating &quot;apiserver-kubelet-client&quot; certificate and key</span><br><span class="line">[certs] Generating &quot;front-proxy-ca&quot; certificate and key</span><br><span class="line">[certs] Generating &quot;front-proxy-client&quot; certificate and key</span><br><span class="line">[certs] Generating &quot;etcd/ca&quot; certificate and key</span><br><span class="line">[certs] Generating &quot;etcd/server&quot; certificate and key</span><br><span class="line">[certs] etcd/server serving cert is signed for DNS names [k8s-master localhost] and IPs [192.168.2.100 127.0.0.1 ::1]</span><br><span class="line">[certs] Generating &quot;etcd/peer&quot; certificate and key</span><br><span class="line">[certs] etcd/peer serving cert is signed for DNS names [k8s-master localhost] and IPs [192.168.2.100 127.0.0.1 ::1]</span><br><span class="line">[certs] Generating &quot;etcd/healthcheck-client&quot; certificate and key</span><br><span class="line">[certs] Generating &quot;apiserver-etcd-client&quot; certificate and key</span><br><span class="line">[certs] Generating &quot;sa&quot; key and public key</span><br><span class="line">[kubeconfig] Using kubeconfig folder &quot;/etc/kubernetes&quot;</span><br><span class="line">[kubeconfig] Writing &quot;admin.conf&quot; kubeconfig file</span><br><span class="line">[kubeconfig] Writing &quot;kubelet.conf&quot; kubeconfig file</span><br><span class="line">[kubeconfig] Writing &quot;controller-manager.conf&quot; kubeconfig file</span><br><span class="line">[kubeconfig] Writing &quot;scheduler.conf&quot; kubeconfig file</span><br><span class="line">[kubelet-start] Writing kubelet environment file with flags to file &quot;/var/lib/kubelet/kubeadm-flags.env&quot;</span><br><span class="line">[kubelet-start] Writing kubelet configuration to file &quot;/var/lib/kubelet/config.yaml&quot;</span><br><span class="line">[kubelet-start] Starting the kubelet</span><br><span class="line">[control-plane] Using manifest folder &quot;/etc/kubernetes/manifests&quot;</span><br><span class="line">[control-plane] Creating static Pod manifest for &quot;kube-apiserver&quot;</span><br><span class="line">[control-plane] Creating static Pod manifest for &quot;kube-controller-manager&quot;</span><br><span class="line">[control-plane] Creating static Pod manifest for &quot;kube-scheduler&quot;</span><br><span class="line">[etcd] Creating static Pod manifest for local etcd in &quot;/etc/kubernetes/manifests&quot;</span><br><span class="line">[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory &quot;/etc/kubernetes/manifests&quot;. This can take up to 4m0s</span><br><span class="line">[apiclient] All control plane components are healthy after 7.005575 seconds</span><br><span class="line">[upload-config] Storing the configuration used in ConfigMap &quot;kubeadm-config&quot; in the &quot;kube-system&quot; Namespace</span><br><span class="line">[kubelet] Creating a ConfigMap &quot;kubelet-config-1.22&quot; in namespace kube-system with the configuration for the kubelets in the cluster</span><br><span class="line">[upload-certs] Storing the certificates in Secret &quot;kubeadm-certs&quot; in the &quot;kube-system&quot; Namespace</span><br><span class="line">[upload-certs] Using certificate key:</span><br><span class="line">7ed3ef5d6b04a668e7bed67e419fd9f69ce482047350e5b391357005064db994</span><br><span class="line">[mark-control-plane] Marking the node k8s-master as control-plane by adding the labels: [node-role.kubernetes.io/master(deprecated) node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers]</span><br><span class="line">[mark-control-plane] Marking the node k8s-master as control-plane by adding the taints [node-role.kubernetes.io/master:NoSchedule]</span><br><span class="line">[bootstrap-token] Using token: abcdef.0123456789abcdef</span><br><span class="line">[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles</span><br><span class="line">[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to get nodes</span><br><span class="line">[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials</span><br><span class="line">[bootstrap-token] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token</span><br><span class="line">[bootstrap-token] configured RBAC rules to allow certificate rotation for all node client certificates in the cluster</span><br><span class="line">[bootstrap-token] Creating the &quot;cluster-info&quot; ConfigMap in the &quot;kube-public&quot; namespace</span><br><span class="line">[kubelet-finalize] Updating &quot;/etc/kubernetes/kubelet.conf&quot; to point to a rotatable kubelet client certificate and key</span><br><span class="line">[addons] Applied essential addon: CoreDNS</span><br><span class="line">[addons] Applied essential addon: kube-proxy</span><br><span class="line"></span><br><span class="line">Your Kubernetes control-plane has initialized successfully!</span><br><span class="line"></span><br><span class="line">To start using your cluster, you need to run the following as a regular user:</span><br><span class="line"></span><br><span class="line">  mkdir -p $HOME/.kube</span><br><span class="line">  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config</span><br><span class="line">  sudo chown $(id -u):$(id -g) $HOME/.kube/config</span><br><span class="line"></span><br><span class="line">Alternatively, if you are the root user, you can run:</span><br><span class="line"></span><br><span class="line">  export KUBECONFIG=/etc/kubernetes/admin.conf</span><br><span class="line"></span><br><span class="line">You should now deploy a pod network to the cluster.</span><br><span class="line">Run &quot;kubectl apply -f [podnetwork].yaml&quot; with one of the options listed at:</span><br><span class="line">  https://kubernetes.io/docs/concepts/cluster-administration/addons/</span><br><span class="line"></span><br><span class="line">You can now join any number of the control-plane node running the following command on each as root:</span><br><span class="line"></span><br><span class="line">  kubeadm join 192.168.2.100:6443 --token abcdef.0123456789abcdef \</span><br><span class="line">        --discovery-token-ca-cert-hash sha256:fdfca7204c17842d264752cc0cf9efcf4da515837f5deb7f69cc3ec3f3fe00c6 \</span><br><span class="line">        --control-plane --certificate-key 7ed3ef5d6b04a668e7bed67e419fd9f69ce482047350e5b391357005064db994</span><br><span class="line"></span><br><span class="line">Please note that the certificate-key gives access to cluster sensitive data, keep it secret!</span><br><span class="line">As a safeguard, uploaded-certs will be deleted in two hours; If necessary, you can use</span><br><span class="line">&quot;kubeadm init phase upload-certs --upload-certs&quot; to reload certs afterward.</span><br><span class="line"></span><br><span class="line">Then you can join any number of worker nodes by running the following on each as root:</span><br><span class="line"></span><br><span class="line">kubeadm join 192.168.2.100:6443 --token abcdef.0123456789abcdef \</span><br><span class="line">        --discovery-token-ca-cert-hash sha256:fdfca7204c17842d264752cc0cf9efcf4da515837f5deb7f69cc3ec3f3fe00c6</span><br></pre></td></tr></table></figure>
+<p>如果控制台信息被清理，可以在通过下面的命令查看token</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看token列表</span></span><br><span class="line">kubeadm token list</span><br></pre></td></tr></table></figure>
+<p>如果token过期，可以重新创建再查看token</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubeadm token create --<span class="built_in">print</span>-join-command</span><br><span class="line">kubeadm token list</span><br></pre></td></tr></table></figure>
+<p>4、生成kubelet环境配置文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p <span class="variable">$HOME</span>/.kube</span><br><span class="line">sudo cp -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line">sudo chown $(id -u):$(id -g) <span class="variable">$HOME</span>/.kube/config</span><br></pre></td></tr></table></figure>
+<h4 id="配置网络插件flannel"><a href="#配置网络插件flannel" class="headerlink" title="配置网络插件flannel"></a>配置网络插件flannel</h4><p>Kubernetes跨主机容器之间的通信组件，目前主流的是flannel和calico，这里选择flannel。<br>如果使用<code>kubectl get nodes</code>查看节点状态，Worker节点显示<code>NotReady</code>，是因为缺少网络插件导致的。</p>
+<p>（1）创建/export/servers/kubernetes/flannel.yml配置文件，内容参考附录。</p>
+<p>在执行下面的命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 应用flannel配置文件</span></span><br><span class="line">kubectl apply -f /<span class="built_in">export</span>/servers/kubernetes/flannel.yml</span><br></pre></td></tr></table></figure>
+<p>如果配置文件有改动需要重新加载，可以执行下面命令进行撤销</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete -f /<span class="built_in">export</span>/servers/kubernetes/flannel.yml</span><br></pre></td></tr></table></figure>
+<h4 id="其他Master"><a href="#其他Master" class="headerlink" title="其他Master"></a>其他Master</h4><p>复制首个Master节点kubeadm初始化后的master节点加入命令，到其他Master节点执行即可。也可以用deploy主机使用ansible命令批量执行。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubeadm join 192.168.2.100:6443 --token abcdef.0123456789abcdef \</span><br><span class="line">      --discovery-token-ca-cert-hash sha256:fdfca7204c17842d264752cc0cf9efcf4da515837f5deb7f69cc3ec3f3fe00c6 \</span><br><span class="line">      --control-plane --certificate-key 7ed3ef5d6b04a668e7bed67e419fd9f69ce482047350e5b391357005064db994</span><br></pre></td></tr></table></figure>
+<h3 id="Worker节点"><a href="#Worker节点" class="headerlink" title="Worker节点"></a>Worker节点</h3><p>复制首个Master节点kubeadm初始化后的Worker节点加入命令，到所有Worker节点分别执行。也可以用deploy主机使用ansible命令批量执行。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubeadm join 192.168.2.100:6443 --token abcdef.0123456789abcdef \</span><br><span class="line">        --discovery-token-ca-cert-hash sha256:fdfca7204c17842d264752cc0cf9efcf4da515837f5deb7f69cc3ec3f3fe00c6</span><br></pre></td></tr></table></figure>
+<p>ansible命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ansible worker -m shell -a <span class="string">"kubeadm join 192.168.2.100:6443 --token abcdef.0123456789abcdef \</span></span><br><span class="line"><span class="string">        --discovery-token-ca-cert-hash sha256:fdfca7204c17842d264752cc0cf9efcf4da515837f5deb7f69cc3ec3f3fe00c6"</span></span><br></pre></td></tr></table></figure>
+<p>查看所有pod状态</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods -A</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202308030235232.png" alt=""></p>
+<p>至此，Kubernetes集群已经建立！</p>
+<h3 id="可能遇到的问题-1"><a href="#可能遇到的问题-1" class="headerlink" title="可能遇到的问题"></a>可能遇到的问题</h3><h4 id="1-Pod状态显示ImagePullBackoff"><a href="#1-Pod状态显示ImagePullBackoff" class="headerlink" title="1.Pod状态显示ImagePullBackoff"></a>1.Pod状态显示ImagePullBackoff</h4><p>需要手动拉取镜像，等待k8s重试成功后即可解决</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull rancher/mirrored-flannelcni-flannel:v0.19.1</span><br></pre></td></tr></table></figure>
+<h4 id="常用的定位命令"><a href="#常用的定位命令" class="headerlink" title="常用的定位命令"></a>常用的定位命令</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看命名空间kube-system详细的pod状态</span></span><br><span class="line">kubectl get pod -n kube-system -o wide</span><br><span class="line"><span class="comment"># 查看pod的日志</span></span><br><span class="line">kubectl describe pod &lt;Pod名称&gt; -n &lt;命名空间&gt;</span><br><span class="line"><span class="comment"># 查看pod的详细日志，可以查看到代码报错的堆栈</span></span><br><span class="line">kubectl logs -f kubernetes-dashboard-658b66597c-jcw4s -n kubernetes-dashboard</span><br></pre></td></tr></table></figure>
+<h3 id="Kubernetes常用命令"><a href="#Kubernetes常用命令" class="headerlink" title="Kubernetes常用命令"></a>Kubernetes常用命令</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">kubectl get all <span class="comment">#查看所有启动的配置，包括容器，服务，监视等等等等 --all-namespaces 参数 可以看到所有命名空间的 -o wide 可以看到更多的信息，如容器启动在哪台机器上</span></span><br><span class="line">kubectl get pods -o wide				 <span class="comment">#查看pod</span></span><br><span class="line">kubectl get pod name --output json		 <span class="comment">#以JSON格式输出POD信息:</span></span><br><span class="line">kubectl get pod name --output yaml		 <span class="comment">#以yaml格式输出POD信息</span></span><br><span class="line">kubectl get svc 						 <span class="comment">#查询所有实例的对外端口</span></span><br><span class="line">kubectl describe pod xxx-mariadb-0   <span class="comment">#查看pod的详情</span></span><br><span class="line">kubectl get nodes						 <span class="comment">#查看node节点</span></span><br><span class="line">kubectl get rc,namespace				 <span class="comment">#查看rc ,namespace</span></span><br><span class="line">kubectl <span class="built_in">exec</span> -ti xxx-jw64d sh    <span class="comment">#登陆到某个模块实例查日志或配置</span></span><br><span class="line">kubectl cluster-info    				 <span class="comment">#查看集群状态</span></span><br><span class="line">kubectl get deployments					 <span class="comment">#查询Deployment当前状态</span></span><br><span class="line">NAME               DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">nginx-deployment   3         3         3            3           2h</span><br><span class="line">其中DESIRED为期望的Pod数量，CURRENT为当前的数量，UP-TO-DATE为已更新的数量，AVAILABLE为已运行的数量</span><br><span class="line">kubectl get rs							 <span class="comment">#Replica Set（RS）是k8s新一代的Pod controller</span></span><br><span class="line">kubectl get cs							 <span class="comment">#检查组件状态是否都正常 component status （CS）</span></span><br><span class="line">kubectl get pods --show-labels</span><br><span class="line">kubectl describe deployments</span><br><span class="line">kubectl get pvc							 <span class="comment">#获取 StatefulSet 的 PersistentVolumeClaims</span></span><br><span class="line">kubectl <span class="built_in">exec</span> nginx -- printenv | grep SERVICE <span class="comment">#检查正在运行的 Nginx Pod 的环境变量</span></span><br><span class="line">kubectl get services kube-dns --namespace=kube-system <span class="comment">#检查 DNS 插件 Service</span></span><br><span class="line">kubectl get pods -o yaml | grep -i podip</span><br><span class="line">kubectl <span class="built_in">exec</span> xxx-2xd57 date      <span class="comment">#对pod中的容器执行命令</span></span><br><span class="line"> </span><br><span class="line">kubectl delete pod name					 <span class="comment">#删除某个POD</span></span><br><span class="line">kubectl delete deployment kubernetes-dashboard --namespace=kubernetes-dashboard <span class="comment">#删除</span></span><br><span class="line">kubectl delete secrets xxx-secrets   <span class="comment">#或者在页面删除</span></span><br></pre></td></tr></table></figure>
+<h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><h2 id="网络插件flannel的配置文件"><a href="#网络插件flannel的配置文件" class="headerlink" title="网络插件flannel的配置文件"></a>网络插件flannel的配置文件</h2><p><code>/export/servers/kubernetes/flannel.yml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Namespace</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">kube-flannel</span></span><br><span class="line"><span class="attr">  labels:</span></span><br><span class="line">    <span class="string">pod-security.kubernetes.io/enforce:</span> <span class="string">privileged</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ClusterRole</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">flannel</span></span><br><span class="line"><span class="attr">rules:</span></span><br><span class="line"><span class="attr">- apiGroups:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">""</span></span><br><span class="line"><span class="attr">  resources:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">pods</span></span><br><span class="line"><span class="attr">  verbs:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">get</span></span><br><span class="line"><span class="attr">- apiGroups:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">""</span></span><br><span class="line"><span class="attr">  resources:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">nodes</span></span><br><span class="line"><span class="attr">  verbs:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">list</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">watch</span></span><br><span class="line"><span class="attr">- apiGroups:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">""</span></span><br><span class="line"><span class="attr">  resources:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">nodes/status</span></span><br><span class="line"><span class="attr">  verbs:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">patch</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ClusterRoleBinding</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">flannel</span></span><br><span class="line"><span class="attr">roleRef:</span></span><br><span class="line"><span class="attr">  apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br><span class="line"><span class="attr">  kind:</span> <span class="string">ClusterRole</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">flannel</span></span><br><span class="line"><span class="attr">subjects:</span></span><br><span class="line"><span class="attr">- kind:</span> <span class="string">ServiceAccount</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">flannel</span></span><br><span class="line"><span class="attr">  namespace:</span> <span class="string">kube-flannel</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ServiceAccount</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">flannel</span></span><br><span class="line"><span class="attr">  namespace:</span> <span class="string">kube-flannel</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">kube-flannel-cfg</span></span><br><span class="line"><span class="attr">  namespace:</span> <span class="string">kube-flannel</span></span><br><span class="line"><span class="attr">  labels:</span></span><br><span class="line"><span class="attr">    tier:</span> <span class="string">node</span></span><br><span class="line"><span class="attr">    app:</span> <span class="string">flannel</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="string">cni-conf.json:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    &#123;</span></span><br><span class="line"><span class="string">      "name": "cbr0",</span></span><br><span class="line"><span class="string">      "cniVersion": "0.3.1",</span></span><br><span class="line"><span class="string">      "plugins": [</span></span><br><span class="line"><span class="string">        &#123;</span></span><br><span class="line"><span class="string">          "type": "flannel",</span></span><br><span class="line"><span class="string">          "delegate": &#123;</span></span><br><span class="line"><span class="string">            "hairpinMode": true,</span></span><br><span class="line"><span class="string">            "isDefaultGateway": true</span></span><br><span class="line"><span class="string">          &#125;</span></span><br><span class="line"><span class="string">        &#125;,</span></span><br><span class="line"><span class="string">        &#123;</span></span><br><span class="line"><span class="string">          "type": "portmap",</span></span><br><span class="line"><span class="string">          "capabilities": &#123;</span></span><br><span class="line"><span class="string">            "portMappings": true</span></span><br><span class="line"><span class="string">          &#125;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">      ]</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">  net-conf.json: |</span></span><br><span class="line"><span class="string">    &#123;</span></span><br><span class="line"><span class="string">      "Network": "10.244.0.0/16",</span></span><br><span class="line"><span class="string">      "Backend": &#123;</span></span><br><span class="line"><span class="string">        "Type": "vxlan"</span></span><br><span class="line"><span class="string">      &#125;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">---</span></span><br><span class="line"><span class="string"></span><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">DaemonSet</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">kube-flannel-ds</span></span><br><span class="line"><span class="attr">  namespace:</span> <span class="string">kube-flannel</span></span><br><span class="line"><span class="attr">  labels:</span></span><br><span class="line"><span class="attr">    tier:</span> <span class="string">node</span></span><br><span class="line"><span class="attr">    app:</span> <span class="string">flannel</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  selector:</span></span><br><span class="line"><span class="attr">    matchLabels:</span></span><br><span class="line"><span class="attr">      app:</span> <span class="string">flannel</span></span><br><span class="line"><span class="attr">  template:</span></span><br><span class="line"><span class="attr">    metadata:</span></span><br><span class="line"><span class="attr">      labels:</span></span><br><span class="line"><span class="attr">        tier:</span> <span class="string">node</span></span><br><span class="line"><span class="attr">        app:</span> <span class="string">flannel</span></span><br><span class="line"><span class="attr">    spec:</span></span><br><span class="line"><span class="attr">      affinity:</span></span><br><span class="line"><span class="attr">        nodeAffinity:</span></span><br><span class="line"><span class="attr">          requiredDuringSchedulingIgnoredDuringExecution:</span></span><br><span class="line"><span class="attr">            nodeSelectorTerms:</span></span><br><span class="line"><span class="attr">            - matchExpressions:</span></span><br><span class="line"><span class="attr">              - key:</span> <span class="string">kubernetes.io/os</span></span><br><span class="line"><span class="attr">                operator:</span> <span class="string">In</span></span><br><span class="line"><span class="attr">                values:</span></span><br><span class="line"><span class="bullet">                -</span> <span class="string">linux</span></span><br><span class="line"><span class="attr">      hostNetwork:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">      priorityClassName:</span> <span class="string">system-node-critical</span></span><br><span class="line"><span class="attr">      tolerations:</span></span><br><span class="line"><span class="attr">      - operator:</span> <span class="string">Exists</span></span><br><span class="line"><span class="attr">        effect:</span> <span class="string">NoSchedule</span></span><br><span class="line"><span class="attr">      serviceAccountName:</span> <span class="string">flannel</span></span><br><span class="line"><span class="attr">      initContainers:</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">install-cni-plugin</span></span><br><span class="line"><span class="attr">        image:</span> <span class="string">docker.io/rancher/mirrored-flannelcni-flannel-cni-plugin:v1.1.0</span></span><br><span class="line"><span class="attr">        command:</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">cp</span></span><br><span class="line"><span class="attr">        args:</span></span><br><span class="line"><span class="bullet">        -</span> <span class="bullet">-f</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">/flannel</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">/opt/cni/bin/flannel</span></span><br><span class="line"><span class="attr">        volumeMounts:</span></span><br><span class="line"><span class="attr">        - name:</span> <span class="string">cni-plugin</span></span><br><span class="line"><span class="attr">          mountPath:</span> <span class="string">/opt/cni/bin</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">install-cni</span></span><br><span class="line"><span class="attr">        image:</span> <span class="string">docker.io/rancher/mirrored-flannelcni-flannel:v0.19.1</span></span><br><span class="line"><span class="attr">        command:</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">cp</span></span><br><span class="line"><span class="attr">        args:</span></span><br><span class="line"><span class="bullet">        -</span> <span class="bullet">-f</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">/etc/kube-flannel/cni-conf.json</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">/etc/cni/net.d/10-flannel.conflist</span></span><br><span class="line"><span class="attr">        volumeMounts:</span></span><br><span class="line"><span class="attr">        - name:</span> <span class="string">cni</span></span><br><span class="line"><span class="attr">          mountPath:</span> <span class="string">/etc/cni/net.d</span></span><br><span class="line"><span class="attr">        - name:</span> <span class="string">flannel-cfg</span></span><br><span class="line"><span class="attr">          mountPath:</span> <span class="string">/etc/kube-flannel/</span></span><br><span class="line"><span class="attr">      containers:</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">kube-flannel</span></span><br><span class="line"><span class="attr">        image:</span> <span class="string">docker.io/rancher/mirrored-flannelcni-flannel:v0.19.1</span></span><br><span class="line"><span class="attr">        command:</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">/opt/bin/flanneld</span></span><br><span class="line"><span class="attr">        args:</span></span><br><span class="line"><span class="bullet">        -</span> <span class="bullet">--ip-masq</span></span><br><span class="line"><span class="bullet">        -</span> <span class="bullet">--kube-subnet-mgr</span></span><br><span class="line"><span class="attr">        resources:</span></span><br><span class="line"><span class="attr">          requests:</span></span><br><span class="line"><span class="attr">            cpu:</span> <span class="string">"100m"</span></span><br><span class="line"><span class="attr">            memory:</span> <span class="string">"50Mi"</span></span><br><span class="line"><span class="attr">          limits:</span></span><br><span class="line"><span class="attr">            cpu:</span> <span class="string">"100m"</span></span><br><span class="line"><span class="attr">            memory:</span> <span class="string">"50Mi"</span></span><br><span class="line"><span class="attr">        securityContext:</span></span><br><span class="line"><span class="attr">          privileged:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">          capabilities:</span></span><br><span class="line"><span class="attr">            add:</span> <span class="string">["NET_ADMIN",</span> <span class="string">"NET_RAW"</span><span class="string">]</span></span><br><span class="line"><span class="attr">        env:</span></span><br><span class="line"><span class="attr">        - name:</span> <span class="string">POD_NAME</span></span><br><span class="line"><span class="attr">          valueFrom:</span></span><br><span class="line"><span class="attr">            fieldRef:</span></span><br><span class="line"><span class="attr">              fieldPath:</span> <span class="string">metadata.name</span></span><br><span class="line"><span class="attr">        - name:</span> <span class="string">POD_NAMESPACE</span></span><br><span class="line"><span class="attr">          valueFrom:</span></span><br><span class="line"><span class="attr">            fieldRef:</span></span><br><span class="line"><span class="attr">              fieldPath:</span> <span class="string">metadata.namespace</span></span><br><span class="line"><span class="attr">        - name:</span> <span class="string">EVENT_QUEUE_DEPTH</span></span><br><span class="line"><span class="attr">          value:</span> <span class="string">"5000"</span></span><br><span class="line"><span class="attr">        volumeMounts:</span></span><br><span class="line"><span class="attr">        - name:</span> <span class="string">run</span></span><br><span class="line"><span class="attr">          mountPath:</span> <span class="string">/run/flannel</span></span><br><span class="line"><span class="attr">        - name:</span> <span class="string">flannel-cfg</span></span><br><span class="line"><span class="attr">          mountPath:</span> <span class="string">/etc/kube-flannel/</span></span><br><span class="line"><span class="attr">        - name:</span> <span class="string">xtables-lock</span></span><br><span class="line"><span class="attr">          mountPath:</span> <span class="string">/run/xtables.lock</span></span><br><span class="line"><span class="attr">      volumes:</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">run</span></span><br><span class="line"><span class="attr">        hostPath:</span></span><br><span class="line"><span class="attr">          path:</span> <span class="string">/run/flannel</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">cni-plugin</span></span><br><span class="line"><span class="attr">        hostPath:</span></span><br><span class="line"><span class="attr">          path:</span> <span class="string">/opt/cni/bin</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">cni</span></span><br><span class="line"><span class="attr">        hostPath:</span></span><br><span class="line"><span class="attr">          path:</span> <span class="string">/etc/cni/net.d</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">flannel-cfg</span></span><br><span class="line"><span class="attr">        configMap:</span></span><br><span class="line"><span class="attr">          name:</span> <span class="string">kube-flannel-cfg</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">xtables-lock</span></span><br><span class="line"><span class="attr">        hostPath:</span></span><br><span class="line"><span class="attr">          path:</span> <span class="string">/run/xtables.lock</span></span><br><span class="line"><span class="attr">          type:</span> <span class="string">FileOrCreate</span></span><br></pre></td></tr></table></figure>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://juejin.cn/post/7161621568747995166" target="_blank" rel="external">IoT运维 - 如何部署一套高可用K8S集群</a><br><a href="https://juejin.cn/post/7179072854397288509" target="_blank" rel="external">手把手教你一套完善且高效的k8s离线部署方案</a><br><a href="https://github.com/flannel-io/flannel" target="_blank" rel="external">Flannel-io Github repo</a><br><a href="https://github.com/easzlab/kubeasz" target="_blank" rel="external">快速部署高可用k8s集群的工具kubeasz</a></p>
+<blockquote>
+<p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en" target="_blank" rel="external">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
+</blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Docker/">Docker</a> <a class="tag tag--primary tag--small t-link" href="/tags/Harbor/">Harbor</a> <a class="tag tag--primary tag--small t-link" href="/tags/Kubernetes/">Kubernetes</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/08/03/K8s-cluster-series-Kubernetes-dashboard-integration/"  data-tooltip="K8s 集群搭建系列（四）：集成Kubernetes Dashboard">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/08/02/Create-etcd-cluster-in-linux-system/" data-tooltip="K8s集群搭建系列（二）：搭建ETCD多节点单实例集群">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/08/02/Create-k8s-cluster-in-linux/&amp;title=K8s 集群搭建系列（三）：Harbor + Docker搭建K8s集群">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/08/02/Create-k8s-cluster-in-linux/&amp;title=K8s 集群搭建系列（三）：Harbor + Docker搭建K8s集群">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/08/02/Create-k8s-cluster-in-linux/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/08/02/Create-k8s-cluster-in-linux/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">给作者投食戳这里OwO</a>
+                <br>
+            </div>
+            <div id="donate_guide" class="donate_bar center hidden" >
+                <img src="/assets/images/qr-alipay.jpg" alt="支付宝打赏">
+                <img src="/assets/images/qr-wechatpay.png" alt="微信打赏">
+            </div>
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide').removeClass('hidden');
+                }
+            </script>
+        </div>
+        
+            
+                <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTg0My84NDA3">
+</div>
+<!-- City版安装代码已完成 -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<div id="footer-img"></div>
+    <span class="copyrights">
+    	<p>Powder by <a href="https://hexo.io/zh-cn/">Hexo</a>. Theme - <a href="https://github.com/kaedea/hexo-theme-themia">Themia</a> Modified by <a href="http://tsukasa.moe">Tsukasa</a>.<br>
+			License - <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">Attribution-NonCommercial-NoDerivatives 4.0 International</a>.<br>
+			<span id="busuanzi_container_site_uv">
+  				Total <span id="busuanzi_value_site_uv"></span> visitors.
+			</span>
+			<span id="busuanzi_container_site_pv">
+			    Total visit <span id="busuanzi_value_site_pv"></span> times.
+			</span>
+			<span id="run_time"></span>
+		</p>
+        Copyrights &copy; 2023 Tsukasa. All Rights Reserved.(≧∀≦)
+    </span>
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<script>
+    function secondToDate(second) {
+        if (!second) {
+            return 0;
+        }
+        var time = new Array(0, 0, 0, 0, 0);
+        // if (second >= 365 * 24 * 3600) {
+        //     time[0] = parseInt(second / (365 * 24 * 3600));
+        //     second %= 365 * 24 * 3600;
+        // }
+        if (second >= 24 * 3600) {
+            time[1] = parseInt(second / (24 * 3600));
+            second %= 24 * 3600;
+        }
+        if (second >= 3600) {
+            time[2] = parseInt(second / 3600);
+            second %= 3600;
+        }
+        if (second >= 60) {
+            time[3] = parseInt(second / 60);
+            second %= 60;
+        }
+        if (second > 0) {
+            time[4] = second;
+        }
+        return time;
+    }
+</script>
+<script type="text/javascript" language="javascript">
+    function setTime() {
+        var create_time = Math.round(new Date(Date.UTC(2017, 2, 6, 2, 23, 0))
+                .getTime() / 1000);
+        var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+        currentTime = secondToDate((timestamp - create_time));
+        currentTimeHtml = "Blog ages: "+ currentTime[1] + ' days '
+                + currentTime[2] + ' h ' 
+                + currentTime[3] + ' m ' 
+                + currentTime[4] + ' s.';
+        document.getElementById("run_time").innerHTML = currentTimeHtml;
+    }
+    setInterval(setTime, 1000);
+</script>
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/08/03/K8s-cluster-series-Kubernetes-dashboard-integration/"  data-tooltip="K8s 集群搭建系列（四）：集成Kubernetes Dashboard">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/08/02/Create-etcd-cluster-in-linux-system/" data-tooltip="K8s集群搭建系列（二）：搭建ETCD多节点单实例集群">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/08/02/Create-k8s-cluster-in-linux/&amp;title=K8s 集群搭建系列（三）：Harbor + Docker搭建K8s集群">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/08/02/Create-k8s-cluster-in-linux/&amp;title=K8s 集群搭建系列（三）：Harbor + Docker搭建K8s集群">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/08/02/Create-k8s-cluster-in-linux/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/08/02/Create-k8s-cluster-in-linux/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/08/02/Create-k8s-cluster-in-linux/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/08/02/Create-k8s-cluster-in-linux/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/08/02/Create-k8s-cluster-in-linux/&amp;title=K8s 集群搭建系列（三）：Harbor + Docker搭建K8s集群">
+                <i class="fa fa-weibo"></i><span>Share on Weibo</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/08/02/Create-k8s-cluster-in-linux/&amp;title=K8s 集群搭建系列（三）：Harbor + Docker搭建K8s集群">
+                <i class="fa fa-qq"></i><span>Share on QQ</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatars.jpg"/>
+        
+            <h4 id="about-card-name">Tsukasa</h4>
+        
+            <h5 id="about-card-bio"><p><a href="http://tsukasa.moe">「My Homepage」</a><br><a href="http://me.tsukasa.moe">「About Me」</a><br><a href="http://blog.tsukasa.moe/links">「My Links」</a></p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Shenzhen
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover-neko.jpg');"></div>
+    <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+    <!--SCRIPTS-->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/jquery.fancybox.js"></script>
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+<script src="/assets/js/tranquilpeak.js"></script>
+<!--SCRIPTS END-->
+<!--PANGU AUTO SPACE-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.2.1/pangu.min.js"></script>
+<script> pangu.spacingPage(); </script>
+<!--PANGU AUTO SPACE END-->
+
+
+   
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+    </script>
+
+    
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','DibYiq_42u2sq4ziXd_y','2.0.0');
+    </script>
+
+
+</html>

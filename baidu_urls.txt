@@ -1,3 +1,7 @@
+http://blog.tsukasa.moe/2023/08/03/K8s-cluster-series-Kubernetes-dashboard-integration/
+http://blog.tsukasa.moe/2023/08/02/Create-k8s-cluster-in-linux/
+http://blog.tsukasa.moe/2023/08/02/Create-etcd-cluster-in-linux-system/
+http://blog.tsukasa.moe/2023/07/27/Create-Virtual-Machine-for-linux-cluster/
 http://blog.tsukasa.moe/2023/07/25/Maven-configuration-guide-01/
 http://blog.tsukasa.moe/2023/07/25/Maven-configuration-for-windows/
 http://blog.tsukasa.moe/2023/07/23/Learning-notes-for-java-8-new-feature-lambda-expression/
@@ -6,7 +10,10 @@ http://blog.tsukasa.moe/2023/07/23/Anylysis-thread-pool-of-java-project/
 http://blog.tsukasa.moe/2023/07/14/Intellij-IDEA-custom-configurations/
 http://blog.tsukasa.moe/2023/07/14/Use-Github-and-PicGo-to-integrate-picture-bed/
 http://blog.tsukasa.moe/2023/07/10/record-some-normal-command-of-git/
+http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/
 http://blog.tsukasa.moe/2021/04/18/MySQL-basics-knowledge-summary/
+http://blog.tsukasa.moe/2020/11/28/Linux-softwares-and-tools-in-common-use-for-developer/
+http://blog.tsukasa.moe/2019/02/02/Record-some-useful-operation-in-Windows-system/
 http://blog.tsukasa.moe/2019/01/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/
 http://blog.tsukasa.moe/2018/03/01/bodily-representaion-japanese-phrase/
 http://blog.tsukasa.moe/2018/01/26/how-to-make-a-decision/

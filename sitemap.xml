@@ -2,16 +2,65 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://blog.tsukasa.moe/2023/07/14/Intellij-IDEA-custom-configurations/</loc>
+    <loc>http://blog.tsukasa.moe/2020/11/28/Linux-softwares-and-tools-in-common-use-for-developer/</loc>
     
-    <lastmod>2023-07-26T15:51:32.040Z</lastmod>
+    <lastmod>2023-08-05T08:44:51.183Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/</loc>
+    
+    <lastmod>2023-08-05T08:43:54.274Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.tsukasa.moe/2023/08/02/Create-k8s-cluster-in-linux/</loc>
+    
+    <lastmod>2023-08-05T08:41:37.397Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.tsukasa.moe/2019/02/02/Record-some-useful-operation-in-Windows-system/</loc>
+    
+    <lastmod>2023-08-05T08:35:59.632Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.tsukasa.moe/2023/08/03/K8s-cluster-series-Kubernetes-dashboard-integration/</loc>
+    
+    <lastmod>2023-08-05T07:42:22.675Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.tsukasa.moe/2023/08/02/Create-etcd-cluster-in-linux-system/</loc>
+    
+    <lastmod>2023-08-05T06:49:37.477Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.tsukasa.moe/2023/07/27/Create-Virtual-Machine-for-linux-cluster/</loc>
+    
+    <lastmod>2023-08-02T18:53:19.805Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://blog.tsukasa.moe/2023/07/25/Maven-configuration-guide-01/</loc>
     
-    <lastmod>2023-07-26T15:33:58.601Z</lastmod>
+    <lastmod>2023-07-27T17:45:05.924Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.tsukasa.moe/2023/07/14/Intellij-IDEA-custom-configurations/</loc>
+    
+    <lastmod>2023-07-26T15:51:32.040Z</lastmod>
     
   </url>
   
