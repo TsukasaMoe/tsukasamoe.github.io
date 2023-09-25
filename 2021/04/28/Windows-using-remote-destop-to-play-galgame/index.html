@@ -15,17 +15,25 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="未完成">
+    <meta name="description" content="躺在床上玩Galgame是每个Galgame玩家的梦想，因为这样可以很方便的（涩涩）欣赏剧情。">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Windows远程桌面躺在床上玩Galgame">
 <meta property="og:url" content="http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/index.html">
 <meta property="og:site_name" content="Tsukasa の 部屋">
-<meta property="og:description" content="未完成">
+<meta property="og:description" content="躺在床上玩Galgame是每个Galgame玩家的梦想，因为这样可以很方便的（涩涩）欣赏剧情。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2023-08-05T08:43:54.274Z">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251814664.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251816049.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251858827.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251502501.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251850175.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251906570.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251844787.jpg">
+<meta property="og:updated_time" content="2023-09-25T12:12:44.938Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Windows远程桌面躺在床上玩Galgame">
-<meta name="twitter:description" content="未完成">
+<meta name="twitter:description" content="躺在床上玩Galgame是每个Galgame玩家的梦想，因为这样可以很方便的（涩涩）欣赏剧情。">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251814664.png">
 <meta name="twitter:creator" content="@TsukasaMoe">
     
         <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
@@ -310,8 +318,33 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <!-- excerpt -->
-<h1 id="table-of-contents">TABLE OF CONTENTS</h1>
-<p>文章详细内容</p>
+<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows配置"><span class="toc-text">Windows配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#允许Windows远程桌面连接"><span class="toc-text">允许Windows远程桌面连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置允许远程桌面访问Windows的用户"><span class="toc-text">配置允许远程桌面访问Windows的用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注册表配置通信端口"><span class="toc-text">注册表配置通信端口</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Android上RDP-app配置"><span class="toc-text">Android上RDP app配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#添加远程桌面连接"><span class="toc-text">添加远程桌面连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#躺在床上愉快的玩耍吧"><span class="toc-text">躺在床上愉快的玩耍吧</span></a></li></ol></li></ol>
+<p>躺在床上玩Galgame是每个Galgame玩家的梦想，因为这样可以很方便的<del>（涩涩）</del>欣赏剧情。</p>
+<p>原理是通过RDP协议实现，设置Windows允许其他设备远程连接后，客户端通过RDP协议与Windows建立TCP连接进行通信，默认远程桌面协议的端口号为3389。</p>
+<h1 id="Windows配置"><a href="#Windows配置" class="headerlink" title="Windows配置"></a>Windows配置</h1><h2 id="允许Windows远程桌面连接"><a href="#允许Windows远程桌面连接" class="headerlink" title="允许Windows远程桌面连接"></a>允许Windows远程桌面连接</h2><p>两种方式，一种是在Windows 10设置的显示-远程桌面中启动远程桌面：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251814664.png" alt=""></p>
+<p>另一种是系统属性-远程中设置允许远程连接到此计算机：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251816049.png" alt=""></p>
+<h2 id="配置允许远程桌面访问Windows的用户"><a href="#配置允许远程桌面访问Windows的用户" class="headerlink" title="配置允许远程桌面访问Windows的用户"></a>配置允许远程桌面访问Windows的用户</h2><p>通常地，当前用户（Tsukasa）就具有远程桌面访问，当然如果是多用户系统，也可以手动添加。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251858827.png" alt=""></p>
+<p>设置完上面步骤后，可以在Android中安装微软远程桌面app或者其他RDP客户端了。</p>
+<h2 id="注册表配置通信端口"><a href="#注册表配置通信端口" class="headerlink" title="注册表配置通信端口"></a>注册表配置通信端口</h2><p>通常来说，这个步骤不需要配置，除非想要修改通信端口。</p>
+<p>进入注册表编辑器regedit，找到控制Windows远程桌面服务配置，可以设置TCP连接的一些参数：</p>
+<ul>
+<li>PortNumber：是TCP端口，默认是3389</li>
+<li>KeepAliveInterval：没有活动的情况下发送的TCP keep-alive探测之间的时间间隔，以确保连接保持活动状态，单位是毫秒。</li>
+</ul>
+<p><code>计算机\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd\Tds\tcp</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251502501.png" alt=""></p>
+<h1 id="Android上RDP-app配置"><a href="#Android上RDP-app配置" class="headerlink" title="Android上RDP app配置"></a>Android上RDP app配置</h1><p>RDP客户端有很多，这里选择下载并安装好微软远程桌面app。</p>
+<h2 id="添加远程桌面连接"><a href="#添加远程桌面连接" class="headerlink" title="添加远程桌面连接"></a>添加远程桌面连接</h2><p>如果手机与电脑处于同一个局域网下，点击右上角的<code>+</code>号添加远程桌面，默认会自动检测出同一个局域网开启了远程桌面的PC，直接点击就可以快速设置了。</p>
+<p>第三张图是添加一个远程登陆帐号和密码，用户名在<code>配置允许远程桌面访问Windows的用户</code>一章节中获取，这里是当前用户（Tsukasa），密码自然是这个用户<code>Win+L</code>锁定后登陆到电脑的密码（非PIN码）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251850175.png" alt=""></p>
+<p>当然假如局域网下无法检测出你的PC，也可以通过点击第一张图中的<code>ADD MANUALLY</code>手动添加，输入本机路由器分配的IP（执行<code>ipconfig</code>查看），选择用户即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251906570.jpg" alt=""></p>
+<h2 id="躺在床上愉快的玩耍吧"><a href="#躺在床上愉快的玩耍吧" class="headerlink" title="躺在床上愉快的玩耍吧"></a>躺在床上愉快的玩耍吧</h2><p>在手机添加完成后，点击添加好的远程桌面连接即可连接上Windows桌面，此时再去打开Galgame可以避免一些屏幕适配的问题。</p>
+<p>接下来，你就可以躺在床上和二次元老婆谈情说爱啦~~</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251844787.jpg" alt=""></p>
 <blockquote>
 <p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en" target="_blank" rel="external">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
 </blockquote>

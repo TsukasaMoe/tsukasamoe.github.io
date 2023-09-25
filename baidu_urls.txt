@@ -1,3 +1,5 @@
+http://blog.tsukasa.moe/2023/09/24/Redis系列-Windows安装配置Redis/
+http://blog.tsukasa.moe/2023/08/06/Spring-Learning-series-How-does-IOC-container-work/
 http://blog.tsukasa.moe/2023/08/03/K8s-cluster-series-Kubernetes-dashboard-integration/
 http://blog.tsukasa.moe/2023/08/02/Create-k8s-cluster-in-linux/
 http://blog.tsukasa.moe/2023/08/02/Create-etcd-cluster-in-linux-system/
