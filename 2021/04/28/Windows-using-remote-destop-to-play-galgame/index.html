@@ -34,9 +34,9 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630095.jpg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630732.jpg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251850175.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251906570.jpg =300x">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111751184.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251844787.jpg">
-<meta property="og:updated_time" content="2023-10-11T08:50:35.287Z">
+<meta property="og:updated_time" content="2023-10-11T09:58:21.707Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过Windows远程桌面躺在床上玩Galgame">
 <meta name="twitter:description" content="躺在床上玩Galgame是一件很惬意的事情，因为这样可以很方便的（涩涩）欣赏剧情。">
@@ -332,7 +332,7 @@
 <p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251814664.png" alt=""></p>
 <p>另一种是系统属性-远程中设置允许远程连接到此计算机：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251816049.png" alt=""></p>
-<h2 id="配置允许远程桌面访问Windows的用户"><a href="#配置允许远程桌面访问Windows的用户" class="headerlink" title="配置允许远程桌面访问Windows的用户"></a>配置允许远程桌面访问Windows的用户</h2><p>通常地，当前用户（Tsukasa）就具有远程桌面访问，当然如果是多用户系统，也可以手动添加。</p>
+<h2 id="配置允许远程桌面访问Windows的用户"><a href="#配置允许远程桌面访问Windows的用户" class="headerlink" title="配置允许远程桌面访问Windows的用户"></a>配置允许远程桌面访问Windows的用户</h2><p>通常地，当前用户（Tsukasa）就具有远程桌面访问权限，当然如果是多用户系统，也可以手动添加，后面RDP客户端用到的远程登陆帐号就是在这里配置。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251858827.png" alt=""></p>
 <p>设置完上面步骤后，可以在Android中安装微软远程桌面app或者其他RDP客户端了。</p>
 <h2 id="注册表配置通信端口"><a href="#注册表配置通信端口" class="headerlink" title="注册表配置通信端口"></a>注册表配置通信端口</h2><p>通常来说，这个步骤不需要配置，除非想要修改Windows的RDP监听和通信端口。</p>
@@ -354,10 +354,10 @@
 <p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111613594.jpg" alt=""><br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111629735.jpg" alt=""><br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630159.png" alt=""><br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630095.jpg" alt=""><br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630732.jpg" alt=""></p>
 <h1 id="Android上RDP-app配置"><a href="#Android上RDP-app配置" class="headerlink" title="Android上RDP app配置"></a>Android上RDP app配置</h1><p>RDP客户端有很多，这里选择下载并安装好微软远程桌面app。</p>
 <h2 id="添加远程桌面连接"><a href="#添加远程桌面连接" class="headerlink" title="添加远程桌面连接"></a>添加远程桌面连接</h2><p>如果手机与电脑处于同一个局域网下，点击右上角的<code>+</code>号添加远程桌面，默认会自动检测出同一个局域网开启了远程桌面的PC，直接点击就可以快速设置了。</p>
-<p>第三张图是添加一个远程登陆帐号和密码，用户名在<code>配置允许远程桌面访问Windows的用户</code>一章节中获取，这里是当前用户（Tsukasa），密码自然是这个用户<code>Win+L</code>锁定后登陆到电脑的密码（非PIN码）。</p>
+<p>第三张图是添加一个远程登陆帐号和密码，前面已完成配置，这里是当前用户（Tsukasa），密码自然是这个用户<code>Win+L</code>锁定后登陆到电脑的密码（非PIN码）。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251850175.png" alt=""></p>
 <p>当然假如局域网下无法检测出你的PC，也可以通过点击第一张图中的<code>ADD MANUALLY</code>手动添加，输入本机路由器分配的IP（执行<code>ipconfig</code>查看），选择用户即可。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251906570.jpg =300x" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111751184.png" alt=""></p>
 <h2 id="躺在床上愉快的玩耍吧"><a href="#躺在床上愉快的玩耍吧" class="headerlink" title="躺在床上愉快的玩耍吧"></a>躺在床上愉快的玩耍吧</h2><p>在手机添加完成后，点击添加好的远程桌面连接即可连接上Windows桌面，此时再去打开Galgame可以避免一些屏幕适配的问题。</p>
 <p>接下来，你就可以躺在床上和二次元老婆谈情说爱啦~~</p>
 <p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251844787.jpg" alt=""></p>
