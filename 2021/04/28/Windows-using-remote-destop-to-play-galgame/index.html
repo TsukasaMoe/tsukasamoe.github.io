@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Tsukasa の 部屋">
-    <title>Windows远程桌面躺在床上玩Galgame - Tsukasa の 部屋</title>
+    <title>通过Windows远程桌面躺在床上玩Galgame - Tsukasa の 部屋</title>
     <meta name="author" content="Tsukasa">
     
     
@@ -15,24 +15,31 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="躺在床上玩Galgame是每个Galgame玩家的梦想，因为这样可以很方便的（涩涩）欣赏剧情。">
+    <meta name="description" content="躺在床上玩Galgame是一件很惬意的事情，因为这样可以很方便的（涩涩）欣赏剧情。">
+<meta name="keywords" content="Galgame,RDP">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Windows远程桌面躺在床上玩Galgame">
+<meta property="og:title" content="通过Windows远程桌面躺在床上玩Galgame">
 <meta property="og:url" content="http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/index.html">
 <meta property="og:site_name" content="Tsukasa の 部屋">
-<meta property="og:description" content="躺在床上玩Galgame是每个Galgame玩家的梦想，因为这样可以很方便的（涩涩）欣赏剧情。">
+<meta property="og:description" content="躺在床上玩Galgame是一件很惬意的事情，因为这样可以很方便的（涩涩）欣赏剧情。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251814664.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251816049.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251858827.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251502501.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111609593.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111613594.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111629735.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630159.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630095.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630732.jpg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251850175.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251906570.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251906570.jpg =300x">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251844787.jpg">
-<meta property="og:updated_time" content="2023-09-25T12:12:44.938Z">
+<meta property="og:updated_time" content="2023-10-11T08:50:35.287Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Windows远程桌面躺在床上玩Galgame">
-<meta name="twitter:description" content="躺在床上玩Galgame是每个Galgame玩家的梦想，因为这样可以很方便的（涩涩）欣赏剧情。">
+<meta name="twitter:title" content="通过Windows远程桌面躺在床上玩Galgame">
+<meta name="twitter:description" content="躺在床上玩Galgame是一件很惬意的事情，因为这样可以很方便的（涩涩）欣赏剧情。">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251814664.png">
 <meta name="twitter:creator" content="@TsukasaMoe">
     
@@ -285,7 +292,7 @@
 <div class="post-header main-content-wrap text-center">
     
         <h1 class="post-title" itemprop="headline">
-            Windows远程桌面躺在床上玩Galgame
+            通过Windows远程桌面躺在床上玩Galgame
         </h1>
     
     <div class="post-meta">
@@ -318,8 +325,8 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <!-- excerpt -->
-<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows配置"><span class="toc-text">Windows配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#允许Windows远程桌面连接"><span class="toc-text">允许Windows远程桌面连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置允许远程桌面访问Windows的用户"><span class="toc-text">配置允许远程桌面访问Windows的用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注册表配置通信端口"><span class="toc-text">注册表配置通信端口</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Android上RDP-app配置"><span class="toc-text">Android上RDP app配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#添加远程桌面连接"><span class="toc-text">添加远程桌面连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#躺在床上愉快的玩耍吧"><span class="toc-text">躺在床上愉快的玩耍吧</span></a></li></ol></li></ol>
-<p>躺在床上玩Galgame是每个Galgame玩家的梦想，因为这样可以很方便的<del>（涩涩）</del>欣赏剧情。</p>
+<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows配置"><span class="toc-text">Windows配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#允许Windows远程桌面连接"><span class="toc-text">允许Windows远程桌面连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置允许远程桌面访问Windows的用户"><span class="toc-text">配置允许远程桌面访问Windows的用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注册表配置通信端口"><span class="toc-text">注册表配置通信端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#防火墙设置入站规则"><span class="toc-text">防火墙设置入站规则</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Android上RDP-app配置"><span class="toc-text">Android上RDP app配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#添加远程桌面连接"><span class="toc-text">添加远程桌面连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#躺在床上愉快的玩耍吧"><span class="toc-text">躺在床上愉快的玩耍吧</span></a></li></ol></li></ol>
+<p>躺在床上玩Galgame是一件很惬意的事情，因为这样可以很方便的<del>（涩涩）</del>欣赏剧情。</p>
 <p>原理是通过RDP协议实现，设置Windows允许其他设备远程连接后，客户端通过RDP协议与Windows建立TCP连接进行通信，默认远程桌面协议的端口号为3389。</p>
 <h1 id="Windows配置"><a href="#Windows配置" class="headerlink" title="Windows配置"></a>Windows配置</h1><h2 id="允许Windows远程桌面连接"><a href="#允许Windows远程桌面连接" class="headerlink" title="允许Windows远程桌面连接"></a>允许Windows远程桌面连接</h2><p>两种方式，一种是在Windows 10设置的显示-远程桌面中启动远程桌面：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251814664.png" alt=""></p>
@@ -328,20 +335,29 @@
 <h2 id="配置允许远程桌面访问Windows的用户"><a href="#配置允许远程桌面访问Windows的用户" class="headerlink" title="配置允许远程桌面访问Windows的用户"></a>配置允许远程桌面访问Windows的用户</h2><p>通常地，当前用户（Tsukasa）就具有远程桌面访问，当然如果是多用户系统，也可以手动添加。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251858827.png" alt=""></p>
 <p>设置完上面步骤后，可以在Android中安装微软远程桌面app或者其他RDP客户端了。</p>
-<h2 id="注册表配置通信端口"><a href="#注册表配置通信端口" class="headerlink" title="注册表配置通信端口"></a>注册表配置通信端口</h2><p>通常来说，这个步骤不需要配置，除非想要修改通信端口。</p>
+<h2 id="注册表配置通信端口"><a href="#注册表配置通信端口" class="headerlink" title="注册表配置通信端口"></a>注册表配置通信端口</h2><p>通常来说，这个步骤不需要配置，除非想要修改Windows的RDP监听和通信端口。</p>
+<p>监听端口：用于服务器的传入连接<br><code>计算机\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd\Tds\tcp</code></p>
+<p>会话端口：用于客户端与服务器的通信<br><code>计算机\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp</code></p>
 <p>进入注册表编辑器regedit，找到控制Windows远程桌面服务配置，可以设置TCP连接的一些参数：</p>
 <ul>
-<li>PortNumber：是TCP端口，默认是3389</li>
-<li>KeepAliveInterval：没有活动的情况下发送的TCP keep-alive探测之间的时间间隔，以确保连接保持活动状态，单位是毫秒。</li>
+<li>监听端口PortNumber：RDP的TCP监听端口，默认是3389，可以根据需要进行修改。</li>
+<li>会话端口PortNumber：RDP的TCP会话端口，默认是3389，可以根据需要进行修改。</li>
+<li>KeepAliveInterval：没有活动的情况下发送的TCP keep-alive探测之间的时间间隔，以确保连接保持活动状态，单位是毫秒，非必选参数，可以不用配置。</li>
 </ul>
-<p><code>计算机\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd\Tds\tcp</code></p>
+<p>监听端口配置</p>
 <p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251502501.png" alt=""></p>
+<p>会话端口配置</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111609593.png" alt=""></p>
+<h2 id="防火墙设置入站规则"><a href="#防火墙设置入站规则" class="headerlink" title="防火墙设置入站规则"></a>防火墙设置入站规则</h2><p>通常来说不需要配置，打开Windows远程桌面连接后一般会允许通过防火墙。需要自定义远程桌面通信端口时才需要进行下面配置。</p>
+<p>打开Windows Defender防火墙，检查远程服务端口是否已添加入站规则。</p>
+<p>按照下面的步骤，新增入站规则，注意端口号需要修改为上面配置的会话端口号。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111613594.jpg" alt=""><br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111629735.jpg" alt=""><br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630159.png" alt=""><br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630095.jpg" alt=""><br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630732.jpg" alt=""></p>
 <h1 id="Android上RDP-app配置"><a href="#Android上RDP-app配置" class="headerlink" title="Android上RDP app配置"></a>Android上RDP app配置</h1><p>RDP客户端有很多，这里选择下载并安装好微软远程桌面app。</p>
 <h2 id="添加远程桌面连接"><a href="#添加远程桌面连接" class="headerlink" title="添加远程桌面连接"></a>添加远程桌面连接</h2><p>如果手机与电脑处于同一个局域网下，点击右上角的<code>+</code>号添加远程桌面，默认会自动检测出同一个局域网开启了远程桌面的PC，直接点击就可以快速设置了。</p>
 <p>第三张图是添加一个远程登陆帐号和密码，用户名在<code>配置允许远程桌面访问Windows的用户</code>一章节中获取，这里是当前用户（Tsukasa），密码自然是这个用户<code>Win+L</code>锁定后登陆到电脑的密码（非PIN码）。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251850175.png" alt=""></p>
 <p>当然假如局域网下无法检测出你的PC，也可以通过点击第一张图中的<code>ADD MANUALLY</code>手动添加，输入本机路由器分配的IP（执行<code>ipconfig</code>查看），选择用户即可。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251906570.jpg" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251906570.jpg =300x" alt=""></p>
 <h2 id="躺在床上愉快的玩耍吧"><a href="#躺在床上愉快的玩耍吧" class="headerlink" title="躺在床上愉快的玩耍吧"></a>躺在床上愉快的玩耍吧</h2><p>在手机添加完成后，点击添加好的远程桌面连接即可连接上Windows桌面，此时再去打开Galgame可以避免一些屏幕适配的问题。</p>
 <p>接下来，你就可以躺在床上和二次元老婆谈情说爱啦~~</p>
 <p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251844787.jpg" alt=""></p>
@@ -352,6 +368,13 @@
         </div>
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Galgame/">Galgame</a> <a class="tag tag--primary tag--small t-link" href="/tags/RDP/">RDP</a>
+
+            </div>
         
         <div class="post-actions-wrap">
     <nav>
@@ -381,12 +404,12 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=Windows远程桌面躺在床上玩Galgame">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=通过Windows远程桌面躺在床上玩Galgame">
                 <i class="fa fa-qq"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=Windows远程桌面躺在床上玩Galgame">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=通过Windows远程桌面躺在床上玩Galgame">
                 <i class="fa fa-weibo"></i>
             </a>
         </li>
@@ -541,12 +564,12 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=Windows远程桌面躺在床上玩Galgame">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=通过Windows远程桌面躺在床上玩Galgame">
                 <i class="fa fa-qq"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=Windows远程桌面躺在床上玩Galgame">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=通过Windows远程桌面躺在床上玩Galgame">
                 <i class="fa fa-weibo"></i>
             </a>
         </li>
@@ -594,12 +617,12 @@
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=Windows远程桌面躺在床上玩Galgame">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=通过Windows远程桌面躺在床上玩Galgame">
                 <i class="fa fa-weibo"></i><span>Share on Weibo</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=Windows远程桌面躺在床上玩Galgame">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=通过Windows远程桌面躺在床上玩Galgame">
                 <i class="fa fa-qq"></i><span>Share on QQ</span>
             </a>
         </li>
