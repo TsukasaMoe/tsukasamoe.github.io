@@ -4,6 +4,70 @@
 
     
   <url>
+    <loc>http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/</loc>
+    <lastmod>2023-10-17T16:30:36.469Z</lastmod>
+    <data>
+        <display>
+        <title>校验下载资源的完整性</title>
+        <pubTime>2023-10-17T15:43:42.000Z</pubTime>
+        
+        <tag>哈希算法</tag>
+         
+         
+           
+             
+              <breadCrumb title="资源技巧" url="http://blog.tsukasa.moe/categories/%E8%B5%84%E6%BA%90%E6%8A%80%E5%B7%A7/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.tsukasa.moe/2023/10/12/JVM%E8%B0%83%E4%BC%98%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2023-10-11T19:16:51.688Z</lastmod>
+    <data>
+        <display>
+        <title>JVM调优基础</title>
+        <pubTime>2023-10-11T17:08:21.000Z</pubTime>
+        
+        <tag>JVM</tag>
+         
+        <tag>性能优化</tag>
+         
+         
+           
+             
+              <breadCrumb title="编程开发" url="http://blog.tsukasa.moe/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://blog.tsukasa.moe/2023/07/14/Intellij-IDEA-custom-configurations/</loc>
+    <lastmod>2023-10-11T17:08:50.778Z</lastmod>
+    <data>
+        <display>
+        <title>Intellij IDEA个性化配置</title>
+        <pubTime>2023-07-14T07:03:08.000Z</pubTime>
+        
+        <tag>Intellij IDEA</tag>
+         
+        <tag>环境配置</tag>
+         
+         
+           
+             
+              <breadCrumb title="编程开发" url="http://blog.tsukasa.moe/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/</loc>
     <lastmod>2023-10-11T09:58:21.707Z</lastmod>
     <data>
@@ -201,28 +265,6 @@
            
              
               <breadCrumb title="构建工具" url="http://blog.tsukasa.moe/categories/%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://blog.tsukasa.moe/2023/07/14/Intellij-IDEA-custom-configurations/</loc>
-    <lastmod>2023-07-26T15:51:32.040Z</lastmod>
-    <data>
-        <display>
-        <title>Intellij IDEA个性化配置</title>
-        <pubTime>2023-07-14T07:03:08.000Z</pubTime>
-        
-        <tag>Intellij IDEA</tag>
-         
-        <tag>环境配置</tag>
-         
-         
-           
-             
-              <breadCrumb title="Intellij IDEA" url="http://blog.tsukasa.moe/categories/Intellij-IDEA/"/>
           
         </display>
     </data>
@@ -766,9 +808,9 @@
         <title>「深入理解Java虚拟机」读书笔记</title>
         <pubTime>2017-10-09T10:59:18.000Z</pubTime>
         
-        <tag>Java</tag>
-         
         <tag>JVM</tag>
+         
+        <tag>Java</tag>
          
          
            

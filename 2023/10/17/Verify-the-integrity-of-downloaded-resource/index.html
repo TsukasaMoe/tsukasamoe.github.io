@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Tsukasa の 部屋">
-    <title>五味杂陈的感想 - Tsukasa の 部屋</title>
+    <title>校验下载资源的完整性 - Tsukasa の 部屋</title>
     <meta name="author" content="Tsukasa">
     
     
@@ -15,18 +15,21 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="转眼已是三月，再过一年多，我也和很多人一样，结束自己的学生时代。看到比我优秀的同学，网友很早就搭建了自己的博客平台，用于做学习笔记，记录生活点滴，表达自己的观点等等，这是一件很有意思的事情，我从中也得到了各方面的收获。">
-<meta name="keywords" content="随笔">
+    <meta name="description" content="网站上一些资源下载页面列表中，通常提供了一些Hash值，但自己没想过有什么用，最近有时间简单研究了下，其实目的是确保资源的完整性，避免下载过程中损坏或者被恶意攻击者替换。">
+<meta name="keywords" content="哈希算法">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="五味杂陈的感想">
-<meta property="og:url" content="http://blog.tsukasa.moe/2017/03/16/life-feelings-201703/index.html">
+<meta property="og:title" content="校验下载资源的完整性">
+<meta property="og:url" content="http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/index.html">
 <meta property="og:site_name" content="Tsukasa の 部屋">
-<meta property="og:description" content="转眼已是三月，再过一年多，我也和很多人一样，结束自己的学生时代。看到比我优秀的同学，网友很早就搭建了自己的博客平台，用于做学习笔记，记录生活点滴，表达自己的观点等等，这是一件很有意思的事情，我从中也得到了各方面的收获。">
+<meta property="og:description" content="网站上一些资源下载页面列表中，通常提供了一些Hash值，但自己没想过有什么用，最近有时间简单研究了下，其实目的是确保资源的完整性，避免下载过程中损坏或者被恶意攻击者替换。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2023-07-24T16:29:24.938Z">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180006974.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180009996.png">
+<meta property="og:updated_time" content="2023-10-17T16:30:36.469Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="五味杂陈的感想">
-<meta name="twitter:description" content="转眼已是三月，再过一年多，我也和很多人一样，结束自己的学生时代。看到比我优秀的同学，网友很早就搭建了自己的博客平台，用于做学习笔记，记录生活点滴，表达自己的观点等等，这是一件很有意思的事情，我从中也得到了各方面的收获。">
+<meta name="twitter:title" content="校验下载资源的完整性">
+<meta name="twitter:description" content="网站上一些资源下载页面列表中，通常提供了一些Hash值，但自己没想过有什么用，最近有时间简单研究了下，其实目的是确保资源的完整性，避免下载过程中损坏或者被恶意攻击者替换。">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180006974.png">
 <meta name="twitter:creator" content="@TsukasaMoe">
     
         <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
@@ -38,12 +41,12 @@
         <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
     
     
-        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/icons/202307250026434.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/icons/202307250026434.jpg" />
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/avatars.jpg" />
     
     
-        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307250029057.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307250029057.jpg" />
+        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242128856.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242128856.jpg" />
     
     
     <!--STYLES-->
@@ -269,28 +272,28 @@
 
             
         <div class="post-header-cover
-                    text-left
+                    text-center
                     post-header-cover--full"
-             style="background-image:url('https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307250029057.jpg');"
+             style="background-image:url('https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242128856.jpg');"
              data-behavior="3">
             
                 
-<div class="post-header main-content-wrap text-left">
+<div class="post-header main-content-wrap text-center">
     
         <h1 class="post-title" itemprop="headline">
-            五味杂陈的感想
+            校验下载资源的完整性
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" content="Thu Mar 16 2017 20:09:12 GMT+0800">
+    <time itemprop="datePublished" content="Tue Oct 17 2023 23:43:42 GMT+0800">
 	
-		    Mar 16, 2017
+		    Oct 17, 2023
     	
     </time>
     
         <span> |  </span>
         
-    <a class="category-link" href="/categories/体味人生/">体味人生</a>
+    <a class="category-link" href="/categories/资源技巧/">资源技巧</a>
 
 
     
@@ -310,39 +313,21 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <!-- excerpt --></p>
-<div id="aplayer2" class="aplayer" style="margin-bottom: 20px;"></div>
-		<script>
-			var ap = new APlayer({
-				element: document.getElementById("aplayer2"),
-				narrow: false,
-				autoplay: true,
-				showlrc: 0,
-				music: {
-					title: "遥かな年月",
-					author: "麻枝准",
-					url: "http://static.tsukasa.moe/music/haruka.mp3",
-					pic: "",
-				}
-			});
-			window.aplayers || (window.aplayers = []);
-			window.aplayers.push(ap);
-		</script>
-<p>转眼已是三月，再过一年多，我也和很多人一样，结束自己的学生时代。看到比我优秀的同学，网友很早就搭建了自己的博客平台，用于做学习笔记，记录生活点滴，表达自己的观点等等，这是一件很有意思的事情，我从中也得到了各方面的收获。因此，我也憧憬着有这样一个属于自己的一亩三分地，写写自己想写的东西，记录自己的成长。虽然一两个月前已经搭建好了，但是由于过于追求完美的构想，害怕迈出踉跄的第一步，无关是否站稳了，而是在于有没有尝试的第一步。如果连开启的勇气都没有，又怎么盼望迎来蔷薇般的未来？发觉时，自己已失去了许多快步先行的机会。有时候想太多，还不如动手实践一番来得实在。今后不管是悠闲地生活，还是忙碌于工作，我希望以积极的态度，平和的心境，对人对事。</p>
-<hr>
-<p>度过了童年、中学，而今大学也即将迎来终点。长达16年里，经历了许多事情，或快或慢地前进着。现在回想起来，也是一段漫长的、五味陈杂的岁月。</p>
-<hr>
-<p>21世纪里，我是不幸的，但又是幸运的。幸运的是我遇到了互联网，不幸的是我们相见太晚。我来自农村，没有什么机会接触到电脑这些东西，或者说我对电脑的了解只限于打游戏，看视频，办公。在这里我想感谢我的二舅舅，高考结束后填报志愿过程中，影响我最大的一个人。能在大学里学习我的专业，我觉得是一件很幸福的、值得骄傲的事情，即使这是有点苦逼的专业，却让我学到了很多有用的知识，认识了许多朋友，了解什么是真正的热爱，以及最终让我有非它莫属之感。一直以来，我没有什么特别热爱的事情，后来细想，并不是我没有尝试去接触的好奇，而是一些如经济、环境等外在的，缺乏自信的性格等内在的因素，使我权衡后放弃了尝试、坚持。说到这些话题，或许未免有些惋惜遗憾之感，但是我并不怪我的父母，他们将我弟和我送上大学，付出了太多我想不到的艰辛，教给我的知识比山还多，有的只是满心感谢。因为深刻体会到教育所扮演的地位重要性，深切感受体力活的疲惫，所以才想着要更加的努力，争取轮到我的时候，能给下一辈提供一个更高的起点。嘿嘿，想得是不是有点远？不过却是我内心不加修饰的真实的愿望。尽管也有怠慢的时候，但是时常反省让我没有迷失、沉沦。</p>
-<hr>
-<p>我是一个平凡的人，大概走的路也是大多数人走过的，那些敢于走不寻常路的人，且不论成功与否，至少是一个很有自己想法的人，我是非常敬佩他们的。认为对的事情，想做的事情就去做，我觉得这过程中需要勇气迎接各种阻力，需要持之以恒的热爱之情，热爱真的就是人披荆斩棘开辟未来的力量泉源。有热爱编程的人，可以连续不断学习12小时，可以深夜四五点依旧敲着代码。是的，热爱就是这样一种废寝忘食的疯狂，之所以热爱是因为他看到了其中于他的价值。如果你觉得自己努力了却没有得到相应的回报，大多数时候是不够热爱，没有足够的努力。我以前参加比赛活动都说只是抱着试一试的心态，想来那只是为自己失败后不那么难堪作的伪证，寻找开脱的理由除了说明自己能力不足之外并不能带来什么，因为比你优秀的人比你更努力，知不足而学才是应该做的，为取得优胜而参赛的才是最初应抱有的想法。在这里我觉得很感谢年级里两位同学，尽管只是网上聊过几句甚至都没有聊过的，从他们的博客中，我学到最宝贵的知识是怎么样做一个有追求的、勇于追求的人。崇哥说的”do what you love, love what you do，找到自己喜欢的节奏和方式，去做自己喜欢的事”这句我很喜欢，至此我又想到了一件事，不久前一个学妹谈到专业选择上自己与母亲出现了的分歧，其母基于自己人生阅历看，认为女儿当一名教师有保障，女儿遵从自己的意愿，选择经济贸易。争吵自然免不了，不过有时候通过反抗去捍卫自己认为正确的事物是值得的。崇哥的话，足以成为许多人的座右铭。工作和学习占据了我们人生大部分比重，如果人生的乐趣只从游戏、娱乐中获取，充其量只是一时的快感，过后依旧是空虚。在学习中、劳动中、工作中收获的快乐与成就感，是世界上没有哪种喜悦能与之相比的。虽然无法否认学习、工作不是一件轻松的事情，但是热爱着、累并快乐着就够了。最近看一本linux相关的书，发现作者观点与我现在的思想很契合，大概像交到志同道合的朋友般激动。他提到了稻盛和夫的《活法》，蛮感兴趣的，有时间买一本看看。毕竟，缺乏动力的时候，一两碗鸡汤是必要的。</p>
-<hr>
-<p>谈到学习、工作，都在不久的明年在一个终点结束，从另一个起点开始。大学前两年，我是玩过来的、迷茫过来的，等大三发觉时已是亡羊补牢之际。或许是觉得高中读书时辛苦，到了大学自由的环境里自然怠慢下来了。不过我现在认为许多人都只是缺乏热爱的事情，没有憧憬，懒于规划如何学习生活，不懂得学习收获知识其实是一件快乐的事情。直到看了支醉（一个up主）的视频，听他谈自己的经历想法，我不仅重新认识了许多概念，还听到许多未曾听过的东西。当时是深夜两点多看完，我一点都没有觉得这是在浪费生命，相反，那一刻最热忱的感受让我觉得不再迷茫重来焕然一新的人生该多好，不过世上并无后悔药，与其叹息逝去的事情，不如珍惜现在的机会。为什么当时我心底会涌现出快乐呢？答案很明显，因为我学到了知识。回到原点，知识共同富裕，珍惜时间就是为了更好的浪费时间等等理念，足以让我爽了一番。学校太多的条框和繁重的作业，把学习知识的乐趣限制了、消磨掉了，只留下必须完成的作业和必须取得的分数。我高中或许算得上是学霸，用现在的眼光来看空洞了许多，不过到现在都已升华为纯粹美好的回忆了。现在，我也愈发觉得世界上很多东西都很有趣，并且都非常想学，但这就相当做出人的一生是无限的荒唐假设一样，需有所取舍。上学期暑假推完了wa2（胃疼），很是喜欢”届かない恋”这首歌，因而断断续续的学起了吉他，而最近借着春招整理自己以前写的代码，写写博客，些许时间没练了，应该生疏了不少，嘛，虽然没有熟练过就是了，啊哈。不过，我相信我是可以将它作为一种业余的爱好一样坚持下去的。日语的学习在上学期真正的开始了，我很庆幸这次真的坚持了下来，尽管不知能否称得上热爱但在我心中它有着不可替代的一席之地。报了N2，这个学期估计是一个忙碌的学期，总之要好好努力践行自己的计划。说起春招，不得不直面一件很残酷的事情，我完全没有能够拿得出手的作品。年级里、班里能力比我强几百倍的同学也是深感找实习、找工作之难。当时内心和大三上般慌张，不过也很快明白这是不得不面临的事，人也只有经历各种各样的事情才能成长。互联网技术行业，是一个靠实力说话的、相对公平的行业，基本是英雄不论出身。我向往自力更生的生活，我现在要做的是好好利用在校的时间，提升自己的实力，做自己热爱的事。</p>
-<hr>
-<p>这里提到的、没提到的许多人，有认识的亲人、同学、老师，也有素未谋面的朋友，他们都是给了我极大影响的人，我从心底深处感谢他们能够培养我，关心我，引导我。无论是有意、无意的影响，都成了我人生的宝物。昊天的做价值的缔造者，IT界的开源共享精神，支醉的知识共同富裕，我觉得这三者成为了我人生的高尚追求，也在我的价值观中扎根生长。你充裕你的知识，我充裕我的知识，我分享我的知识给你，你分享你的知识给我，知识共同富裕构建的一定是一个高度文明的社会。虽然现在能做的事情很有限，不过我会努力成为自立的人、高尚的人。</p>
-<hr>
-<p>最后，谈谈我最喜欢的一部动漫（游戏）Clannad，这部给我带来了无数感动的作品。这部作品描述了一个成长的故事，无知而又纯洁的岁月里，朋也和渚从纯真的友情、化作相濡以沫的爱情、最后沉淀为责任担当的亲情，平凡、温暖、真挚。如果一个人很弱小，那么两个人在一起就能变得坚强。渚的温柔和坚强，朋也的守护和责任，互相支撑着对方，长长的坡道，一起攀登，一起成长，该是一件多么幸福的事情。上一年三月到五月两三个月间全通了游戏，接着又看了动漫，上个学期又重温了一遍动漫，直到现在依旧百感交集、满心感动。这部作品对我的影响不亚于许多潇洒的人，让我努力生活、如此渴望成长，大概是CL勾起了我对恋爱、人生的美好憧憬，也或许是从中得到了前行的力量吧。我相信看过的人没有不感动的，有好几个画面，我的眼泪总是止不住划过脸颊。人们称Clannad为生活和人生，我觉得这部作品是当之无愧的。作品里的BGM也和故事一样，时而轻松愉快、时而满载爱与希望、时而催人泪下，引用百科对小さな手のひら（小小手心）的评价是“轻柔质朴的旋律，温暖真挚的歌词，完全没有一点华丽的多余编排，绝不掺杂半点虚情假意，将故事中所有难以忘怀的点滴收集起来，就拼凑成了这首歌曲”，我爱Clannad.</p>
-<hr>
-<p>零零散散的说了很多，想了很多，原来自己有这么多话想说。至此，我很庆幸现在的自己在找到了目标，并且朝着自己的热爱的、追求的生活前进着。仰望星空，发现星星从未有过这般耀眼；跨步前行，感觉自己的步伐从未有过如此坚定。做自己热爱的事吧！加油！</p>
+            <!-- excerpt -->
+<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#概述"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用"><span class="toc-text">使用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+<p>网站上一些资源下载页面列表中，通常提供了一些Hash值，但自己没想过有什么用，最近有时间简单研究了下，其实目的是确保资源的完整性，避免下载过程中损坏或者被恶意攻击者替换。</p>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>哈希算法通常通常用来校验文件的完整性，在密码学中，一般来说，不同的内容生成的Hash值不同（Hash碰撞的概率极低，可以认为），而相同的内容进行哈希后，得到唯一的Hash值。因此通过校验资源传输前后的Hash值，判断资源是否被篡改。</p>
+<p>常见的Hash算法有：md5, sha1, sha256（推荐）, sha512</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>网上资源的Hash值通常会在下载资源网站给出hash校验和，资源下载完全后，根据给定的hash算法计算hash值，与网站提供的hash校验和比对即可，相同则文件完整。<br>下面分别展示在不同操作系统的一些API：</p>
+<p><strong>Windows</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Hash算法可以根据实际替换，支持SHA256、SHA1、MD5</span></span><br><span class="line">Get-FileHash 文件名.exe -Algorithm SHA256</span><br></pre></td></tr></table></figure>
+<p>以下载<a href="https://repo.jellyfin.org/releases/server/windows/stable/" target="_blank" rel="external">Jellyfin</a>作为示例：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180006974.png" alt=""></p>
+<p>对比两个Hash值一致，说明下载文件完整。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180009996.png" alt=""></p>
+<p><strong>Linux/Git bash</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">md5sum 文件名</span><br><span class="line">sha1sum 文件名</span><br><span class="line">sha256sum 文件名</span><br><span class="line">sha512sum 文件名</span><br></pre></td></tr></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这个知识点很简单，平常时我们工作也经常通过hash算法来作消息摘要，密码存储，签名，这些都属于密码学的范畴，而这个校验资源传输前后的完整性也是其中一个应用而已，一些下载软件、压缩软件本身也内置了对文件完整性的校验，思想是相同的，想到某位大佬说的一句话：对于程序员来说，最为重要的知识其实是核心设计原则以及对计算机体系的理解，有了切身体会。</p>
 <blockquote>
 <p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en" target="_blank" rel="external">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
 </blockquote>
@@ -354,7 +339,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/随笔/">随笔</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/哈希算法/">哈希算法</a>
 
             </div>
         
@@ -363,7 +348,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/19/start-from-linearlist/"  data-tooltip="从线性表开始踏上数据结构王国的旅途">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -371,7 +356,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/12/JVM调优基础/" data-tooltip="JVM调优基础">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -386,29 +371,29 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/03/16/life-feelings-201703/&amp;title=五味杂陈的感想">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/&amp;title=校验下载资源的完整性">
                 <i class="fa fa-qq"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/03/16/life-feelings-201703/&amp;title=五味杂陈的感想">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/&amp;title=校验下载资源的完整性">
                 <i class="fa fa-weibo"></i>
             </a>
         </li>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/03/16/life-feelings-201703/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/03/16/life-feelings-201703/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#lv-container">
+                <a class="post-action-btn btn btn--default">
             
                 <i class="fa fa-comment-o"></i>
             </a>
@@ -416,7 +401,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
             
                 <i class="fa fa-list"></i>
             </a>
@@ -523,7 +508,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/19/start-from-linearlist/"  data-tooltip="从线性表开始踏上数据结构王国的旅途">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -531,7 +516,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/12/JVM调优基础/" data-tooltip="JVM调优基础">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -546,29 +531,29 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/03/16/life-feelings-201703/&amp;title=五味杂陈的感想">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/&amp;title=校验下载资源的完整性">
                 <i class="fa fa-qq"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/03/16/life-feelings-201703/&amp;title=五味杂陈的感想">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/&amp;title=校验下载资源的完整性">
                 <i class="fa fa-weibo"></i>
             </a>
         </li>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/03/16/life-feelings-201703/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/03/16/life-feelings-201703/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#lv-container">
+                <a class="post-action-btn btn btn--default">
             
                 <i class="fa fa-comment-o"></i>
             </a>
@@ -576,7 +561,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
             
                 <i class="fa fa-list"></i>
             </a>
@@ -589,22 +574,22 @@
                 <div id="share-options-bar" class="share-options-bar" data-behavior="3">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/03/16/life-feelings-201703/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/">
                 <i class="fa fa-twitter"></i><span>Share on Twitter</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/03/16/life-feelings-201703/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/">
                 <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/03/16/life-feelings-201703/&amp;title=五味杂陈的感想">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/&amp;title=校验下载资源的完整性">
                 <i class="fa fa-weibo"></i><span>Share on Weibo</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/03/16/life-feelings-201703/&amp;title=五味杂陈的感想">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/&amp;title=校验下载资源的完整性">
                 <i class="fa fa-qq"></i><span>Share on QQ</span>
             </a>
         </li>

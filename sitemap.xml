@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/</loc>
+    
+    <lastmod>2023-10-17T16:30:36.469Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.tsukasa.moe/2023/10/12/JVM%E8%B0%83%E4%BC%98%E5%9F%BA%E7%A1%80/</loc>
+    
+    <lastmod>2023-10-11T19:16:51.688Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.tsukasa.moe/2023/07/14/Intellij-IDEA-custom-configurations/</loc>
+    
+    <lastmod>2023-10-11T17:08:50.778Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/</loc>
     
     <lastmod>2023-10-11T09:58:21.707Z</lastmod>
@@ -68,13 +89,6 @@
     <loc>http://blog.tsukasa.moe/2023/07/25/Maven-configuration-guide-01/</loc>
     
     <lastmod>2023-07-27T17:45:05.924Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.tsukasa.moe/2023/07/14/Intellij-IDEA-custom-configurations/</loc>
-    
-    <lastmod>2023-07-26T15:51:32.040Z</lastmod>
     
   </url>
   
