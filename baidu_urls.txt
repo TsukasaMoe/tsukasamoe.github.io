@@ -1,3 +1,4 @@
+http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/
 http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/
 http://blog.tsukasa.moe/2023/10/12/JVM调优基础/
 http://blog.tsukasa.moe/2023/09/24/Redis系列-Windows安装配置Redis/

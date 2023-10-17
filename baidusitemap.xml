@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/</loc>
+    <lastmod>2023-10-17T18:08:21.354Z</lastmod>
+    <data>
+        <display>
+        <title>Windows中通过SMB协议共享文件允许局域网设备访问</title>
+        <pubTime>2023-10-17T16:36:37.000Z</pubTime>
+        
+        <tag>SMB</tag>
+         
+         
+           
+             
+              <breadCrumb title="资源技巧" url="http://blog.tsukasa.moe/categories/%E8%B5%84%E6%BA%90%E6%8A%80%E5%B7%A7/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/</loc>
     <lastmod>2023-10-17T16:30:36.469Z</lastmod>
     <data>

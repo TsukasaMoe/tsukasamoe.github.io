@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/</loc>
+    
+    <lastmod>2023-10-17T18:08:21.354Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/</loc>
     
     <lastmod>2023-10-17T16:30:36.469Z</lastmod>

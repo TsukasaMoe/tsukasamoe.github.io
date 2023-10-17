@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.tsukasa.moe/"/>
-  <updated>2023-10-17T16:30:36.469Z</updated>
+  <updated>2023-10-17T18:08:21.354Z</updated>
   <id>http://blog.tsukasa.moe/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Windows中通过SMB协议共享文件允许局域网设备访问</title>
+    <link href="http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/"/>
+    <id>http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/</id>
+    <published>2023-10-17T16:36:37.000Z</published>
+    <updated>2023-10-17T18:08:21.354Z</updated>
+    
+    <content type="html"><![CDATA[<!-- excerpt --><!-- toc --><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>家人各自手机拍了很多照片，需要定期归档整理到本地一台PC硬盘中，为了支持各自并行整理，通过Windows的网络文件共享协议，分享共享文件夹的方式，允许其他设备（PC、手机）访问读写，这样就不会出现两个人同时争用同一台电脑整理照片视频资源了。</p><h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>存放照片视频资源的PC开启SMB服务，通过创建一个合理权限的用户，创建一个共享的文件夹，开放给同一个局域网的设备进行连接，通过这个用户整理资源。</p><p>SMB：全名为Server Message Block，是一种网络文件共享协议，最初由IBM开发，后来被Microsoft广泛采用并成为Windows操作系统中文件和打印机共享的基础。SMB协议允许不同计算机上的应用程序之间共享文件和资源，通常用于局域网（LAN）和广域网（WAN）环境中。</p><h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="1、启用SMB-1-0-CIFS文件共享支持功能"><a href="#1、启用SMB-1-0-CIFS文件共享支持功能" class="headerlink" title="1、启用SMB 1.0/CIFS文件共享支持功能"></a>1、启用SMB 1.0/CIFS文件共享支持功能</h2><p><code>控制面板\程序\程序和功能</code>中启用SMB 1.0/CIFS文件共享支持功能后，提示重启计算机后生效。</p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180056423.png" alt=""></p><h2 id="2、启用网络发现和文件共享"><a href="#2、启用网络发现和文件共享" class="headerlink" title="2、启用网络发现和文件共享"></a>2、启用网络发现和文件共享</h2><p>PC重启完成后，在<code>控制面板\网络和 Internet\网络和共享中心\高级共享设置</code>启用网络发现和文件共享功能</p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180053909.png" alt=""></p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180054726.png" alt=""></p><p>这里面选用有密码保护的共享是为了确保安全，不然其他连上你wifi的人就可以随意访问你的照片视频，社死就不好了。<br>当然，如果只是临时分享下非私密资源后关闭，那么可以不设免密保护。</p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180055448.png" alt=""></p><h2 id="3、启动FDResPub和fdPHost等相关依赖服务"><a href="#3、启动FDResPub和fdPHost等相关依赖服务" class="headerlink" title="3、启动FDResPub和fdPHost等相关依赖服务"></a>3、启动FDResPub和fdPHost等相关依赖服务</h2><p>按照下图，将<code>Function Discovery Resource Publication</code>和<code>Function Discovery Provider Host</code>这2个服务停止后，修改启动方式为自动后，点击启动。</p><p>注意这两个服务之间可能存在依赖关系，即停止fdPHost可能导致FDResPub服务也停止，因此启动后需再次检查2个服务是否都在运行中。</p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180109329.png" alt=""></p><p>假如启动失败，可以检查下这2个服务的依赖列表，把对应依赖的服务也要跑起来。</p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180110977.png" alt=""></p><h2 id="4、创建访问用户并分配合理权限"><a href="#4、创建访问用户并分配合理权限" class="headerlink" title="4、创建访问用户并分配合理权限"></a>4、创建访问用户并分配合理权限</h2><p>打开<code>计算机管理</code>，进入<code>本地用户和组</code>的<code>用户</code>标签页下，右键添加用户。</p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180114493.png" alt=""></p><p>创建一个访问用户的用户名和密码，后面其他设备访问这台PC就是用的这个帐户。</p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180117420.png" alt=""></p><h2 id="5、安全界面内设置共享文件夹的用户访问权限"><a href="#5、安全界面内设置共享文件夹的用户访问权限" class="headerlink" title="5、安全界面内设置共享文件夹的用户访问权限"></a>5、安全界面内设置共享文件夹的用户访问权限</h2><p>在需要共享的照片文件夹上右键，点击<code>安全</code>选项卡，添加新建的用户，并设置合理的访问权限，这里因为是家人使用，权限暂不做限制。</p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180124024.png" alt=""></p><h2 id="6、共享界面内设置局域网内共享的文件夹和访问用户"><a href="#6、共享界面内设置局域网内共享的文件夹和访问用户" class="headerlink" title="6、共享界面内设置局域网内共享的文件夹和访问用户"></a>6、共享界面内设置局域网内共享的文件夹和访问用户</h2><p>在需要共享的照片文件夹上右键，点击<code>共享</code>选项卡，进入<code>高级共享设置</code>，选择可以通过SMB协议访问共享文件夹的用户和用户组。<br>如图所示则允许Azuki用户和Administrators用户组的用户通过SMB访问该计算机。</p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180122971.png" alt=""></p><p>设置完成后并应用，回到<code>共享</code>选项卡界面，点击共享等待一会即可完成共享。</p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180134348.png" alt=""></p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180134855.png" alt=""></p><h2 id="7、其他设备访问共享文件夹"><a href="#7、其他设备访问共享文件夹" class="headerlink" title="7、其他设备访问共享文件夹"></a>7、其他设备访问共享文件夹</h2><p>只要设备支持SMB协议，则可以通过SMB访问到上面的PC共享文件夹。</p><h3 id="Windows电脑"><a href="#Windows电脑" class="headerlink" title="Windows电脑"></a>Windows电脑</h3><p><strong>方法1</strong></p><p>其他的Windows PC只要连接到同一个局域网，就可以在<code>网络</code>界面看到该电脑了，双击进去输入用户名和密码后，就和访问自己电脑上的文件夹一样访问共享文件夹了。可以确认下访问的权限是否符合预期。</p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180136735.png" alt=""></p><p>也可以在共享文件夹上右键，映射共享文件夹到本地虚拟盘符，如Z盘，这样就和访问本地一个硬盘一样访问共享文件夹了。</p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180141983.png" alt=""></p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180144442.png" alt=""></p><p><strong>方法2</strong></p><p><code>Win+R</code>打开运行或者直接在文件管理器的地址栏输入<code>\\</code>+局域网下共享PC的IP地址或者计算机名，示例；<code>\\192.168.2.183</code>，在弹出的窗口输入用户名和密码，即可访问。</p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180149762.png" alt=""></p><h3 id="手机"><a href="#手机" class="headerlink" title="手机"></a>手机</h3><p>现在很多手机文件管理器都支持SMB，以华为Mate 20 pro为例，打开文件管理器，打开<code>网络邻居</code>就可以看到共享资源的PC了，点击后会弹出窗口，输入用户名和密码就可以访问共享文件夹了。</p><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180156824.png" alt=""></p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>虽说这个照片视频资源管理和共享方案并非最佳实践，比如本地与云盘同步问题，当前仅限局域网用户访问，也并非唯一的解决方案，如FTP同样可以实现类似的功能，但是已经满足我目前的需求了，更是没有必要搭建个NAS，后续如果有更进一步的需求再去搞好了，保持简洁易用。</p><blockquote><p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en" target="_blank" rel="external">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;script src=&quot;&#92;assets&#92;js&#92;APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;p&gt;家人各自手机拍了很多照片，需要定期归档整理到本地一台PC硬盘中，为了支持各自并行整理，通过Windows的网络文件共享协议，分享共享文件夹的方式，允许其他设备（PC、手机）访问读写，这样就不会出现两个人同时争用同一台电脑整理照片视频资源了。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="资源技巧" scheme="http://blog.tsukasa.moe/categories/%E8%B5%84%E6%BA%90%E6%8A%80%E5%B7%A7/"/>
+    
+    
+      <category term="SMB" scheme="http://blog.tsukasa.moe/tags/SMB/"/>
+    
+  </entry>
   
   <entry>
     <title>校验下载资源的完整性</title>
@@ -448,28 +470,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>记录Windows一些好用的快捷操作</title>
-    <link href="http://blog.tsukasa.moe/2019/02/02/Record-some-useful-operation-in-Windows-system/"/>
-    <id>http://blog.tsukasa.moe/2019/02/02/Record-some-useful-operation-in-Windows-system/</id>
-    <published>2019-02-02T10:18:27.000Z</published>
-    <updated>2023-09-25T06:56:36.306Z</updated>
-    
-    <content type="html"><![CDATA[<!-- excerpt --><!-- toc --><p>这篇文章记录的是Windows 10操作系统的使用的经验心得。</p><h1 id="快捷命令"><a href="#快捷命令" class="headerlink" title="快捷命令"></a>快捷命令</h1><h2 id="Win-R直接运行打开一些设置的快捷方式"><a href="#Win-R直接运行打开一些设置的快捷方式" class="headerlink" title="Win+R直接运行打开一些设置的快捷方式"></a>Win+R直接运行打开一些设置的快捷方式</h2><p>Win+R直接运行下列命令</p><table><thead><tr><th style="text-align:left">命令</th><th style="text-align:left">作用</th></tr></thead><tbody><tr><td style="text-align:left">mspaint</td><td style="text-align:left">开画图</td></tr><tr><td style="text-align:left">notepad</td><td style="text-align:left">记事本</td></tr><tr><td style="text-align:left">taskmgr</td><td style="text-align:left">任务管理器</td></tr><tr><td style="text-align:left">explorer</td><td style="text-align:left">文件浏览器</td></tr><tr><td style="text-align:left">regedit</td><td style="text-align:left">注册表编辑器</td></tr><tr><td style="text-align:left">cmd</td><td style="text-align:left">命令行</td></tr><tr><td style="text-align:left">mstsc</td><td style="text-align:left">远程桌面连接</td></tr><tr><td style="text-align:left">calc</td><td style="text-align:left">计算器</td></tr><tr><td style="text-align:left">services.msc</td><td style="text-align:left">服务</td></tr><tr><td style="text-align:left">control</td><td style="text-align:left">控制面板</td></tr><tr><td style="text-align:left">ncpa.cpl</td><td style="text-align:left">网络连接</td></tr><tr><td style="text-align:left">gpedit.msc</td><td style="text-align:left">组策略</td></tr><tr><td style="text-align:left">wf.msc</td><td style="text-align:left">高级安全 Windows Defender防火墙</td></tr><tr><td style="text-align:left">firewall.cpl</td><td style="text-align:left">Windows Defender 防火墙</td></tr><tr><td style="text-align:left">msconfig</td><td style="text-align:left">系统配置</td></tr></tbody></table><h2 id="系统快捷键"><a href="#系统快捷键" class="headerlink" title="系统快捷键"></a>系统快捷键</h2><table><thead><tr><th style="text-align:left">快捷键</th><th style="text-align:left">作用</th></tr></thead><tbody><tr><td style="text-align:left">Ctrl+Shift+Enter</td><td style="text-align:left">以管理员身份打开</td></tr><tr><td style="text-align:left">Win+E</td><td style="text-align:left">打开文件浏览器explorer</td></tr><tr><td style="text-align:left">Win+I</td><td style="text-align:left">打开Windows设置（Win 10设置面板）</td></tr></tbody></table><h1 id="常见的问题处理"><a href="#常见的问题处理" class="headerlink" title="常见的问题处理"></a>常见的问题处理</h1><h2 id="关闭被占用的文件夹"><a href="#关闭被占用的文件夹" class="headerlink" title="关闭被占用的文件夹"></a>关闭被占用的文件夹</h2><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -nao|<span class="built_in">findstr</span> <span class="number">3306</span></span><br></pre></td></tr></table></figure><blockquote><p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en" target="_blank" rel="external">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      &lt;script src=&quot;&#92;assets&#92;js&#92;APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;p&gt;这篇文章记录的是Windows 10操作系统的使用的经验心得。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="资源技巧" scheme="http://blog.tsukasa.moe/categories/%E8%B5%84%E6%BA%90%E6%8A%80%E5%B7%A7/"/>
-    
-    
-      <category term="Windows" scheme="http://blog.tsukasa.moe/tags/Windows/"/>
     
   </entry>
   

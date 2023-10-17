@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Tsukasa の 部屋">
-    <title>校验下载资源的完整性 - Tsukasa の 部屋</title>
+    <title>Windows中通过SMB协议共享文件允许局域网设备访问 - Tsukasa の 部屋</title>
     <meta name="author" content="Tsukasa">
     
     
@@ -15,21 +15,36 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="网站上一些资源下载页面列表中，通常提供了一些Hash值，但自己没想过有什么用，最近有时间简单研究了下，其实目的是确保资源的完整性，避免下载过程中损坏或者被恶意攻击者替换。">
-<meta name="keywords" content="哈希算法">
+    <meta name="description" content="家人各自手机拍了很多照片，需要定期归档整理到本地一台PC硬盘中，为了支持各自并行整理，通过Windows的网络文件共享协议，分享共享文件夹的方式，允许其他设备（PC、手机）访问读写，这样就不会出现两个人同时争用同一台电脑整理照片视频资源了。">
+<meta name="keywords" content="SMB">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="校验下载资源的完整性">
-<meta property="og:url" content="http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/index.html">
+<meta property="og:title" content="Windows中通过SMB协议共享文件允许局域网设备访问">
+<meta property="og:url" content="http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/index.html">
 <meta property="og:site_name" content="Tsukasa の 部屋">
-<meta property="og:description" content="网站上一些资源下载页面列表中，通常提供了一些Hash值，但自己没想过有什么用，最近有时间简单研究了下，其实目的是确保资源的完整性，避免下载过程中损坏或者被恶意攻击者替换。">
+<meta property="og:description" content="家人各自手机拍了很多照片，需要定期归档整理到本地一台PC硬盘中，为了支持各自并行整理，通过Windows的网络文件共享协议，分享共享文件夹的方式，允许其他设备（PC、手机）访问读写，这样就不会出现两个人同时争用同一台电脑整理照片视频资源了。">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180006974.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180009996.png">
-<meta property="og:updated_time" content="2023-10-17T16:30:36.469Z">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180056423.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180053909.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180054726.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180055448.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180109329.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180110977.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180114493.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180117420.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180124024.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180122971.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180134348.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180134855.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180136735.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180141983.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180144442.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180149762.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180156824.png">
+<meta property="og:updated_time" content="2023-10-17T18:08:21.354Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="校验下载资源的完整性">
-<meta name="twitter:description" content="网站上一些资源下载页面列表中，通常提供了一些Hash值，但自己没想过有什么用，最近有时间简单研究了下，其实目的是确保资源的完整性，避免下载过程中损坏或者被恶意攻击者替换。">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180006974.png">
+<meta name="twitter:title" content="Windows中通过SMB协议共享文件允许局域网设备访问">
+<meta name="twitter:description" content="家人各自手机拍了很多照片，需要定期归档整理到本地一台PC硬盘中，为了支持各自并行整理，通过Windows的网络文件共享协议，分享共享文件夹的方式，允许其他设备（PC、手机）访问读写，这样就不会出现两个人同时争用同一台电脑整理照片视频资源了。">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180056423.png">
 <meta name="twitter:creator" content="@TsukasaMoe">
     
         <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
@@ -281,13 +296,13 @@
 <div class="post-header main-content-wrap text-center">
     
         <h1 class="post-title" itemprop="headline">
-            校验下载资源的完整性
+            Windows中通过SMB协议共享文件允许局域网设备访问
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" content="Tue Oct 17 2023 23:43:42 GMT+0800">
+    <time itemprop="datePublished" content="Wed Oct 18 2023 00:36:37 GMT+0800">
 	
-		    Oct 17, 2023
+		    Oct 18, 2023
     	
     </time>
     
@@ -314,20 +329,46 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <!-- excerpt -->
-<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#概述"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用"><span class="toc-text">使用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
-<p>网站上一些资源下载页面列表中，通常提供了一些Hash值，但自己没想过有什么用，最近有时间简单研究了下，其实目的是确保资源的完整性，避免下载过程中损坏或者被恶意攻击者替换。</p>
-<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>哈希算法通常通常用来校验文件的完整性，在密码学中，一般来说，不同的内容生成的Hash值不同（Hash碰撞的概率极低，可以认为），而相同的内容进行哈希后，得到唯一的Hash值。因此通过校验资源传输前后的Hash值，判断资源是否被篡改。</p>
-<p>常见的Hash算法有：md5, sha1, sha256（推荐）, sha512</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>网上资源的Hash值通常会在下载资源网站给出hash校验和，资源下载完全后，根据给定的hash算法计算hash值，与网站提供的hash校验和比对即可，相同则文件完整。<br>下面分别展示在不同操作系统的一些API：</p>
-<p><strong>Windows</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Hash算法可以根据实际替换，支持SHA256、SHA1、MD5</span></span><br><span class="line">Get-FileHash 文件名.exe -Algorithm SHA256</span><br></pre></td></tr></table></figure>
-<p>以下载<a href="https://repo.jellyfin.org/releases/server/windows/stable/" target="_blank" rel="external">Jellyfin</a>作为示例：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180006974.png" alt=""></p>
-<p>对比两个Hash值一致，说明下载文件完整。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180009996.png" alt=""></p>
-<p><strong>Linux/Git bash</strong></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">md5sum 文件名</span><br><span class="line">sha1sum 文件名</span><br><span class="line">sha256sum 文件名</span><br><span class="line">sha512sum 文件名</span><br></pre></td></tr></table></figure>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这个知识点很简单，平常时我们工作也经常通过hash算法来作消息摘要，密码存储，签名，这些都属于密码学的范畴，而这个校验资源传输前后的完整性也是其中一个应用而已，一些下载软件、压缩软件本身也内置了对文件完整性的校验，思想是相同的，想到某位大佬说的一句话：对于程序员来说，最为重要的知识其实是核心设计原则以及对计算机体系的理解，有了切身体会。</p>
+<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#背景"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#步骤"><span class="toc-text">步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、启用SMB-1-0-CIFS文件共享支持功能"><span class="toc-text">1、启用SMB 1.0/CIFS文件共享支持功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、启用网络发现和文件共享"><span class="toc-text">2、启用网络发现和文件共享</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、启动FDResPub和fdPHost等相关依赖服务"><span class="toc-text">3、启动FDResPub和fdPHost等相关依赖服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、创建访问用户并分配合理权限"><span class="toc-text">4、创建访问用户并分配合理权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5、安全界面内设置共享文件夹的用户访问权限"><span class="toc-text">5、安全界面内设置共享文件夹的用户访问权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6、共享界面内设置局域网内共享的文件夹和访问用户"><span class="toc-text">6、共享界面内设置局域网内共享的文件夹和访问用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7、其他设备访问共享文件夹"><span class="toc-text">7、其他设备访问共享文件夹</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows电脑"><span class="toc-text">Windows电脑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#手机"><span class="toc-text">手机</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>家人各自手机拍了很多照片，需要定期归档整理到本地一台PC硬盘中，为了支持各自并行整理，通过Windows的网络文件共享协议，分享共享文件夹的方式，允许其他设备（PC、手机）访问读写，这样就不会出现两个人同时争用同一台电脑整理照片视频资源了。</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>存放照片视频资源的PC开启SMB服务，通过创建一个合理权限的用户，创建一个共享的文件夹，开放给同一个局域网的设备进行连接，通过这个用户整理资源。</p>
+<p>SMB：全名为Server Message Block，是一种网络文件共享协议，最初由IBM开发，后来被Microsoft广泛采用并成为Windows操作系统中文件和打印机共享的基础。SMB协议允许不同计算机上的应用程序之间共享文件和资源，通常用于局域网（LAN）和广域网（WAN）环境中。</p>
+<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="1、启用SMB-1-0-CIFS文件共享支持功能"><a href="#1、启用SMB-1-0-CIFS文件共享支持功能" class="headerlink" title="1、启用SMB 1.0/CIFS文件共享支持功能"></a>1、启用SMB 1.0/CIFS文件共享支持功能</h2><p><code>控制面板\程序\程序和功能</code>中启用SMB 1.0/CIFS文件共享支持功能后，提示重启计算机后生效。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180056423.png" alt=""></p>
+<h2 id="2、启用网络发现和文件共享"><a href="#2、启用网络发现和文件共享" class="headerlink" title="2、启用网络发现和文件共享"></a>2、启用网络发现和文件共享</h2><p>PC重启完成后，在<code>控制面板\网络和 Internet\网络和共享中心\高级共享设置</code>启用网络发现和文件共享功能</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180053909.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180054726.png" alt=""></p>
+<p>这里面选用有密码保护的共享是为了确保安全，不然其他连上你wifi的人就可以随意访问你的照片视频，社死就不好了。<br>当然，如果只是临时分享下非私密资源后关闭，那么可以不设免密保护。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180055448.png" alt=""></p>
+<h2 id="3、启动FDResPub和fdPHost等相关依赖服务"><a href="#3、启动FDResPub和fdPHost等相关依赖服务" class="headerlink" title="3、启动FDResPub和fdPHost等相关依赖服务"></a>3、启动FDResPub和fdPHost等相关依赖服务</h2><p>按照下图，将<code>Function Discovery Resource Publication</code>和<code>Function Discovery Provider Host</code>这2个服务停止后，修改启动方式为自动后，点击启动。</p>
+<p>注意这两个服务之间可能存在依赖关系，即停止fdPHost可能导致FDResPub服务也停止，因此启动后需再次检查2个服务是否都在运行中。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180109329.png" alt=""></p>
+<p>假如启动失败，可以检查下这2个服务的依赖列表，把对应依赖的服务也要跑起来。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180110977.png" alt=""></p>
+<h2 id="4、创建访问用户并分配合理权限"><a href="#4、创建访问用户并分配合理权限" class="headerlink" title="4、创建访问用户并分配合理权限"></a>4、创建访问用户并分配合理权限</h2><p>打开<code>计算机管理</code>，进入<code>本地用户和组</code>的<code>用户</code>标签页下，右键添加用户。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180114493.png" alt=""></p>
+<p>创建一个访问用户的用户名和密码，后面其他设备访问这台PC就是用的这个帐户。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180117420.png" alt=""></p>
+<h2 id="5、安全界面内设置共享文件夹的用户访问权限"><a href="#5、安全界面内设置共享文件夹的用户访问权限" class="headerlink" title="5、安全界面内设置共享文件夹的用户访问权限"></a>5、安全界面内设置共享文件夹的用户访问权限</h2><p>在需要共享的照片文件夹上右键，点击<code>安全</code>选项卡，添加新建的用户，并设置合理的访问权限，这里因为是家人使用，权限暂不做限制。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180124024.png" alt=""></p>
+<h2 id="6、共享界面内设置局域网内共享的文件夹和访问用户"><a href="#6、共享界面内设置局域网内共享的文件夹和访问用户" class="headerlink" title="6、共享界面内设置局域网内共享的文件夹和访问用户"></a>6、共享界面内设置局域网内共享的文件夹和访问用户</h2><p>在需要共享的照片文件夹上右键，点击<code>共享</code>选项卡，进入<code>高级共享设置</code>，选择可以通过SMB协议访问共享文件夹的用户和用户组。<br>如图所示则允许Azuki用户和Administrators用户组的用户通过SMB访问该计算机。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180122971.png" alt=""></p>
+<p>设置完成后并应用，回到<code>共享</code>选项卡界面，点击共享等待一会即可完成共享。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180134348.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180134855.png" alt=""></p>
+<h2 id="7、其他设备访问共享文件夹"><a href="#7、其他设备访问共享文件夹" class="headerlink" title="7、其他设备访问共享文件夹"></a>7、其他设备访问共享文件夹</h2><p>只要设备支持SMB协议，则可以通过SMB访问到上面的PC共享文件夹。</p>
+<h3 id="Windows电脑"><a href="#Windows电脑" class="headerlink" title="Windows电脑"></a>Windows电脑</h3><p><strong>方法1</strong></p>
+<p>其他的Windows PC只要连接到同一个局域网，就可以在<code>网络</code>界面看到该电脑了，双击进去输入用户名和密码后，就和访问自己电脑上的文件夹一样访问共享文件夹了。可以确认下访问的权限是否符合预期。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180136735.png" alt=""></p>
+<p>也可以在共享文件夹上右键，映射共享文件夹到本地虚拟盘符，如Z盘，这样就和访问本地一个硬盘一样访问共享文件夹了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180141983.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180144442.png" alt=""></p>
+<p><strong>方法2</strong></p>
+<p><code>Win+R</code>打开运行或者直接在文件管理器的地址栏输入<code>\\</code>+局域网下共享PC的IP地址或者计算机名，示例；<code>\\192.168.2.183</code>，在弹出的窗口输入用户名和密码，即可访问。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180149762.png" alt=""></p>
+<h3 id="手机"><a href="#手机" class="headerlink" title="手机"></a>手机</h3><p>现在很多手机文件管理器都支持SMB，以华为Mate 20 pro为例，打开文件管理器，打开<code>网络邻居</code>就可以看到共享资源的PC了，点击后会弹出窗口，输入用户名和密码就可以访问共享文件夹了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310180156824.png" alt=""></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>虽说这个照片视频资源管理和共享方案并非最佳实践，比如本地与云盘同步问题，当前仅限局域网用户访问，也并非唯一的解决方案，如FTP同样可以实现类似的功能，但是已经满足我目前的需求了，更是没有必要搭建个NAS，后续如果有更进一步的需求再去搞好了，保持简洁易用。</p>
 <blockquote>
 <p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en" target="_blank" rel="external">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
 </blockquote>
@@ -339,7 +380,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">TAGGED IN</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/哈希算法/">哈希算法</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/SMB/">SMB</a>
 
             </div>
         
@@ -348,7 +389,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/"  data-tooltip="Windows中通过SMB协议共享文件允许局域网设备访问">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -356,7 +397,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/12/JVM调优基础/" data-tooltip="JVM调优基础">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/17/Verify-the-integrity-of-downloaded-resource/" data-tooltip="校验下载资源的完整性">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -371,23 +412,23 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/&amp;title=校验下载资源的完整性">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/&amp;title=Windows中通过SMB协议共享文件允许局域网设备访问">
                 <i class="fa fa-qq"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/&amp;title=校验下载资源的完整性">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/&amp;title=Windows中通过SMB协议共享文件允许局域网设备访问">
                 <i class="fa fa-weibo"></i>
             </a>
         </li>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -508,7 +549,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/"  data-tooltip="Windows中通过SMB协议共享文件允许局域网设备访问">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -516,7 +557,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/12/JVM调优基础/" data-tooltip="JVM调优基础">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/17/Verify-the-integrity-of-downloaded-resource/" data-tooltip="校验下载资源的完整性">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -531,23 +572,23 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/&amp;title=校验下载资源的完整性">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/&amp;title=Windows中通过SMB协议共享文件允许局域网设备访问">
                 <i class="fa fa-qq"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/&amp;title=校验下载资源的完整性">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/&amp;title=Windows中通过SMB协议共享文件允许局域网设备访问">
                 <i class="fa fa-weibo"></i>
             </a>
         </li>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -574,22 +615,22 @@
                 <div id="share-options-bar" class="share-options-bar" data-behavior="3">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/">
                 <i class="fa fa-twitter"></i><span>Share on Twitter</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/">
                 <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/&amp;title=校验下载资源的完整性">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/&amp;title=Windows中通过SMB协议共享文件允许局域网设备访问">
                 <i class="fa fa-weibo"></i><span>Share on Weibo</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/17/Verify-the-integrity-of-downloaded-resource/&amp;title=校验下载资源的完整性">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/&amp;title=Windows中通过SMB协议共享文件允许局域网设备访问">
                 <i class="fa fa-qq"></i><span>Share on QQ</span>
             </a>
         </li>
