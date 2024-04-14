@@ -1,0 +1,732 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Tsukasa の 部屋">
+    <title>通过Windows远程桌面躺在床上玩Galgame - Tsukasa の 部屋</title>
+    <meta name="author" content="Tsukasa">
+    
+    
+        <link rel="icon" href="http://blog.tsukasa.moe/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="躺在床上玩Galgame是一件很惬意的事情，因为这样可以很方便的（涩涩）欣赏剧情。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="通过Windows远程桌面躺在床上玩Galgame">
+<meta property="og:url" content="http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/index.html">
+<meta property="og:site_name" content="Tsukasa の 部屋">
+<meta property="og:description" content="躺在床上玩Galgame是一件很惬意的事情，因为这样可以很方便的（涩涩）欣赏剧情。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251814664.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251816049.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251858827.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251502501.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111609593.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111613594.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111629735.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630159.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630095.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630732.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251850175.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111751184.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251844787.jpg">
+<meta property="article:published_time" content="2021-04-28T11:45:07.000Z">
+<meta property="article:modified_time" content="2023-10-11T09:58:21.707Z">
+<meta property="article:author" content="Tsukasa">
+<meta property="article:tag" content="Galgame">
+<meta property="article:tag" content="RDP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251814664.png">
+<meta name="twitter:creator" content="@TsukasaMoe">
+    
+        <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/avatars.jpg" />
+    
+    
+        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242128856.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242128856.jpg" />
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/font-awesome.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+
+    
+<link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <script src="https://cdn.bootcss.com/aplayer/1.6.0/APlayer.min.js"></script>
+<script src="https://api.i-meto.com/music/aplayer.min.js"></script>
+<!-- Define author's picture -->
+
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/%20">Tsukasa の 部屋</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon st-search-show-outputs"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatars.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">Tsukasa</span>
+            <span class="sidebar-profile-moto">エロくて可愛い女の子大好きだ！</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/%20"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-circle-o"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-star-o"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bars"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-terminal"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/TsukasaMoe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:luowenqingsmail@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://portfolio.tsukasa.moe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-at"></i>
+                    <span class="sidebar-button-desc">Portfolio</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/messages"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-comment-o"></i>
+                    <span class="sidebar-button-desc">Messages</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/friends"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-mars"></i>
+                    <span class="sidebar-button-desc">Friends</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/links"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-link"></i>
+                    <span class="sidebar-button-desc">Links</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/donate"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-usd"></i>
+                    <span class="sidebar-button-desc">Donate</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    post-header-cover--full"
+             style="background-image:url('https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242128856.jpg');"
+             data-behavior="3">
+            
+                
+<div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            通过Windows远程桌面躺在床上玩Galgame
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Wed Apr 28 2021 19:45:07 GMT+0800">
+	
+		    Apr 28, 2021
+    	
+    </time>
+    
+        <span> |  </span>
+        
+    <a class="category-link" href="/categories/Galgame/">Galgame</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows%E9%85%8D%E7%BD%AE"><span class="toc-text">Windows配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%81%E8%AE%B8Windows%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E8%BF%9E%E6%8E%A5"><span class="toc-text">允许Windows远程桌面连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%85%81%E8%AE%B8%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E8%AE%BF%E9%97%AEWindows%E7%9A%84%E7%94%A8%E6%88%B7"><span class="toc-text">配置允许远程桌面访问Windows的用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E8%A1%A8%E9%85%8D%E7%BD%AE%E9%80%9A%E4%BF%A1%E7%AB%AF%E5%8F%A3"><span class="toc-text">注册表配置通信端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE%E5%85%A5%E7%AB%99%E8%A7%84%E5%88%99"><span class="toc-text">防火墙设置入站规则</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Android%E4%B8%8ARDP-app%E9%85%8D%E7%BD%AE"><span class="toc-text">Android上RDP app配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E8%BF%9E%E6%8E%A5"><span class="toc-text">添加远程桌面连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BA%BA%E5%9C%A8%E5%BA%8A%E4%B8%8A%E6%84%89%E5%BF%AB%E7%9A%84%E7%8E%A9%E8%80%8D%E5%90%A7"><span class="toc-text">躺在床上愉快的玩耍吧</span></a></li></ol></li></ol>
+<p>躺在床上玩Galgame是一件很惬意的事情，因为这样可以很方便的<del>（涩涩）</del>欣赏剧情。</p>
+<p>原理是通过RDP协议实现，设置Windows允许其他设备远程连接后，客户端通过RDP协议与Windows建立TCP连接进行通信，默认远程桌面协议的端口号为3389。</p>
+<h1 id="Windows配置"><a href="#Windows配置" class="headerlink" title="Windows配置"></a>Windows配置</h1><h2 id="允许Windows远程桌面连接"><a href="#允许Windows远程桌面连接" class="headerlink" title="允许Windows远程桌面连接"></a>允许Windows远程桌面连接</h2><p>两种方式，一种是在Windows 10设置的显示-远程桌面中启动远程桌面：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251814664.png" alt=""></p>
+<p>另一种是系统属性-远程中设置允许远程连接到此计算机：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251816049.png" alt=""></p>
+<h2 id="配置允许远程桌面访问Windows的用户"><a href="#配置允许远程桌面访问Windows的用户" class="headerlink" title="配置允许远程桌面访问Windows的用户"></a>配置允许远程桌面访问Windows的用户</h2><p>通常地，当前用户（Tsukasa）就具有远程桌面访问权限，当然如果是多用户系统，也可以手动添加，后面RDP客户端用到的远程登陆帐号就是在这里配置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251858827.png" alt=""></p>
+<p>设置完上面步骤后，可以在Android中安装微软远程桌面app或者其他RDP客户端了。</p>
+<h2 id="注册表配置通信端口"><a href="#注册表配置通信端口" class="headerlink" title="注册表配置通信端口"></a>注册表配置通信端口</h2><p>通常来说，这个步骤不需要配置，除非想要修改Windows的RDP监听和通信端口。</p>
+<p>监听端口：用于服务器的传入连接<br><code>计算机\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd\Tds\tcp</code></p>
+<p>会话端口：用于客户端与服务器的通信<br><code>计算机\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp</code></p>
+<p>进入注册表编辑器regedit，找到控制Windows远程桌面服务配置，可以设置TCP连接的一些参数：</p>
+<ul>
+<li>监听端口PortNumber：RDP的TCP监听端口，默认是3389，可以根据需要进行修改。</li>
+<li>会话端口PortNumber：RDP的TCP会话端口，默认是3389，可以根据需要进行修改。</li>
+<li>KeepAliveInterval：没有活动的情况下发送的TCP keep-alive探测之间的时间间隔，以确保连接保持活动状态，单位是毫秒，非必选参数，可以不用配置。</li>
+</ul>
+<p>监听端口配置</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251502501.png" alt=""></p>
+<p>会话端口配置</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111609593.png" alt=""></p>
+<h2 id="防火墙设置入站规则"><a href="#防火墙设置入站规则" class="headerlink" title="防火墙设置入站规则"></a>防火墙设置入站规则</h2><p>通常来说不需要配置，打开Windows远程桌面连接后一般会允许通过防火墙。需要自定义远程桌面通信端口时才需要进行下面配置。</p>
+<p>打开Windows Defender防火墙，检查远程服务端口是否已添加入站规则。</p>
+<p>按照下面的步骤，新增入站规则，注意端口号需要修改为上面配置的会话端口号。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111613594.jpg" alt=""><br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111629735.jpg" alt=""><br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630159.png" alt=""><br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630095.jpg" alt=""><br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111630732.jpg" alt=""></p>
+<h1 id="Android上RDP-app配置"><a href="#Android上RDP-app配置" class="headerlink" title="Android上RDP app配置"></a>Android上RDP app配置</h1><p>RDP客户端有很多，这里选择下载并安装好微软远程桌面app。</p>
+<h2 id="添加远程桌面连接"><a href="#添加远程桌面连接" class="headerlink" title="添加远程桌面连接"></a>添加远程桌面连接</h2><p>如果手机与电脑处于同一个局域网下，点击右上角的<code>+</code>号添加远程桌面，默认会自动检测出同一个局域网开启了远程桌面的PC，直接点击就可以快速设置了。</p>
+<p>第三张图是添加一个远程登陆帐号和密码，前面已完成配置，这里是当前用户（Tsukasa），密码自然是这个用户<code>Win+L</code>锁定后登陆到电脑的密码（非PIN码）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251850175.png" alt=""></p>
+<p>当然假如局域网下无法检测出你的PC，也可以通过点击第一张图中的<code>ADD MANUALLY</code>手动添加，输入本机路由器分配的IP（执行<code>ipconfig</code>查看），选择用户即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310111751184.png" alt=""></p>
+<h2 id="躺在床上愉快的玩耍吧"><a href="#躺在床上愉快的玩耍吧" class="headerlink" title="躺在床上愉快的玩耍吧"></a>躺在床上愉快的玩耍吧</h2><p>在手机添加完成后，点击添加好的远程桌面连接即可连接上Windows桌面，此时再去打开Galgame可以避免一些屏幕适配的问题。</p>
+<p>接下来，你就可以躺在床上和二次元老婆谈情说爱啦~~</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202309251844787.jpg" alt=""></p>
+<blockquote>
+<p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
+</blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Galgame/" rel="tag">Galgame</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/RDP/" rel="tag">RDP</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/07/10/record-some-normal-command-of-git/"  data-tooltip="记录Git一些常用的命令">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/04/18/MySQL-basics-knowledge-summary/" data-tooltip="MySQL数据库基础知识总结">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=通过Windows远程桌面躺在床上玩Galgame">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=通过Windows远程桌面躺在床上玩Galgame">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">给作者投食戳这里OwO</a>
+                <br>
+            </div>
+            <div id="donate_guide" class="donate_bar center hidden" >
+                <img src="/assets/images/qr-alipay.jpg" alt="支付宝打赏">
+                <img src="/assets/images/qr-wechatpay.png" alt="微信打赏">
+            </div>
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide').removeClass('hidden');
+                }
+            </script>
+        </div>
+        
+            
+                <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTg0My84NDA3">
+</div>
+<!-- City版安装代码已完成 -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<div id="footer-img"></div>
+    <span class="copyrights">
+    	<p>Powder by <a href="https://hexo.io/zh-cn/">Hexo</a>. Theme - <a href="https://github.com/kaedea/hexo-theme-themia">Themia</a> Modified by <a href="http://tsukasa.moe">Tsukasa</a>.<br>
+			License - <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">Attribution-NonCommercial-NoDerivatives 4.0 International</a>.<br>
+			<span id="busuanzi_container_site_uv">
+  				Total <span id="busuanzi_value_site_uv"></span> visitors.
+			</span>
+			<span id="busuanzi_container_site_pv">
+			    Total visit <span id="busuanzi_value_site_pv"></span> times.
+			</span>
+			<span id="run_time"></span>
+		</p>
+        Copyrights &copy; 2024 Tsukasa. All Rights Reserved.(≧∀≦)
+    </span>
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<script>
+    function secondToDate(second) {
+        if (!second) {
+            return 0;
+        }
+        var time = new Array(0, 0, 0, 0, 0);
+        // if (second >= 365 * 24 * 3600) {
+        //     time[0] = parseInt(second / (365 * 24 * 3600));
+        //     second %= 365 * 24 * 3600;
+        // }
+        if (second >= 24 * 3600) {
+            time[1] = parseInt(second / (24 * 3600));
+            second %= 24 * 3600;
+        }
+        if (second >= 3600) {
+            time[2] = parseInt(second / 3600);
+            second %= 3600;
+        }
+        if (second >= 60) {
+            time[3] = parseInt(second / 60);
+            second %= 60;
+        }
+        if (second > 0) {
+            time[4] = second;
+        }
+        return time;
+    }
+</script>
+<script type="text/javascript" language="javascript">
+    function setTime() {
+        var create_time = Math.round(new Date(Date.UTC(2017, 2, 6, 2, 23, 0))
+                .getTime() / 1000);
+        var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+        currentTime = secondToDate((timestamp - create_time));
+        currentTimeHtml = "Blog ages: "+ currentTime[1] + ' days '
+                + currentTime[2] + ' h ' 
+                + currentTime[3] + ' m ' 
+                + currentTime[4] + ' s.';
+        document.getElementById("run_time").innerHTML = currentTimeHtml;
+    }
+    setInterval(setTime, 1000);
+</script>
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/07/10/record-some-normal-command-of-git/"  data-tooltip="记录Git一些常用的命令">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2021/04/18/MySQL-basics-knowledge-summary/" data-tooltip="MySQL数据库基础知识总结">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=通过Windows远程桌面躺在床上玩Galgame">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=通过Windows远程桌面躺在床上玩Galgame">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=通过Windows远程桌面躺在床上玩Galgame">
+                <i class="fa fa-weibo"></i><span>Share on Weibo</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2021/04/28/Windows-using-remote-destop-to-play-galgame/&amp;title=通过Windows远程桌面躺在床上玩Galgame">
+                <i class="fa fa-qq"></i><span>Share on QQ</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatars.jpg"/>
+        
+            <h4 id="about-card-name">Tsukasa</h4>
+        
+            <h5 id="about-card-bio"><p><a href="http://tsukasa.moe">「My Homepage」</a><br><a href="http://me.tsukasa.moe">「About Me」</a><br><a href="http://blog.tsukasa.moe/links">「My Links」</a></p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Shenzhen
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover-neko.jpg');"></div>
+    <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+    <!--SCRIPTS-->
+
+<script src="/assets/js/jquery.js"></script>
+
+
+<script src="/assets/js/jquery.fancybox.js"></script>
+
+
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+
+
+<script src="/assets/js/tranquilpeak.js"></script>
+
+<!--SCRIPTS END-->
+<!--PANGU AUTO SPACE-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.2.1/pangu.min.js"></script>
+<script> pangu.spacingPage(); </script>
+<!--PANGU AUTO SPACE END-->
+
+
+   
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+    </script>
+
+    
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','DibYiq_42u2sq4ziXd_y','2.0.0');
+    </script>
+
+
+</html>

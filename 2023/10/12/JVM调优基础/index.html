@@ -1,0 +1,861 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Tsukasa の 部屋">
+    <title>JVM调优基础 - Tsukasa の 部屋</title>
+    <meta name="author" content="Tsukasa">
+    
+    
+        <link rel="icon" href="http://blog.tsukasa.moe/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="文章摘要">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="JVM调优基础">
+<meta property="og:url" content="http://blog.tsukasa.moe/2023/10/12/JVM%E8%B0%83%E4%BC%98%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Tsukasa の 部屋">
+<meta property="og:description" content="文章摘要">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-10-11T17:08:21.000Z">
+<meta property="article:modified_time" content="2023-10-11T19:16:51.688Z">
+<meta property="article:author" content="Tsukasa">
+<meta property="article:tag" content="JVM">
+<meta property="article:tag" content="性能优化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@TsukasaMoe">
+    
+        <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/avatars.jpg" />
+    
+    
+        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242128856.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242128856.jpg" />
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/font-awesome.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+
+    
+<link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <script src="https://cdn.bootcss.com/aplayer/1.6.0/APlayer.min.js"></script>
+<script src="https://api.i-meto.com/music/aplayer.min.js"></script>
+<!-- Define author's picture -->
+
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/%20">Tsukasa の 部屋</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon st-search-show-outputs"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatars.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">Tsukasa</span>
+            <span class="sidebar-profile-moto">エロくて可愛い女の子大好きだ！</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/%20"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-circle-o"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-star-o"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bars"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-terminal"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/TsukasaMoe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:luowenqingsmail@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://portfolio.tsukasa.moe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-at"></i>
+                    <span class="sidebar-button-desc">Portfolio</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/messages"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-comment-o"></i>
+                    <span class="sidebar-button-desc">Messages</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/friends"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-mars"></i>
+                    <span class="sidebar-button-desc">Friends</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/links"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-link"></i>
+                    <span class="sidebar-button-desc">Links</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/donate"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-usd"></i>
+                    <span class="sidebar-button-desc">Donate</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    post-header-cover--full"
+             style="background-image:url('https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242128856.jpg');"
+             data-behavior="3">
+            
+                
+<div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            JVM调优基础
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Thu Oct 12 2023 01:08:21 GMT+0800">
+	
+		    Oct 12, 2023
+    	
+    </time>
+    
+        <span> |  </span>
+        
+    <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/">编程开发</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM%E8%B0%83%E4%BC%98%E7%9A%84%E5%8F%82%E6%95%B0%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">JVM调优的参数都有哪些？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E5%88%86%E9%85%8D%E5%8F%82%E6%95%B0"><span class="toc-text">堆分配参数</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM%E8%B0%83%E4%BC%98%E6%80%9D%E8%B7%AF"><span class="toc-text">JVM调优思路</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-text">1、内存管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="toc-text">2、垃圾回收</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E7%BA%BF%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="toc-text">3、线程管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96"><span class="toc-text">4、代码优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%88%86%E6%9E%90"><span class="toc-text">5、内存泄漏分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6%E3%80%81%E5%A0%86%E8%BD%AC%E5%82%A8%E6%96%87%E4%BB%B6"><span class="toc-text">6、堆转储文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5"><span class="toc-text">实践</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E5%88%86%E9%85%8D%E5%8F%82%E6%95%B0%E4%B8%80"><span class="toc-text">堆分配参数一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E5%88%86%E9%85%8D%E5%8F%82%E6%95%B0%E4%BA%8C"><span class="toc-text">堆分配参数二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E6%BA%A2%E5%87%BA%E5%A4%84%E7%90%86"><span class="toc-text">堆溢出处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E6%A0%88%E9%85%8D%E7%BD%AE"><span class="toc-text">Java栈配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="toc-text">方法区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98%E9%85%8D%E7%BD%AE"><span class="toc-text">直接内存配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-text">参考资料</span></a></li></ol>
+<p>这篇文章讲解下JVM调优基础知识，后面会再单独开一篇文章讲解下JVM调优的思路。</p>
+<p>JVM（Java虚拟机）调优是优化Java应用程序性能和内存使用的过程。调优可以帮助应用程序更有效地利用内存、提高吞吐量和降低延迟。</p>
+<h1 id="JVM调优的参数都有哪些？"><a href="#JVM调优的参数都有哪些？" class="headerlink" title="JVM调优的参数都有哪些？"></a>JVM调优的参数都有哪些？</h1><p>JVM调优的目标是什么？通过JVM的学习，我们知道频繁的GC会导致程序挂起，垃圾回收占用CPU资源，因此性能调优中就包括对内存的优化，减少GC。</p>
+<p>JVM调优主要就是调整年轻代、老年代、元空间的内存空间大小及使用的垃圾回收器类型。</p>
+<h2 id="堆分配参数"><a href="#堆分配参数" class="headerlink" title="堆分配参数"></a>堆分配参数</h2><p>示例：-Xms20M -Xmx20M -Xmn10M -XX:+PrintGCDetails -XX:SurvivorRatio=8</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Params</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Xms</td>
+<td style="text-align:center">最小堆容量</td>
+</tr>
+<tr>
+<td style="text-align:center">Xmx</td>
+<td style="text-align:center">最大堆容量</td>
+</tr>
+<tr>
+<td style="text-align:center">Xmn</td>
+<td style="text-align:center">新生代容量 &lt;==&gt; Eden + Survivor A + Survivor B</td>
+</tr>
+<tr>
+<td style="text-align:center">PrintGCDetail</td>
+<td style="text-align:center">记录GC日志</td>
+</tr>
+<tr>
+<td style="text-align:center">SurvivorRatio</td>
+<td style="text-align:center">新生代中Eden与Survivor区域的比值，默认值为8</td>
+</tr>
+<tr>
+<td style="text-align:center">PretenureSizeThreshold</td>
+<td style="text-align:center">对象大小大于该值，直接分配至老年代</td>
+</tr>
+<tr>
+<td style="text-align:center">MaxTenuringThreshold</td>
+<td style="text-align:center">大于该阈值时晋升至老年代，默认值为15</td>
+</tr>
+<tr>
+<td style="text-align:center">HandlePromotionFailure</td>
+<td style="text-align:center">是否允许担保失败</td>
+</tr>
+<tr>
+<td style="text-align:center">ParalleGCThreads</td>
+<td style="text-align:center">设置并行GC时进行内存回收的线程数</td>
+</tr>
+</tbody>
+</table>
+<h1 id="JVM调优思路"><a href="#JVM调优思路" class="headerlink" title="JVM调优思路"></a>JVM调优思路</h1><h2 id="1、内存管理"><a href="#1、内存管理" class="headerlink" title="1、内存管理"></a>1、内存管理</h2><p><strong>堆内存设置</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -Xms512m -Xmx2g -jar your-application.jar</span><br></pre></td></tr></table></figure>
+<p><strong>永生代/元数据区大小</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -XX:MaxMetaspaceSize=256m -jar your-application.jar</span><br></pre></td></tr></table></figure>
+<h2 id="2、垃圾回收"><a href="#2、垃圾回收" class="headerlink" title="2、垃圾回收"></a>2、垃圾回收</h2><p><strong>选择合适的垃圾收集器</strong></p>
+<p>根据硬件配置如CPU核数线程数，以及应用程序的特性，不同内存区域的垃圾收集，选择合适的垃圾收集器，如G1、CMS、Parallel等</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -XX:+UseG1GC -jar your-application.jar</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>垃圾回收日志： 启用垃圾回收日志以进行性能分析和调优。</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -Xloggc:gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -jar your-application.jar</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="3、线程管理"><a href="#3、线程管理" class="headerlink" title="3、线程管理"></a>3、线程管理</h2><p><strong>线程栈大小：根据应用程序的线程需求设置线程栈大小。</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -Xss256k -jar your-application.jar</span><br></pre></td></tr></table></figure>
+<p><strong>并发线程数： 根据硬件配置和应用程序性质设置并发线程数。</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -XX:ParallelGCThreads=4 -jar your-application.jar</span><br></pre></td></tr></table></figure>
+<h2 id="4、代码优化"><a href="#4、代码优化" class="headerlink" title="4、代码优化"></a>4、代码优化</h2><p>性能分析： 使用性能分析工具（如VisualVM、YourKit）来识别和优化性能瓶颈。示例：</p>
+<p>bash<br>Copy code<br>jvisualvm<br>代码检查： 使用静态分析工具（如Checkstyle、FindBugs）检查代码质量，消除潜在的性能问题。</p>
+<h2 id="5、内存泄漏分析"><a href="#5、内存泄漏分析" class="headerlink" title="5、内存泄漏分析"></a>5、内存泄漏分析</h2><h2 id="6、堆转储文件"><a href="#6、堆转储文件" class="headerlink" title="6、堆转储文件"></a>6、堆转储文件</h2><p>在内存溢出（OOM）时生成堆转储文件，以进行分析。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to/dump.hprof -jar your-application.jar</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h1><h2 id="堆分配参数一"><a href="#堆分配参数一" class="headerlink" title="堆分配参数一"></a>堆分配参数一</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">Command</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-XX:+PrintGC</td>
+<td style="text-align:center">虚拟机启动后，只要遇到GC就会打印日志</td>
+</tr>
+<tr>
+<td style="text-align:center">-XX:+UseSerialGC</td>
+<td style="text-align:center">配置串行回收器</td>
+</tr>
+<tr>
+<td style="text-align:center">-XX:+PrintCommandLineFlags</td>
+<td style="text-align:center">在控制台输出JVM的配置参数。</td>
+</tr>
+<tr>
+<td style="text-align:center">-XX:+PrintGCDetails</td>
+<td style="text-align:center">可以查看详细信息，包括各个区的情况</td>
+</tr>
+<tr>
+<td style="text-align:center">-Xms5m</td>
+<td style="text-align:center">设置最小堆大小为5M</td>
+</tr>
+<tr>
+<td style="text-align:center">-Xmx20M</td>
+<td style="text-align:center">设置最大堆大小为20M</td>
+</tr>
+</tbody>
+</table>
+<p>实际工作中，可以将初始的堆大小与最大堆大小设置相等，好处是可以减少程序运行时的垃圾回收次数。通常是配置在Tomcat中，如catalina.sh</p>
+<h2 id="堆分配参数二"><a href="#堆分配参数二" class="headerlink" title="堆分配参数二"></a>堆分配参数二</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">Command</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-Xmn5M</td>
+<td style="text-align:center">设置新生代的大小为5M，年老代+新生代大小=堆大小，这个参数对系统性能和GC行为有较大的影响，新生代大小一般设置为堆空间的1/3到1/4左右</td>
+</tr>
+<tr>
+<td style="text-align:center">-XX:SurvivorRatio</td>
+<td style="text-align:center">设置新生代中eden空间和from或to空间的比例（from和to空间大小相同），<code>含义：-XX:SurvivorRatio=eden/from=eden/to</code></td>
+</tr>
+<tr>
+<td style="text-align:center">-XX:NewRatio</td>
+<td style="text-align:center">除了可以通过<code>-Xmn</code>参数设置新生代的绝对大小，还可以<code>-XX:NewRatio</code>通过设置新生代和年老代的比例：<code>-XX:NewRatio=老年代/新生代</code></td>
+</tr>
+</tbody>
+</table>
+<p>实际工作中，应该根据系统的特点做出合理配置，基本策略：尽可能将对象预留在新生代，减少老年代的GC次数。比如系统内的实例对象大多是一直使用，那么老年代可以分配大一些。</p>
+<h2 id="堆溢出处理"><a href="#堆溢出处理" class="headerlink" title="堆溢出处理"></a>堆溢出处理</h2><p>如果堆空间不足，可以出现OOM报错，可以通过</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Command</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-XX:+HeapDumpOnOutOfMemoryError</td>
+<td style="text-align:center">可以在内存溢出时与下面的参数配合，导出整个堆信息</td>
+</tr>
+<tr>
+<td style="text-align:center">-XX:HeapDumpPath</td>
+<td style="text-align:center">设置导出堆的存放路径</td>
+</tr>
+</tbody>
+</table>
+<p>内存分析工具：Eclipse Memory Analyzer (MAT)、VisualVM、jmap命令</p>
+<h2 id="Java栈配置"><a href="#Java栈配置" class="headerlink" title="Java栈配置"></a>Java栈配置</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">Command</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-Xss</td>
+<td style="text-align:center">指定线程的最大栈空间，决定了函数可调用的最大深度</td>
+</tr>
+</tbody>
+</table>
+<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">Command</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-XX:MaxPermSize</td>
+<td style="text-align:center">方法区最大大小，默认为64MB，如果运行时产生大量的类，就需要设置一个相对合适的方法去，避免出现永久区OOM问题</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:PermSize=64M -XX:MaxPermSize=64MB</span><br></pre></td></tr></table></figure>
+<h2 id="直接内存配置"><a href="#直接内存配置" class="headerlink" title="直接内存配置"></a>直接内存配置</h2><p>NIO中用得较多</p>
+<p>-XX:MaxDirectMemorySize，如果不设置，默认值为最大堆空间即-Xmx，直接内存到达上限后就会触发垃圾回收，也会导致OOM。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://www.oracle.com/java/technologies/javase/vmoptions-jsp.html">Java HotSpot VM Options</a><br><a href="https://www.cnblogs.com/redcreen/archive/2011/05/04/2037057.html">JVM系列三:JVM参数设置、分析</a></p>
+<blockquote>
+<p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
+</blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/JVM/" rel="tag">JVM</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag">性能优化</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/17/Verify-the-integrity-of-downloaded-resource/"  data-tooltip="校验下载资源的完整性">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/09/24/Redis%E7%B3%BB%E5%88%97-Windows%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AERedis/" data-tooltip="Redis系列-Window和Linux安装配置Redis">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/12/JVM%E8%B0%83%E4%BC%98%E5%9F%BA%E7%A1%80/&amp;title=JVM调优基础">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/12/JVM%E8%B0%83%E4%BC%98%E5%9F%BA%E7%A1%80/&amp;title=JVM调优基础">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/12/JVM%E8%B0%83%E4%BC%98%E5%9F%BA%E7%A1%80/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/12/JVM%E8%B0%83%E4%BC%98%E5%9F%BA%E7%A1%80/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">给作者投食戳这里OwO</a>
+                <br>
+            </div>
+            <div id="donate_guide" class="donate_bar center hidden" >
+                <img src="/assets/images/qr-alipay.jpg" alt="支付宝打赏">
+                <img src="/assets/images/qr-wechatpay.png" alt="微信打赏">
+            </div>
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide').removeClass('hidden');
+                }
+            </script>
+        </div>
+        
+            
+                <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTg0My84NDA3">
+</div>
+<!-- City版安装代码已完成 -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<div id="footer-img"></div>
+    <span class="copyrights">
+    	<p>Powder by <a href="https://hexo.io/zh-cn/">Hexo</a>. Theme - <a href="https://github.com/kaedea/hexo-theme-themia">Themia</a> Modified by <a href="http://tsukasa.moe">Tsukasa</a>.<br>
+			License - <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">Attribution-NonCommercial-NoDerivatives 4.0 International</a>.<br>
+			<span id="busuanzi_container_site_uv">
+  				Total <span id="busuanzi_value_site_uv"></span> visitors.
+			</span>
+			<span id="busuanzi_container_site_pv">
+			    Total visit <span id="busuanzi_value_site_pv"></span> times.
+			</span>
+			<span id="run_time"></span>
+		</p>
+        Copyrights &copy; 2024 Tsukasa. All Rights Reserved.(≧∀≦)
+    </span>
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<script>
+    function secondToDate(second) {
+        if (!second) {
+            return 0;
+        }
+        var time = new Array(0, 0, 0, 0, 0);
+        // if (second >= 365 * 24 * 3600) {
+        //     time[0] = parseInt(second / (365 * 24 * 3600));
+        //     second %= 365 * 24 * 3600;
+        // }
+        if (second >= 24 * 3600) {
+            time[1] = parseInt(second / (24 * 3600));
+            second %= 24 * 3600;
+        }
+        if (second >= 3600) {
+            time[2] = parseInt(second / 3600);
+            second %= 3600;
+        }
+        if (second >= 60) {
+            time[3] = parseInt(second / 60);
+            second %= 60;
+        }
+        if (second > 0) {
+            time[4] = second;
+        }
+        return time;
+    }
+</script>
+<script type="text/javascript" language="javascript">
+    function setTime() {
+        var create_time = Math.round(new Date(Date.UTC(2017, 2, 6, 2, 23, 0))
+                .getTime() / 1000);
+        var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+        currentTime = secondToDate((timestamp - create_time));
+        currentTimeHtml = "Blog ages: "+ currentTime[1] + ' days '
+                + currentTime[2] + ' h ' 
+                + currentTime[3] + ' m ' 
+                + currentTime[4] + ' s.';
+        document.getElementById("run_time").innerHTML = currentTimeHtml;
+    }
+    setInterval(setTime, 1000);
+</script>
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/17/Verify-the-integrity-of-downloaded-resource/"  data-tooltip="校验下载资源的完整性">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/09/24/Redis%E7%B3%BB%E5%88%97-Windows%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AERedis/" data-tooltip="Redis系列-Window和Linux安装配置Redis">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/12/JVM%E8%B0%83%E4%BC%98%E5%9F%BA%E7%A1%80/&amp;title=JVM调优基础">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/12/JVM%E8%B0%83%E4%BC%98%E5%9F%BA%E7%A1%80/&amp;title=JVM调优基础">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/12/JVM%E8%B0%83%E4%BC%98%E5%9F%BA%E7%A1%80/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/12/JVM%E8%B0%83%E4%BC%98%E5%9F%BA%E7%A1%80/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/12/JVM%E8%B0%83%E4%BC%98%E5%9F%BA%E7%A1%80/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/12/JVM%E8%B0%83%E4%BC%98%E5%9F%BA%E7%A1%80/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/12/JVM%E8%B0%83%E4%BC%98%E5%9F%BA%E7%A1%80/&amp;title=JVM调优基础">
+                <i class="fa fa-weibo"></i><span>Share on Weibo</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/12/JVM%E8%B0%83%E4%BC%98%E5%9F%BA%E7%A1%80/&amp;title=JVM调优基础">
+                <i class="fa fa-qq"></i><span>Share on QQ</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatars.jpg"/>
+        
+            <h4 id="about-card-name">Tsukasa</h4>
+        
+            <h5 id="about-card-bio"><p><a href="http://tsukasa.moe">「My Homepage」</a><br><a href="http://me.tsukasa.moe">「About Me」</a><br><a href="http://blog.tsukasa.moe/links">「My Links」</a></p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Shenzhen
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover-neko.jpg');"></div>
+    <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+    <!--SCRIPTS-->
+
+<script src="/assets/js/jquery.js"></script>
+
+
+<script src="/assets/js/jquery.fancybox.js"></script>
+
+
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+
+
+<script src="/assets/js/tranquilpeak.js"></script>
+
+<!--SCRIPTS END-->
+<!--PANGU AUTO SPACE-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.2.1/pangu.min.js"></script>
+<script> pangu.spacingPage(); </script>
+<!--PANGU AUTO SPACE END-->
+
+
+   
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+    </script>
+
+    
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','DibYiq_42u2sq4ziXd_y','2.0.0');
+    </script>
+
+
+</html>

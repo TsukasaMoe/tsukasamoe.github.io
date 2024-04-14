@@ -1,0 +1,776 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Tsukasa の 部屋">
+    <title>Spring项目统一响应格式设计和全局异常处理 - Tsukasa の 部屋</title>
+    <meta name="author" content="Tsukasa">
+    
+    
+        <link rel="icon" href="http://blog.tsukasa.moe/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="写一个Spring项目统一响应格式设计和全局异常处理的best-practice，便于后续查阅。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Spring项目统一响应格式设计和全局异常处理">
+<meta property="og:url" content="http://blog.tsukasa.moe/2023/10/31/Spring-global-exception-handling-and-error-code-design/index.html">
+<meta property="og:site_name" content="Tsukasa の 部屋">
+<meta property="og:description" content="写一个Spring项目统一响应格式设计和全局异常处理的best-practice，便于后续查阅。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202311090200033.png">
+<meta property="article:published_time" content="2023-10-31T09:35:26.000Z">
+<meta property="article:modified_time" content="2023-11-10T10:17:34.067Z">
+<meta property="article:author" content="Tsukasa">
+<meta property="article:tag" content="Spring">
+<meta property="article:tag" content="Hibernate Validator">
+<meta property="article:tag" content="Best practice">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202311090200033.png">
+<meta name="twitter:creator" content="@TsukasaMoe">
+    
+        <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/avatars.jpg" />
+    
+    
+        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242128856.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242128856.jpg" />
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/font-awesome.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+
+    
+<link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <script src="https://cdn.bootcss.com/aplayer/1.6.0/APlayer.min.js"></script>
+<script src="https://api.i-meto.com/music/aplayer.min.js"></script>
+<!-- Define author's picture -->
+
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/%20">Tsukasa の 部屋</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon st-search-show-outputs"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatars.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">Tsukasa</span>
+            <span class="sidebar-profile-moto">エロくて可愛い女の子大好きだ！</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/%20"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-circle-o"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-star-o"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bars"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-terminal"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/TsukasaMoe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:luowenqingsmail@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://portfolio.tsukasa.moe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-at"></i>
+                    <span class="sidebar-button-desc">Portfolio</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/messages"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-comment-o"></i>
+                    <span class="sidebar-button-desc">Messages</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/friends"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-mars"></i>
+                    <span class="sidebar-button-desc">Friends</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/links"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-link"></i>
+                    <span class="sidebar-button-desc">Links</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/donate"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-usd"></i>
+                    <span class="sidebar-button-desc">Donate</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    post-header-cover--full"
+             style="background-image:url('https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242128856.jpg');"
+             data-behavior="3">
+            
+                
+<div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            Spring项目统一响应格式设计和全局异常处理
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Tue Oct 31 2023 17:35:26 GMT+0800">
+	
+		    Oct 31, 2023
+    	
+    </time>
+    
+        <span> |  </span>
+        
+    <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/">编程开发</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E7%9B%AE%E6%A0%87"><span class="toc-text">设计目标</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="toc-text">实现思路</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%9F%E4%B8%80%E5%93%8D%E5%BA%94%E6%A0%BC%E5%BC%8F"><span class="toc-text">统一响应格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%9F%E4%B8%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-text">统一异常处理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E7%A4%BA%E4%BE%8B"><span class="toc-text">响应示例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-text">使用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-text">核心代码实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%9D%E8%80%83"><span class="toc-text">思考</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E7%A0%81%E6%98%A0%E5%B0%84"><span class="toc-text">响应码映射</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-text">HTTP状态码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol>
+<p>写一个Spring项目统一响应格式设计和全局异常处理的best-practice，便于后续查阅。</p>
+<h1 id="设计目标"><a href="#设计目标" class="headerlink" title="设计目标"></a>设计目标</h1><p>现在一个良好的web项目，基本采用前后端分离的格式，本次设计目标：</p>
+<ul>
+<li>统一响应格式，可以极大方便前后端研发之间的沟通，简化和统一双方的代码处理。</li>
+<li>全局统一异常处理的好处是消除分散在代码逻辑中异常处理，if分支和try-catch代码块。</li>
+<li>考虑响应码描述的国际化处理，参数替换，支持灵活的配置。</li>
+<li>调用方API层级的报错给出友好、结构化的提示。</li>
+<li>考虑服务端后台依赖的三方业务返回的响应码映射。</li>
+<li>研发使用起来简单，不易犯错。</li>
+</ul>
+<h1 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h1><h2 id="统一响应格式"><a href="#统一响应格式" class="headerlink" title="统一响应格式"></a>统一响应格式</h2><p>结合工作经验和借鉴大厂的API定义，设计如下几个类：</p>
+<ul>
+<li>BaseResult：基本响应基类，只包含结果码code, 结果码描述msg，一般地所有的响应子类继承该类型。</li>
+<li>Response：统一响应类，继承自BaseResult（必选），自身包含业务数据data（必选，没有内容时为null），额外数据payload（可选），API层级报错列表errors（可选），Response通过建造者模式构建。</li>
+<li>ResponseCodeInterface：响应码接口，提供三个方法code(), message(), i18nKey()，所有响应码枚举类均实现该接口并重写三个方法，确保新增响应码枚举类型时提供统一的访问入口，面向接口编程。</li>
+<li>ResponseEnum：响应码集合。自身为全局结果码集合，包含所有类型（全局，Internal, External, Business, Client）的响应码列表，三个字段分别为响应码code, 默认响应描述（允许带占位符）msg，响应码描述的国际化配置键i18nKey</li>
+</ul>
+<h2 id="统一异常处理"><a href="#统一异常处理" class="headerlink" title="统一异常处理"></a>统一异常处理</h2><p>将所有异常处理抽出，放到@ControllerAdvice类中的@ExceptionHandler注解的方法中处理，针对不同异常执行不同的处理逻辑。</p>
+<p>代码逻辑可能根据需要会抛出以下异常</p>
+<ul>
+<li>业务异常：ServiceException继承自RuntimeException，业务处理过程中，可以抛出ServiceException退出接下来的业务处理进入到统一异常处理，返回响应给客户端。</li>
+<li>受检异常：业务自身捕获处理，可以封装成ServiceException抛出。</li>
+<li>除业务异常外的非受检异常：仅处理Hiberante validator等可识别的异常，封装到List<Response.Error>列表中。</li>
+<li>其他未知异常：Throwable统一设置业务内部异常。</li>
+</ul>
+<p>附Java异常体系，忘记时可以查阅。<br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202311090200033.png" alt=""></p>
+<p>国际化：</p>
+<ul>
+<li>封装Spring I18N的messageSource到MessageUtils，提供国际化处理方法。</li>
+<li>针对API层级的报错，通过Hibernate Validator组件实现国际化。</li>
+<li>异常流程：创建ServiceException时执行错误描述信息国际化。</li>
+<li>正常处理：Response.ResponseBuilder构造方法执行结果码描述国际化。</li>
+</ul>
+<h1 id="响应示例"><a href="#响应示例" class="headerlink" title="响应示例"></a>响应示例</h1><p>code和message</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 正常响应1：</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;code&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;msg&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Success&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;data&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;orderId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ALIPAY0001000000000001&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="string">&quot;COMPLETED&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;amount&quot;</span><span class="punctuation">:</span> <span class="string">&quot;100.00&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;payload&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;external_ext&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;10001&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;test&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 正常响应2</span></span><br><span class="line"></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;code&quot;</span><span class="punctuation">:</span><span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;msg&quot;</span><span class="punctuation">:</span><span class="string">&quot;Success&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;data&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">null</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 报错响应1</span></span><br><span class="line"></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;code&quot;</span><span class="punctuation">:</span><span class="number">4001</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;msg&quot;</span><span class="punctuation">:</span><span class="string">&quot;Failed&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;data&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">null</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;errors&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span><span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span><span class="string">&quot;bankNo&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;message&quot;</span><span class="punctuation">:</span><span class="string">&quot;银行卡号不符合规范&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>结果码枚举增删改：ResponseEnum负责管理，所有返回给调用方的响应码均要在这里定义。</p>
+<ul>
+<li>业务流程处理成功：<ul>
+<li>Controller层可以直接返回Response.success(data)等封装好的常用响应，也可以通过Response.ResponseBuilder建造者生成响应返回。</li>
+</ul>
+</li>
+<li>业务流程处理失败：<ul>
+<li>直接创建并抛出ServiceException，并把需要传递的数据放入ServiceException的</li>
+<li>非主动抛出的异常，交由@ControllerAdvice处理</li>
+</ul>
+</li>
+</ul>
+<p>扩展点：</p>
+<ul>
+<li>如果需要新增异常类型和处理，可以继承ServiceException，然后在@ControllerAdvice中新增一个@ExceptionHandler注解的方法处理即可，适合细分不同业务子异常处理</li>
+<li>如果需要在返回响应前做一些公共的操作，可以实现ResponseBodyAdvice接口或者继承AbstractMappingJacksonResponseBodyAdvice抽象类来达成。</li>
+<li>对于数据库异常，可以通过AOP切面针对dao层进行处理</li>
+<li>Filter过滤链的异常假如也希望捕获并处理，可以通过实现Filter接口重写doFilter，在catchException中捕获后封装成统一响应格式。</li>
+<li>HandlerExceptionResolver接口 ===&gt; Spring Web MVC</li>
+</ul>
+<h1 id="核心代码实现"><a href="#核心代码实现" class="headerlink" title="核心代码实现"></a>核心代码实现</h1><p>ResponseCodeInterface接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">ResponseCodeInterface</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 返回响应码</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 响应码</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="type">int</span> <span class="title function_">code</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 返回具体的详细错误描述（非国际化信息，可能含有占位符）</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 响应码描述</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    String <span class="title function_">message</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * i18n资源文件的key，value为国际化响应码描述, 详见messages.properties文件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> key</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    String <span class="title function_">i18nKey</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ResponseCodeEnum响应码集合枚举：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">ResponseCodeEnum</span> <span class="keyword">implements</span> <span class="title class_">ResponseCodeInterface</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 错误码集合</span></span><br><span class="line"><span class="comment">     * ******以下是旧的设计****</span></span><br><span class="line"><span class="comment">     * 1~9999 为保留错误码 或者 常用错误码</span></span><br><span class="line"><span class="comment">     * 10000~19999 为内部错误码</span></span><br><span class="line"><span class="comment">     * 20000~29999 客户端错误码 （客户端异常调用之类的错误）</span></span><br><span class="line"><span class="comment">     * 30000~39999 为第三方错误码 （代码正常，但是第三方异常）</span></span><br><span class="line"><span class="comment">     * 40000~49999 为业务逻辑 错误码 （无异常，代码正常流转，并返回提示给用户）</span></span><br><span class="line"><span class="comment">     * 由于系统内的错误码都是独一无二的，所以错误码应该放在common包集中管理</span></span><br><span class="line"><span class="comment">     * ---------------------------</span></span><br><span class="line"><span class="comment">     * 错误码不一定位数一定要相同。比如腾讯的微信接口错误码的位数就并不相同。按照常理错误码的数量大小应该是：</span></span><br><span class="line"><span class="comment">     * 内部错误码 &lt; 客户端错误码 &lt; 第三方错误码 &lt; 业务错误码</span></span><br><span class="line"><span class="comment">     * 所以我们应该尽可能的把错误码的数量留给业务错误码</span></span><br><span class="line"><span class="comment">     * ---------------------------</span></span><br><span class="line"><span class="comment">     * *******新的设计**********</span></span><br><span class="line"><span class="comment">     * 1~99 为内部错误码（框架本身的错误）</span></span><br><span class="line"><span class="comment">     * 100~999 客户端错误码 （客户端异常调用之类的错误）</span></span><br><span class="line"><span class="comment">     * 1000~9999为第三方错误码 （代码正常，但是第三方异常）</span></span><br><span class="line"><span class="comment">     * 10000~99999 为业务逻辑 错误码 （无异常，代码正常流转，并返回提示给用户）</span></span><br><span class="line"><span class="comment">     * 由于系统内的错误码都是独一无二的，所以错误码应该放在common包集中管理</span></span><br><span class="line"><span class="comment">     * ---------------------------</span></span><br><span class="line"><span class="comment">     * 总体设计就是值越小  错误严重性越高</span></span><br><span class="line"><span class="comment">     * 目前10000~19999是初始系统内嵌功能使用的错误码，后续开发者可以直接使用20000以上的错误码作为业务错误码</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">    SUCCESS(<span class="number">0</span>, <span class="string">&quot;Success&quot;</span>, <span class="string">&quot;COMMON.SUCCESS&quot;</span>),</span><br><span class="line">    PENDING(<span class="number">1</span>, <span class="string">&quot;In-progress&quot;</span>, <span class="string">&quot;COMMON.PENDING&quot;</span>),</span><br><span class="line">    FAILED(<span class="number">99999</span>, <span class="string">&quot;Failed&quot;</span>, <span class="string">&quot;COMMON.FAILED&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> code;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String message;</span><br><span class="line">    <span class="comment">// 国际化描述的key，value为错误描述（可能含有占位符，占位符由程序上下文传入参数填充）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String i18nKey;</span><br><span class="line"></span><br><span class="line">    ResponseCodeEnum(<span class="type">int</span> code, String message, String i18nKey) &#123;</span><br><span class="line">        <span class="built_in">this</span>.code = code;</span><br><span class="line">        <span class="built_in">this</span>.message = message;</span><br><span class="line">        <span class="built_in">this</span>.i18nKey = i18nKey;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">code</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">message</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">i18nKey</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.i18nKey;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 10000~99999 为业务逻辑 错误码 （无代码异常，代码正常流转，并返回提示给用户）</span></span><br><span class="line"><span class="comment">     * 1XX01   XX是代表模块的意思 比如10101   01是Permission模块</span></span><br><span class="line"><span class="comment">     * 错误码的命名最好以模块为开头  比如  NOT_ALLOWED_TO_OPERATE前面加上PERMISSION = PERMISSION_NOT_ALLOWED_TO_OPERATE</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Business</span> <span class="keyword">implements</span> <span class="title class_">ResponseCodeInterface</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ----------------------------- COMMON --------------------------------------</span></span><br><span class="line"></span><br><span class="line">        COMMON_OBJECT_NOT_FOUND(<span class="number">10001</span>, <span class="string">&quot;找不到ID为 &#123;&#125; 的 &#123;&#125;&quot;</span>, <span class="string">&quot;Business.OBJECT_NOT_FOUND&quot;</span>),</span><br><span class="line"></span><br><span class="line">        COMMON_UNSUPPORTED_OPERATION(<span class="number">10002</span>, <span class="string">&quot;不支持的操作&quot;</span>, <span class="string">&quot;Business.UNSUPPORTED_OPERATION&quot;</span>),</span><br><span class="line"></span><br><span class="line">        COMMON_FILE_NOT_ALLOWED_TO_DOWNLOAD(<span class="number">10003</span>, <span class="string">&quot;文件名称(&#123;&#125;)非法，不允许下载&quot;</span>, <span class="string">&quot;Business.FILE_NOT_ALLOWED_TO_DOWNLOAD&quot;</span>),</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ----------------------------- PERMISSION -----------------------------------</span></span><br><span class="line"></span><br><span class="line">        PERMISSION_FORBIDDEN_TO_MODIFY_ADMIN(<span class="number">10101</span>, <span class="string">&quot;不允许修改管理员的信息&quot;</span>, <span class="string">&quot;Business.FORBIDDEN_TO_MODIFY_ADMIN&quot;</span>),</span><br><span class="line"></span><br><span class="line">        PERMISSION_NOT_ALLOWED_TO_OPERATE(<span class="number">10202</span>, <span class="string">&quot;没有权限进行此操作，请联系管理员&quot;</span>, <span class="string">&quot;Business.NO_PERMISSION_TO_OPERATE&quot;</span>),</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ----------------------------- LOGIN -----------------------------------------</span></span><br><span class="line"></span><br><span class="line">        LOGIN_WRONG_USER_PASSWORD(<span class="number">10201</span>, <span class="string">&quot;用户密码错误，请重新输入&quot;</span>, <span class="string">&quot;Business.LOGIN_WRONG_USER_PASSWORD&quot;</span>),</span><br><span class="line"></span><br><span class="line">        LOGIN_ERROR(<span class="number">10202</span>, <span class="string">&quot;登录失败：&#123;&#125;&quot;</span>, <span class="string">&quot;Business.LOGIN_ERROR&quot;</span>),</span><br><span class="line"></span><br><span class="line">        LOGIN_CAPTCHA_CODE_WRONG(<span class="number">10203</span>, <span class="string">&quot;验证码错误&quot;</span>, <span class="string">&quot;Business.LOGIN_CAPTCHA_CODE_WRONG&quot;</span>),</span><br><span class="line"></span><br><span class="line">        LOGIN_CAPTCHA_CODE_EXPIRE(<span class="number">10204</span>, <span class="string">&quot;验证码过期&quot;</span>, <span class="string">&quot;Business.LOGIN_CAPTCHA_CODE_EXPIRE&quot;</span>),</span><br><span class="line"></span><br><span class="line">        LOGIN_CAPTCHA_CODE_NULL(<span class="number">10205</span>, <span class="string">&quot;验证码为空&quot;</span>, <span class="string">&quot;Business.LOGIN_CAPTCHA_CODE_NULL&quot;</span>),</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ----------------------------- UPLOAD -----------------------------------------</span></span><br><span class="line"></span><br><span class="line">        UPLOAD_FILE_TYPE_NOT_ALLOWED(<span class="number">10401</span>, <span class="string">&quot;不允许上传的文件类型，仅允许：&#123;&#125;&quot;</span>, <span class="string">&quot;Business.UPLOAD_FILE_TYPE_NOT_ALLOWED&quot;</span>),</span><br><span class="line"></span><br><span class="line">        UPLOAD_FILE_NAME_EXCEED_MAX_LENGTH(<span class="number">10402</span>, <span class="string">&quot;文件名长度超过：&#123;&#125; &quot;</span>, <span class="string">&quot;Business.UPLOAD_FILE_NAME_EXCEED_MAX_LENGTH&quot;</span>),</span><br><span class="line"></span><br><span class="line">        UPLOAD_FILE_SIZE_EXCEED_MAX_SIZE(<span class="number">10403</span>, <span class="string">&quot;文件名大小超过：&#123;&#125; MB&quot;</span>, <span class="string">&quot;Business.UPLOAD_FILE_SIZE_EXCEED_MAX_SIZE&quot;</span>),</span><br><span class="line"></span><br><span class="line">        UPLOAD_IMPORT_EXCEL_FAILED(<span class="number">10404</span>, <span class="string">&quot;导入excel失败：&#123;&#125;&quot;</span>, <span class="string">&quot;Business.UPLOAD_IMPORT_EXCEL_FAILED&quot;</span>),</span><br><span class="line"></span><br><span class="line">        UPLOAD_FILE_IS_EMPTY(<span class="number">10405</span>, <span class="string">&quot;上传文件为空&quot;</span>, <span class="string">&quot;Business.UPLOAD_FILE_IS_EMPTY&quot;</span>),</span><br><span class="line"></span><br><span class="line">        UPLOAD_FILE_FAILED(<span class="number">10406</span>, <span class="string">&quot;上传文件失败：&#123;&#125;&quot;</span>, <span class="string">&quot;Business.UPLOAD_FILE_FAILED&quot;</span>),</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ---------------------------------- USER -----------------------------------------------</span></span><br><span class="line"></span><br><span class="line">        USER_NON_EXIST(<span class="number">10501</span>, <span class="string">&quot;登录用户：&#123;&#125; 不存在&quot;</span>, <span class="string">&quot;Business.USER_NON_EXIST&quot;</span>),</span><br><span class="line"></span><br><span class="line">        ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> code;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> String message;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> String i18nKey;</span><br><span class="line"></span><br><span class="line">        Business(<span class="type">int</span> code, String message, String i18nKey) &#123;</span><br><span class="line">            Assert.isTrue(code &gt; <span class="number">10000</span> &amp;&amp; code &lt; <span class="number">99999</span>,</span><br><span class="line">                <span class="string">&quot;错误码code值定义失败，Business错误码code值范围在10000~99099之间，请查看ErrorCode.Business类，当前错误码码为&quot;</span> + name());</span><br><span class="line"></span><br><span class="line">            <span class="type">String</span> <span class="variable">errorTypeName</span> <span class="operator">=</span> <span class="built_in">this</span>.getClass().getSimpleName();</span><br><span class="line">            Assert.isTrue(i18nKey != <span class="literal">null</span> &amp;&amp; i18nKey.startsWith(errorTypeName),</span><br><span class="line">                String.format(<span class="string">&quot;错误码i18nKey值定义失败，%s错误码i18nKey值必须以%s开头，当前错误码为%s&quot;</span>, errorTypeName, errorTypeName, name()));</span><br><span class="line">            <span class="built_in">this</span>.code = code;</span><br><span class="line">            <span class="built_in">this</span>.message = message;</span><br><span class="line">            <span class="built_in">this</span>.i18nKey = i18nKey;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">code</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>.code;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> String <span class="title function_">message</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>.message;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> String <span class="title function_">i18nKey</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> i18nKey;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 1000~9999是外部错误码  比如调用支付失败</span></span><br><span class="line"><span class="comment">     * 需要确认是否要透传三方错误给客户端</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">External</span> <span class="keyword">implements</span> <span class="title class_">ResponseCodeInterface</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 支付宝调用失败</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        FAIL_TO_PAY_ON_ALIPAY(<span class="number">1001</span>, <span class="string">&quot;支付宝调用失败&quot;</span>, <span class="string">&quot;External.FAIL_TO_PAY_ON_ALIPAY&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> code;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> String message;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> String i18nKey;</span><br><span class="line"></span><br><span class="line">        External(<span class="type">int</span> code, String message, String i18nKey) &#123;</span><br><span class="line">            Assert.isTrue(code &gt; <span class="number">1000</span> &amp;&amp; code &lt; <span class="number">9999</span>,</span><br><span class="line">                <span class="string">&quot;错误码code值定义失败，External错误码code值范围在1000~9999之间，请查看ErrorCode.External类，当前错误码码为&quot;</span> + name());</span><br><span class="line"></span><br><span class="line">            <span class="type">String</span> <span class="variable">errorTypeName</span> <span class="operator">=</span> <span class="built_in">this</span>.getClass().getSimpleName();</span><br><span class="line">            Assert.isTrue(i18nKey != <span class="literal">null</span> &amp;&amp; i18nKey.startsWith(errorTypeName),</span><br><span class="line">                String.format(<span class="string">&quot;错误码i18nKey值定义失败，%s错误码i18nKey值必须以%s开头，当前错误码为%s&quot;</span>, errorTypeName, errorTypeName, name()));</span><br><span class="line">            <span class="built_in">this</span>.code = code;</span><br><span class="line">            <span class="built_in">this</span>.message = message;</span><br><span class="line">            <span class="built_in">this</span>.i18nKey = i18nKey;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">code</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>.code;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> String <span class="title function_">message</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>.message;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> String <span class="title function_">i18nKey</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>.i18nKey;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 100~999是客户端错误码</span></span><br><span class="line"><span class="comment">     * 客户端如 Web+小程序+手机端  调用出错</span></span><br><span class="line"><span class="comment">     * 可能由于参数问题或者授权问题或者调用过去频繁</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Client</span> <span class="keyword">implements</span> <span class="title class_">ResponseCodeInterface</span> &#123;</span><br><span class="line"></span><br><span class="line">        COMMON_FORBIDDEN_TO_CALL(<span class="number">101</span>, <span class="string">&quot;禁止调用&quot;</span>, <span class="string">&quot;Client.COMMON_FORBIDDEN_TO_CALL&quot;</span>),</span><br><span class="line"></span><br><span class="line">        COMMON_REQUEST_TOO_OFTEN(<span class="number">102</span>, <span class="string">&quot;调用太过频繁&quot;</span>, <span class="string">&quot;Client.COMMON_REQUEST_TOO_OFTEN&quot;</span>),</span><br><span class="line"></span><br><span class="line">        COMMON_REQUEST_PARAMETERS_INVALID(<span class="number">103</span>, <span class="string">&quot;请求参数异常，&#123;0&#125;&quot;</span>, <span class="string">&quot;Client.COMMON_REQUEST_PARAMETERS_INVALID&quot;</span>),</span><br><span class="line"></span><br><span class="line">        COMMON_REQUEST_METHOD_INVALID(<span class="number">104</span>, <span class="string">&quot;请求方式: &#123;&#125; 不支持&quot;</span>, <span class="string">&quot;Client.COMMON_REQUEST_METHOD_INVALID&quot;</span>),</span><br><span class="line"></span><br><span class="line">        COMMON_HTTP_MEDIA_TYPE_NOT_SUPPORTED_ERROR(<span class="number">109</span>, <span class="string">&quot;请求类型：&#123;&#125; 不支持&quot;</span>, <span class="string">&quot;Client.COMMON_HTTP_MEDIA_TYPE_NOT_SUPPORTED_ERROR&quot;</span>),</span><br><span class="line"></span><br><span class="line">        COMMON_REQUEST_RESUBMIT(<span class="number">105</span>, <span class="string">&quot;请求重复提交&quot;</span>, <span class="string">&quot;Client.COMMON_REQUEST_RESUBMIT&quot;</span>),</span><br><span class="line"></span><br><span class="line">        COMMON_NO_AUTHORIZATION(<span class="number">106</span>, <span class="string">&quot;请求接口：&#123;&#125; 失败，用户未授权&quot;</span>, <span class="string">&quot;Client.COMMON_NO_AUTHORIZATION&quot;</span>),</span><br><span class="line"></span><br><span class="line">        INVALID_TOKEN(<span class="number">107</span>, <span class="string">&quot;token异常&quot;</span>, <span class="string">&quot;Client.INVALID_TOKEN&quot;</span>),</span><br><span class="line"></span><br><span class="line">        TOKEN_PROCESS_FAILED(<span class="number">108</span>, <span class="string">&quot;token处理失败：&#123;&#125;&quot;</span>, <span class="string">&quot;Client.TOKEN_PROCESS_FAILED&quot;</span>),</span><br><span class="line"></span><br><span class="line">        ;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> code;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> String message;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> String i18nKey;</span><br><span class="line"></span><br><span class="line">        Client(<span class="type">int</span> code, String message, String i18nKey) &#123;</span><br><span class="line">            Assert.isTrue(code &gt; <span class="number">100</span> &amp;&amp; code &lt; <span class="number">999</span>,</span><br><span class="line">                <span class="string">&quot;错误码code值定义失败，Client错误码code值范围在100~999之间，请查看ErrorCode.Client类，当前错误码码为&quot;</span> + name());</span><br><span class="line"></span><br><span class="line">            <span class="type">String</span> <span class="variable">errorTypeName</span> <span class="operator">=</span> <span class="built_in">this</span>.getClass().getSimpleName();</span><br><span class="line">            Assert.isTrue(i18nKey != <span class="literal">null</span> &amp;&amp; i18nKey.startsWith(errorTypeName),</span><br><span class="line">                String.format(<span class="string">&quot;错误码i18nKey值定义失败，%s错误码i18nKey值必须以%s开头，当前错误码为%s&quot;</span>, errorTypeName, errorTypeName, name()));</span><br><span class="line">            <span class="built_in">this</span>.code = code;</span><br><span class="line">            <span class="built_in">this</span>.message = message;</span><br><span class="line">            <span class="built_in">this</span>.i18nKey = i18nKey;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">code</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>.code;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> String <span class="title function_">message</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>.message;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> String <span class="title function_">i18nKey</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>.i18nKey;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 0~99是内部错误码  例如 框架内部问题之类的</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Internal</span> <span class="keyword">implements</span> <span class="title class_">ResponseCodeInterface</span> &#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 内部错误码</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        INVALID_PARAMETER(<span class="number">1</span>, <span class="string">&quot;参数异常：&#123;&#125;&quot;</span>, <span class="string">&quot;Internal.INVALID_PARAMETER&quot;</span>),</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 该错误主要用于返回  未知的异常（大部分是RuntimeException） 程序未能捕获 未能预料的错误</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        INTERNAL_ERROR(<span class="number">2</span>, <span class="string">&quot;系统内部错误：&#123;&#125;&quot;</span>, <span class="string">&quot;Internal.INTERNAL_ERROR&quot;</span>),</span><br><span class="line"></span><br><span class="line">        GET_ENUM_FAILED(<span class="number">3</span>, <span class="string">&quot;获取枚举类型失败, 枚举类：&#123;&#125;&quot;</span>, <span class="string">&quot;Internal.GET_ENUM_FAILED&quot;</span>),</span><br><span class="line"></span><br><span class="line">        GET_CACHE_FAILED(<span class="number">4</span>, <span class="string">&quot;获取缓存失败&quot;</span>, <span class="string">&quot;Internal.GET_CACHE_FAILED&quot;</span>),</span><br><span class="line"></span><br><span class="line">        DB_INTERNAL_ERROR(<span class="number">5</span>, <span class="string">&quot;数据库异常&quot;</span>, <span class="string">&quot;Internal.DB_INTERNAL_ERROR&quot;</span>),</span><br><span class="line"></span><br><span class="line">        LOGIN_CAPTCHA_GENERATE_FAIL(<span class="number">7</span>, <span class="string">&quot;验证码生成失败&quot;</span>, <span class="string">&quot;Internal.LOGIN_CAPTCHA_GENERATE_FAIL&quot;</span>),</span><br><span class="line"></span><br><span class="line">        EXCEL_PROCESS_ERROR(<span class="number">8</span>, <span class="string">&quot;excel处理失败：&#123;&#125;&quot;</span>, <span class="string">&quot;Internal.EXCEL_PROCESS_ERROR&quot;</span>),</span><br><span class="line"></span><br><span class="line">        ;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> code;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> String message;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> String i18nKey;</span><br><span class="line"></span><br><span class="line">        Internal(<span class="type">int</span> code, String message, String i18nKey) &#123;</span><br><span class="line">            Assert.isTrue(code &lt; <span class="number">100</span>,</span><br><span class="line">                <span class="string">&quot;错误码code值定义失败，Internal错误码code值范围在100~999之间，请查看ErrorCode.Internal类，当前错误码码为&quot;</span> + name());</span><br><span class="line"></span><br><span class="line">            <span class="type">String</span> <span class="variable">errorTypeName</span> <span class="operator">=</span> <span class="built_in">this</span>.getClass().getSimpleName();</span><br><span class="line">            Assert.isTrue(i18nKey != <span class="literal">null</span> &amp;&amp; i18nKey.startsWith(errorTypeName),</span><br><span class="line">                String.format(<span class="string">&quot;错误码i18nKey值定义失败，%s错误码i18nKey值必须以%s开头，当前错误码为%s&quot;</span>, errorTypeName, errorTypeName, name()));</span><br><span class="line">            <span class="built_in">this</span>.code = code;</span><br><span class="line">            <span class="built_in">this</span>.message = message;</span><br><span class="line">            <span class="built_in">this</span>.i18nKey = i18nKey;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">code</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>.code;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> String <span class="title function_">message</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>.message;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> String <span class="title function_">i18nKey</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>.i18nKey;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>业务异常基类ServiceException</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EqualsAndHashCode(callSuper = true)</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@ApiModel(value = &quot;服务基本异常类型&quot;, description = &quot;服务基本异常类型&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ServiceException</span> <span class="keyword">extends</span> <span class="title class_">RuntimeException</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 业务异常的结果码枚举</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Getter</span></span><br><span class="line">    <span class="keyword">protected</span> ResponseCodeInterface responseCode;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 下面2个message，在ServiceException实例化后，都表示替换了占位符的错误描述，一般地，通过getMessage()方法获取最终的错误描述</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">protected</span> String message;</span><br><span class="line">    <span class="keyword">protected</span> String i18nMessage;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 额外数据，支持扩展</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;</span></span><br><span class="line"><span class="comment">     * 如果某个接口由一些额外的数据，有一些特殊的数据  可以放在这个payload里面</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">protected</span> Map&lt;String, Object&gt; payload;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * code =&gt; 传入的枚举类的code</span></span><br><span class="line"><span class="comment">     * message =&gt; 传入的枚举类的message，不涉及参数替换，通常为一段无需替换占位符的错误描述</span></span><br><span class="line"><span class="comment">     * i18nMessage =&gt; 传入枚举类的i18nKey字段的国际化信息，在对应的message_$&#123;language&#125;_$&#123;country&#125;.properties中查找该key对应的value</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> responseCode</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ServiceException</span><span class="params">(ResponseCodeInterface responseCode)</span> &#123;</span><br><span class="line">        fillPayload(<span class="literal">null</span>);</span><br><span class="line">        fillResponseCode(responseCode);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * code =&gt; 传入的枚举类的code</span></span><br><span class="line"><span class="comment">     * message =&gt; 替换了参数后的message，枚举类中该字段含有占位符的错误描述</span></span><br><span class="line"><span class="comment">     * i18nMessage =&gt; 替换了参数后的i18nMessage，i18nKey字段的国际化信息含有占位符（也可以不含），会被args参数列表进行替换</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> responseCode</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> args</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ServiceException</span><span class="params">(ResponseCodeInterface responseCode, Object... args)</span> &#123;</span><br><span class="line">        fillPayload(<span class="literal">null</span>);</span><br><span class="line">        fillResponseCode(responseCode, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通常用于包装其他异常为ServiceException的场景</span></span><br><span class="line"><span class="comment">     * 注意：如果是try catch的情况下捕获异常并转为ServiceException的话，一定要填入Throwable e，不然会丢失堆栈信息</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;</span></span><br><span class="line"><span class="comment">     * code =&gt; 传入的枚举类的code</span></span><br><span class="line"><span class="comment">     * message =&gt; 替换了参数后的message，枚举类中该字段含有占位符的错误描述</span></span><br><span class="line"><span class="comment">     * i18nMessage =&gt; 替换了参数后的i18nMessage，i18nKey字段的国际化信息含有占位符（也可以不含），会被args参数列表进行替换</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> e            捕获到的原始异常</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> responseCode 错误码</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> args         错误详细信息参数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ServiceException</span><span class="params">(ResponseCodeInterface responseCode, Throwable e, Object... args)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(e);</span><br><span class="line">        fillPayload(<span class="literal">null</span>);</span><br><span class="line">        fillResponseCode(responseCode, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ServiceException</span><span class="params">(ResponseCodeInterface responseCode, Map&lt;String, Object&gt; payload, Object... args)</span> &#123;</span><br><span class="line">        fillPayload(payload);</span><br><span class="line">        fillResponseCode(responseCode, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ServiceException</span><span class="params">(ResponseCodeInterface responseCode, Throwable e, Map&lt;String, Object&gt; payload, Object... args)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(e);</span><br><span class="line">        fillPayload(payload);</span><br><span class="line">        fillResponseCode(responseCode, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">fillPayload</span><span class="params">(Map&lt;String, Object&gt; payload)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.payload = payload;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">fillResponseCode</span><span class="params">(ResponseCodeInterface responseCode, Object... args)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.responseCode = responseCode;</span><br><span class="line">        <span class="comment">// 替换占位符后的默认错误描述</span></span><br><span class="line">        <span class="built_in">this</span>.message = MessageFormatter.arrayFormat(responseCode.message(), args).getMessage();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 替换占位符后的国际化错误描述</span></span><br><span class="line">            <span class="built_in">this</span>.i18nMessage = MessageUtils.message(responseCode.i18nKey(), args);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (BeansException e) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;MessageUtils not ready, depends on messageSource&quot;</span>, e);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;could not found i18nMessage entry for key: &quot;</span> + responseCode.i18nKey(), e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 下面2个方法均来自Throwable，写法都一样，意味着ServiceException对象返回的都是经过参数替换后的国际化错误描述信息（无占位符可不替换，但如有配置国际化信息仍然展示国际化信息）</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getMessage</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> i18nMessage != <span class="literal">null</span> ? i18nMessage : message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getLocalizedMessage</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> i18nMessage != <span class="literal">null</span> ? i18nMessage : message;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>全局统一异常处理ExceptionHandlerAdvice类：通过@RestControllerAdvice和@ExceptionHandler实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestControllerAdvice</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ExceptionHandlerAdvice</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 权限校验异常</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ExceptionHandler(AccessDeniedException.class)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.UNAUTHORIZED)</span></span><br><span class="line">    <span class="keyword">public</span> Response&lt;?&gt; handleAccessDeniedException(AccessDeniedException e, HttpServletRequest request) &#123;</span><br><span class="line">        log.error(MessageFormat.format(<span class="string">&quot;请求地址 [&#123;0&#125;], 权限校验失败 [&#123;1&#125;]&quot;</span>, request.getRequestURI(), e.getMessage()), e);</span><br><span class="line">        <span class="keyword">return</span> Response.fail(<span class="keyword">new</span> <span class="title class_">ServiceException</span>(ResponseCodeEnum.Business.PERMISSION_NOT_ALLOWED_TO_OPERATE));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 请求方式不支持</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ExceptionHandler(HttpRequestMethodNotSupportedException.class)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)</span></span><br><span class="line">    <span class="keyword">public</span> Response&lt;?&gt; handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e,</span><br><span class="line">                                                           HttpServletRequest request) &#123;</span><br><span class="line"></span><br><span class="line">        log.error(MessageFormat.format(<span class="string">&quot;请求地址 [&#123;0&#125;], 不支持 [&#123;1&#125;] 请求&quot;</span>, request.getRequestURI(), e.getMethod()), e);</span><br><span class="line">        <span class="keyword">return</span> Response.fail(<span class="keyword">new</span> <span class="title class_">ServiceException</span>(ResponseCodeEnum.Client.COMMON_REQUEST_METHOD_INVALID, e.getMethod()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 捕获缓存类当中的错误</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;</span></span><br><span class="line"><span class="comment">     * 需要确认是否要进行捕获</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ExceptionHandler(UncheckedExecutionException.class)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)</span></span><br><span class="line">    <span class="keyword">public</span> Response&lt;?&gt; handleServiceException(UncheckedExecutionException e) &#123;</span><br><span class="line">        log.error(<span class="string">&quot;获取Guava缓存出现异常!&quot;</span>, e);</span><br><span class="line">        <span class="keyword">return</span> Response.fail(<span class="keyword">new</span> <span class="title class_">ServiceException</span>(ResponseCodeEnum.Internal.GET_CACHE_FAILED));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 业务异常（相关错误码枚举、数据等已经完成封装）</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;</span></span><br><span class="line"><span class="comment">     * 由开发者主动抛出该异常，因此异常e包含了ErrorCodeInterface对象（结果码code，结果描述message，国际化描述信息i18nMessage）</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ExceptionHandler(ServiceException.class)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)</span></span><br><span class="line">    <span class="keyword">public</span> Response&lt;?&gt; handleServiceException(ServiceException e, HttpServletRequest request) <span class="keyword">throws</span> BindException &#123;</span><br><span class="line">        log.warn(<span class="string">&quot;请求发生了预期异常，出错的 url [&#123;&#125;]，出错的描述为 [&#123;&#125;]&quot;</span>,</span><br><span class="line">                request.getRequestURL().toString(), e.getMessage());</span><br><span class="line">        log.warn(<span class="string">&quot;发生了业务异常：&quot;</span>, e);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Response.fail(e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * BindException、MethodArgumentNotValidException异常处理</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ExceptionHandler(&#123;BindException.class, MethodArgumentNotValidException.class&#125;)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.BAD_REQUEST)</span></span><br><span class="line">    <span class="keyword">public</span> Response&lt;?&gt; handleBindException(BindException e, HttpServletRequest request) &#123;</span><br><span class="line">        log.error(MessageFormat.format(<span class="string">&quot;请求发生了参数校验异常，出错的 url [&#123;0&#125;]，出错的描述为 [&#123;1&#125;]&quot;</span>,</span><br><span class="line">                request.getRequestURL().toString(), e.getMessage()), e);</span><br><span class="line"></span><br><span class="line">        Response.<span class="type">ResponseBuilder</span> <span class="variable">builder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Response</span>.ResponseBuilder(ResponseCodeEnum.Client.COMMON_REQUEST_PARAMETERS_INVALID);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 对象级别的验证错误，自定义注解校验一个类多个字段的场景</span></span><br><span class="line">        <span class="keyword">for</span> (ObjectError objectError : e.getGlobalErrors()) &#123;</span><br><span class="line">            builder.addError(<span class="keyword">new</span> <span class="title class_">Response</span>.Error(objectError.getObjectName(), objectError.getDefaultMessage()));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 字段级别的验证错误</span></span><br><span class="line">        <span class="keyword">for</span> (FieldError fieldError : e.getBindingResult().getFieldErrors()) &#123;</span><br><span class="line">            builder.addError(<span class="keyword">new</span> <span class="title class_">Response</span>.Error(fieldError.getField(), fieldError.getDefaultMessage()));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> builder.build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// ---------------------------方式二-------------------------</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 针对参数校验失败异常的处理</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> e       参数校验异常</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> request http request</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 异常处理结果</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ExceptionHandler(value = ConstraintViolationException.class)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.BAD_REQUEST)</span></span><br><span class="line">    <span class="keyword">public</span> Response&lt;?&gt; handleDatabindException(ConstraintViolationException e, HttpServletRequest request) &#123;</span><br><span class="line">        log.error(MessageFormat.format(<span class="string">&quot;请求发生了非预期异常，出错的 url [&#123;0&#125;]，出错的描述为 [&#123;1&#125;]&quot;</span>,</span><br><span class="line">                request.getRequestURL().toString(), e.getMessage()), e);</span><br><span class="line"></span><br><span class="line">        List&lt;Response.Error&gt; errorList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (ConstraintViolation cv : e.getConstraintViolations()) &#123;</span><br><span class="line">            errorList.add(<span class="keyword">new</span> <span class="title class_">Response</span>.Error(cv.getPropertyPath().toString(), cv.getMessage()));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Response</span>.ResponseBuilder&lt;&gt;(ResponseCodeEnum.Client.COMMON_REQUEST_PARAMETERS_INVALID, JsonUtil.toJson(errorList))</span><br><span class="line">                .errors(errorList)</span><br><span class="line">                .build();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 针对spring web 中的异常的处理</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> e        Spring Web 异常</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> request  http request</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> response http response</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 异常处理结果</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ExceptionHandler(value = &#123;</span></span><br><span class="line"><span class="meta">            NoHandlerFoundException.class</span></span><br><span class="line"><span class="meta">    &#125;)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.NOT_FOUND)</span></span><br><span class="line">    <span class="keyword">public</span> Response&lt;?&gt; handleSpringWebExceptionHandler(Exception e, HttpServletRequest request, HttpServletResponse response) &#123;</span><br><span class="line">        log.error(MessageFormat.format(<span class="string">&quot;请求发生了非预期异常，出错的 url [&#123;0&#125;]，出错的描述为 [&#123;1&#125;]&quot;</span>,</span><br><span class="line">                request.getRequestURL().toString(), e.getMessage()), e);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Response</span>.ResponseBuilder&lt;&gt;(ResponseCodeEnum.Client.COMMON_REQUEST_METHOD_INVALID).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * HttpMediaTypeNotSupportedException异常</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> e</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> request</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ExceptionHandler(HttpMediaTypeNotSupportedException.class)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)</span></span><br><span class="line">    <span class="keyword">public</span> Response&lt;?&gt; handleHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e, HttpServletRequest request) &#123;</span><br><span class="line">        log.error(MessageFormat.format(<span class="string">&quot;请求发生了非预期异常，出错的 url [&#123;0&#125;]，出错的描述为 [&#123;1&#125;]&quot;</span>,</span><br><span class="line">                request.getRequestURL().toString(), e.getMessage()), e);</span><br><span class="line">        <span class="keyword">return</span> Response.fail(<span class="keyword">new</span> <span class="title class_">ServiceException</span>(ResponseCodeEnum.Client.COMMON_HTTP_MEDIA_TYPE_NOT_SUPPORTED_ERROR));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExceptionHandler(RuntimeException.class)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)</span></span><br><span class="line">    <span class="keyword">public</span> Response&lt;?&gt; handleRuntimeException(RuntimeException e, HttpServletRequest request) &#123;</span><br><span class="line">        log.error(MessageFormat.format(<span class="string">&quot;请求发生了运行时异常，出错的 url [&#123;0&#125;]，出错的描述为 [&#123;1&#125;]&quot;</span>,</span><br><span class="line">                request.getRequestURL().toString(), e.getMessage()), e);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Response</span>.ResponseBuilder&lt;&gt;(ResponseCodeEnum.Internal.INTERNAL_ERROR).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 针对全局异常的处理</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> e        全局异常</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> request  http request</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> response http response</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 异常处理结果</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@ExceptionHandler(value = Throwable.class)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)</span></span><br><span class="line">    <span class="keyword">public</span> Response&lt;?&gt; throwableHandler(Throwable e, HttpServletRequest request, HttpServletResponse response) &#123;</span><br><span class="line">        log.error(MessageFormat.format(<span class="string">&quot;请求发生了非预期异常，出错的 url [&#123;0&#125;]，出错的描述为 [&#123;1&#125;]&quot;</span>,</span><br><span class="line">                request.getRequestURL().toString(), e.getMessage()), e);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Response</span>.ResponseBuilder&lt;&gt;(ResponseCodeEnum.Internal.INTERNAL_ERROR).build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Filter过滤器，对拦截器的异常进行拦截，封装成Response返回。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GlobalExceptionFilter</span> <span class="keyword">implements</span> <span class="title class_">Filter</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doFilter</span><span class="params">(ServletRequest request, ServletResponse response, FilterChain chain)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            chain.doFilter(request, response);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ServletException ex) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;global filter exceptions&quot;</span>, ex);</span><br><span class="line">            <span class="type">String</span> <span class="variable">resultJson</span> <span class="operator">=</span> JsonUtil.toJson(Response.fail(ex));</span><br><span class="line">            writeToResponse(response, resultJson);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;global filter exceptions, unknown error:&quot;</span>, e);</span><br><span class="line">            <span class="type">Response</span> <span class="variable">resp</span> <span class="operator">=</span> Response.fail(<span class="keyword">new</span> <span class="title class_">ServiceException</span>(ResponseCodeEnum.Internal.INTERNAL_ERROR, e));</span><br><span class="line">            <span class="type">String</span> <span class="variable">resultJson</span> <span class="operator">=</span> JsonUtil.toJson(resp);</span><br><span class="line">            writeToResponse(response, resultJson);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">writeToResponse</span><span class="params">(ServletResponse response, String resultJson)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        response.setContentType(MediaType.APPLICATION_JSON_VALUE);</span><br><span class="line">        response.setCharacterEncoding(<span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">        response.getWriter().write(resultJson);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">destroy</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>响应基类BaseResult</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@ApiModel(&quot;响应基础返回值&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BaseResult</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiModelProperty(name = &quot;结果码&quot;, notes = &quot;正确响应时该值为XXXX，错误响应时为错误代码&quot;)</span></span><br><span class="line">    <span class="meta">@JsonProperty(value = &quot;code&quot;, required = true)</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="type">int</span> code;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiModelProperty(name = &quot;结果码的消息描述&quot;, notes = &quot;人工可读的消息&quot;)</span></span><br><span class="line">    <span class="keyword">protected</span> String msg;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>统一响应格式Response</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EqualsAndHashCode(callSuper = true)</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@ApiModel(&quot;统一Response返回值&quot;)</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Response</span>&lt;T&gt; <span class="keyword">extends</span> <span class="title class_">BaseResult</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 请求方传入的额外参数，响应中通过key=externalExt的形式返回，放到payload Map结构中返回</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">EXTERNAL_EXT</span> <span class="operator">=</span> <span class="string">&quot;externalExt&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 业务数据</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@JsonProperty(&quot;data&quot;)</span></span><br><span class="line">    <span class="meta">@JsonInclude</span></span><br><span class="line">    <span class="meta">@ApiModelProperty(name = &quot;响应体&quot;, notes = &quot;正确响应时该值会被使用&quot;)</span></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="keyword">private</span> T data;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 当验证错误时，各项具体的错误信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@JsonProperty(value = &quot;errors&quot;, required = false)</span></span><br><span class="line">    <span class="meta">@JsonInclude(JsonInclude.Include.NON_NULL)</span></span><br><span class="line">    <span class="meta">@ApiModelProperty(&quot;错误信息&quot;)</span></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;Error&gt; errors;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 额外数据，默认将客户端传来的数据返回去</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@JsonProperty(value = &quot;payload&quot;, required = false)</span></span><br><span class="line">    <span class="meta">@JsonInclude(JsonInclude.Include.NON_NULL)</span></span><br><span class="line">    <span class="meta">@ApiModelProperty(&quot;额外数据&quot;)</span></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, Object&gt; payload;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Response</span><span class="params">(ResponseBuilder&lt;T&gt; builder)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(builder.getCode(), builder.getMsg());</span><br><span class="line">        <span class="built_in">this</span>.data = builder.getData();</span><br><span class="line">        <span class="built_in">this</span>.errors = builder.getErrors();</span><br><span class="line">        <span class="built_in">this</span>.payload = builder.getPayload();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 提供一些常用的静态方法通过ResponseBuilder构建各种类型的响应，如果不合适则可以通过Builder定制</span></span><br><span class="line">    <span class="comment">// 成功</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Response <span class="title function_">success</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ResponseBuilder</span>(ResponseCodeEnum.SUCCESS).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; Response&lt;T&gt; <span class="title function_">success</span><span class="params">(T data)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ResponseBuilder</span>&lt;T&gt;(ResponseCodeEnum.SUCCESS)</span><br><span class="line">                .data(data)</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 中间状态</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Response <span class="title function_">pending</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ResponseBuilder</span>&lt;&gt;(ResponseCodeEnum.PENDING).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; Response&lt;T&gt; <span class="title function_">pending</span><span class="params">(T data)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ResponseBuilder</span>&lt;T&gt;(ResponseCodeEnum.PENDING)</span><br><span class="line">                .data(data)</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 失败</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; Response&lt;T&gt; <span class="title function_">fail</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ResponseBuilder</span>&lt;T&gt;(ResponseCodeEnum.FAILED).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; Response&lt;T&gt; <span class="title function_">fail</span><span class="params">(T data)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ResponseBuilder</span>&lt;T&gt;(ResponseCodeEnum.FAILED)</span><br><span class="line">                .data(data)</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; Response&lt;T&gt; <span class="title function_">fail</span><span class="params">(ServiceException e)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ResponseBuilder</span>&lt;T&gt;(e.getResponseCode())</span><br><span class="line">                .payload(e.getPayload())</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; Response&lt;T&gt; <span class="title function_">fail</span><span class="params">(ServiceException e, T data)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ResponseBuilder</span>&lt;T&gt;(e.getResponseCode())</span><br><span class="line">                .payload(e.getPayload())</span><br><span class="line">                .data(data)</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 统一响应类Response建造者</span></span><br><span class="line"><span class="comment">     * 依赖于Spring Context，支持响应结果码描述国际化，参数替换。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &lt;T&gt;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">ResponseBuilder</span>&lt;T&gt; &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> ResponseCodeInterface responseCode;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 国际化的结果码信息内容</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> String msg;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> code;</span><br><span class="line">        <span class="keyword">private</span> T data;</span><br><span class="line">        <span class="keyword">private</span> List&lt;Error&gt; errors;</span><br><span class="line">        <span class="keyword">private</span> Map&lt;String, Object&gt; payload;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> Response&lt;T&gt; <span class="title function_">build</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Response</span>&lt;&gt;(<span class="built_in">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">ResponseBuilder</span><span class="params">(ResponseCodeInterface responseCode, Object... args)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.responseCode = responseCode;</span><br><span class="line">            <span class="built_in">this</span>.code = responseCode.code();</span><br><span class="line">            <span class="comment">// 替换默认描述占位符后的默认错误描述</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">defaultMsg</span> <span class="operator">=</span> MessageFormatter.arrayFormat(responseCode.message(), args).getMessage();</span><br><span class="line">            <span class="type">String</span> <span class="variable">i18nMessage</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// 获取国际化的信息描述，如果配置responseCode.i18nKey()对应的key-value则支持国际化。也可以临时对默认的错误描述进行覆盖。</span></span><br><span class="line">                i18nMessage = MessageUtils.message(responseCode.i18nKey(), args);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (BeansException e) &#123;</span><br><span class="line">                log.error(<span class="string">&quot;MessageUtils not ready, depends on messageSource&quot;</span>, e);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                log.error(<span class="string">&quot;could not found i18nMessage entry for key: &quot;</span> + responseCode.i18nKey(), e);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="built_in">this</span>.msg = StringUtils.isNotBlank(i18nMessage) ? i18nMessage : defaultMsg;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 通过ServiceException业务异常创建Builder</span></span><br><span class="line"><span class="comment">         * 注：在ServiceException中已经进行错误描述的国际化处理</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> e</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">ResponseBuilder</span><span class="params">(ServiceException e)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.responseCode = e.getResponseCode();</span><br><span class="line">            <span class="built_in">this</span>.code = e.getResponseCode().code();</span><br><span class="line">            <span class="built_in">this</span>.msg = e.getMessage();</span><br><span class="line">            <span class="built_in">this</span>.payload = e.getPayload();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getCode</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>.code;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> String <span class="title function_">getMsg</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>.msg;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> ResponseCodeInterface <span class="title function_">getResponseCode</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> responseCode;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> ResponseBuilder&lt;T&gt; <span class="title function_">data</span><span class="params">(T data)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.data = data;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> T <span class="title function_">getData</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> data;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> ResponseBuilder&lt;T&gt; <span class="title function_">errors</span><span class="params">(List&lt;Error&gt; errors)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.errors = errors;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> List&lt;Error&gt; <span class="title function_">getErrors</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> errors;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> ResponseBuilder&lt;T&gt; <span class="title function_">addError</span><span class="params">(Error error)</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">this</span>.errors == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="built_in">this</span>.errors = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">this</span>.errors.add(error);</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> ResponseBuilder&lt;T&gt; <span class="title function_">addPayloadAttr</span><span class="params">(String key, String value)</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">this</span>.payload == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="built_in">this</span>.payload = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">this</span>.payload.put(key, value);</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title function_">getPayload</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> payload;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> ResponseBuilder&lt;T&gt; <span class="title function_">payload</span><span class="params">(Map&lt;String, Object&gt; payload)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.payload = payload;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> ResponseBuilder&lt;T&gt; <span class="title function_">clientExt</span><span class="params">(Map&lt;String, Object&gt; clientExt)</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">this</span>.payload == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="built_in">this</span>.payload = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">this</span>.payload.put(EXTERNAL_EXT, clientExt);</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Data</span></span><br><span class="line">    <span class="meta">@AllArgsConstructor</span></span><br><span class="line">    <span class="meta">@ApiModel(&quot;统一Response返回值中错误信息的模型&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Error</span> &#123;</span><br><span class="line">        <span class="meta">@ApiModelProperty(name = &quot;错误项&quot;, notes = &quot;错误的具体项&quot;)</span></span><br><span class="line">        <span class="keyword">private</span> String name;</span><br><span class="line">        <span class="meta">@ApiModelProperty(name = &quot;错误项说明&quot;, notes = &quot;错误的具体项说明&quot;)</span></span><br><span class="line">        <span class="keyword">private</span> String message;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h2 id="响应码映射"><a href="#响应码映射" class="headerlink" title="响应码映射"></a>响应码映射</h2><p>通常一个后端服务还会去调用第三方，比如一个聚合支付平台后面（南向）有各种支付渠道，系统层面也会依赖分布式缓存（Redis），配置中心，消息队列等内部服务，因此针对这些调用报错，后端不会直接透传，而是会进行包装，第三方错误码映射后才会返回给调用方。这部分设计暂时没有纳入进来，如果要做，下面是一些考虑的点：</p>
+<p>todo:<br>1.依赖方的响应码（南向）到调用方（北向）响应码的映射计划通过国际化的响应码配置文件中定义。key的组成为&lt;被调用方ID&gt;.&lt;服务类型Type&gt;.&lt;南向响应码resultCode&gt;=&lt;北向响应码code&gt;，需要提供code到枚举的解析方法，如果考虑合理存放响应码映射信息，可以通过一个resultCode.properties来存放。示例：Alipay.[Charge.]E0001=10601<br>2.通过数据库，适合支持运营配置的场景。<br>3.通过代码逻辑+枚举类映射的方式（变更的代价较大，一般不建议）</p>
+<p>响应码映射的管理，如果需要支持运营配置，可以考虑将响应码映射的维护放在数据库，应该支持以下功能：</p>
+<ul>
+<li>定制化南向响应码对应的北向映射code，message</li>
+<li>支持添加北向响应码和响应码描述定义</li>
+<li>支持配置南向到北向的映射</li>
+</ul>
+<h2 id="HTTP状态码"><a href="#HTTP状态码" class="headerlink" title="HTTP状态码"></a>HTTP状态码</h2><p>Rest风格的API设计后，httpcode充当什么角色？主流的都是服务器内部异常时500，客户端错误400，请求到达服务端后代码流程正常（异常分支处理也属于代码正常流程）则统一返回200。几点思考：</p>
+<ul>
+<li>根据处理异常类型设置httpcode？</li>
+<li>结合nginx健康检查？到后端之后统一200？—- 划分为内部资源，通常只要流程处理正常，就返回2XX，重定向则3XX，客户端问题就4XX，服务端资源不足了那就5XX，外部资源可以返回2XX然后通过下面的业务结果告知客户端具体错误</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>统一响应格式，主要方便前后端沟通，规范化后端研发人员的编码；全局异常处理是优雅的处理各种报错，从业务逻辑中分离开来，使得研发更关注业务；国际化是特殊处理，如果要提供全球化的服务，那么是值得做的。</p>
+<blockquote>
+<p>代码：todo待整理上传github</p>
+</blockquote>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>HTTP：</p>
+<p><a href="https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml">Hypertext Transfer Protocol (HTTP) Status Code Registry</a><br><a href="https://datatracker.ietf.org/doc/html/rfc2616#section-10">Hypertext Transfer Protocol – HTTP/1.1</a><br><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP">火狐官方HTTP定义</a><br><a href="https://docs.github.com/zh/rest?apiVersion=2022-11-28">GitHub REST API 文档</a></p>
+<p>API文档：</p>
+<p><a href="https://developer.twitter.com/en/docs/twitter-ads-api">Twitter Ads API</a><br><a href="https://developer.paypal.com/docs/api/orders/v2/#orders_create">Paypal API</a></p>
+<blockquote>
+<p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
+</blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Best-practice/" rel="tag">Best practice</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/Hibernate-Validator/" rel="tag">Hibernate Validator</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/Spring/" rel="tag">Spring</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/11/10/RestTemplate-learning/"  data-tooltip="Spring项目的HTTP客户端工具RestTemplate">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/27/Mybatis-Source-Code-Learning/" data-tooltip="Mybatis源码学习总结">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/31/Spring-global-exception-handling-and-error-code-design/&amp;title=Spring项目统一响应格式设计和全局异常处理">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/31/Spring-global-exception-handling-and-error-code-design/&amp;title=Spring项目统一响应格式设计和全局异常处理">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/31/Spring-global-exception-handling-and-error-code-design/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/31/Spring-global-exception-handling-and-error-code-design/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">给作者投食戳这里OwO</a>
+                <br>
+            </div>
+            <div id="donate_guide" class="donate_bar center hidden" >
+                <img src="/assets/images/qr-alipay.jpg" alt="支付宝打赏">
+                <img src="/assets/images/qr-wechatpay.png" alt="微信打赏">
+            </div>
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide').removeClass('hidden');
+                }
+            </script>
+        </div>
+        
+            
+                <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTg0My84NDA3">
+</div>
+<!-- City版安装代码已完成 -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<div id="footer-img"></div>
+    <span class="copyrights">
+    	<p>Powder by <a href="https://hexo.io/zh-cn/">Hexo</a>. Theme - <a href="https://github.com/kaedea/hexo-theme-themia">Themia</a> Modified by <a href="http://tsukasa.moe">Tsukasa</a>.<br>
+			License - <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">Attribution-NonCommercial-NoDerivatives 4.0 International</a>.<br>
+			<span id="busuanzi_container_site_uv">
+  				Total <span id="busuanzi_value_site_uv"></span> visitors.
+			</span>
+			<span id="busuanzi_container_site_pv">
+			    Total visit <span id="busuanzi_value_site_pv"></span> times.
+			</span>
+			<span id="run_time"></span>
+		</p>
+        Copyrights &copy; 2024 Tsukasa. All Rights Reserved.(≧∀≦)
+    </span>
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<script>
+    function secondToDate(second) {
+        if (!second) {
+            return 0;
+        }
+        var time = new Array(0, 0, 0, 0, 0);
+        // if (second >= 365 * 24 * 3600) {
+        //     time[0] = parseInt(second / (365 * 24 * 3600));
+        //     second %= 365 * 24 * 3600;
+        // }
+        if (second >= 24 * 3600) {
+            time[1] = parseInt(second / (24 * 3600));
+            second %= 24 * 3600;
+        }
+        if (second >= 3600) {
+            time[2] = parseInt(second / 3600);
+            second %= 3600;
+        }
+        if (second >= 60) {
+            time[3] = parseInt(second / 60);
+            second %= 60;
+        }
+        if (second > 0) {
+            time[4] = second;
+        }
+        return time;
+    }
+</script>
+<script type="text/javascript" language="javascript">
+    function setTime() {
+        var create_time = Math.round(new Date(Date.UTC(2017, 2, 6, 2, 23, 0))
+                .getTime() / 1000);
+        var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+        currentTime = secondToDate((timestamp - create_time));
+        currentTimeHtml = "Blog ages: "+ currentTime[1] + ' days '
+                + currentTime[2] + ' h ' 
+                + currentTime[3] + ' m ' 
+                + currentTime[4] + ' s.';
+        document.getElementById("run_time").innerHTML = currentTimeHtml;
+    }
+    setInterval(setTime, 1000);
+</script>
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/11/10/RestTemplate-learning/"  data-tooltip="Spring项目的HTTP客户端工具RestTemplate">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/27/Mybatis-Source-Code-Learning/" data-tooltip="Mybatis源码学习总结">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/31/Spring-global-exception-handling-and-error-code-design/&amp;title=Spring项目统一响应格式设计和全局异常处理">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/31/Spring-global-exception-handling-and-error-code-design/&amp;title=Spring项目统一响应格式设计和全局异常处理">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/31/Spring-global-exception-handling-and-error-code-design/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/31/Spring-global-exception-handling-and-error-code-design/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/31/Spring-global-exception-handling-and-error-code-design/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/31/Spring-global-exception-handling-and-error-code-design/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/31/Spring-global-exception-handling-and-error-code-design/&amp;title=Spring项目统一响应格式设计和全局异常处理">
+                <i class="fa fa-weibo"></i><span>Share on Weibo</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/31/Spring-global-exception-handling-and-error-code-design/&amp;title=Spring项目统一响应格式设计和全局异常处理">
+                <i class="fa fa-qq"></i><span>Share on QQ</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatars.jpg"/>
+        
+            <h4 id="about-card-name">Tsukasa</h4>
+        
+            <h5 id="about-card-bio"><p><a href="http://tsukasa.moe">「My Homepage」</a><br><a href="http://me.tsukasa.moe">「About Me」</a><br><a href="http://blog.tsukasa.moe/links">「My Links」</a></p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Shenzhen
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover-neko.jpg');"></div>
+    <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+    <!--SCRIPTS-->
+
+<script src="/assets/js/jquery.js"></script>
+
+
+<script src="/assets/js/jquery.fancybox.js"></script>
+
+
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+
+
+<script src="/assets/js/tranquilpeak.js"></script>
+
+<!--SCRIPTS END-->
+<!--PANGU AUTO SPACE-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.2.1/pangu.min.js"></script>
+<script> pangu.spacingPage(); </script>
+<!--PANGU AUTO SPACE END-->
+
+
+   
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+    </script>
+
+    
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','DibYiq_42u2sq4ziXd_y','2.0.0');
+    </script>
+
+
+</html>

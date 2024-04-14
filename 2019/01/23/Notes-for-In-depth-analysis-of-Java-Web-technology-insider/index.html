@@ -1,0 +1,838 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Tsukasa の 部屋">
+    <title>深入分析Java Web技术内幕读书笔记 - Tsukasa の 部屋</title>
+    <meta name="author" content="Tsukasa">
+    
+    
+        <link rel="icon" href="http://blog.tsukasa.moe/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="《深入分析Java Web技术内幕》读书笔记，未完。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="深入分析Java Web技术内幕读书笔记">
+<meta property="og:url" content="http://blog.tsukasa.moe/2019/01/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/index.html">
+<meta property="og:site_name" content="Tsukasa の 部屋">
+<meta property="og:description" content="《深入分析Java Web技术内幕》读书笔记，未完。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-01-23T15:16:22.000Z">
+<meta property="article:modified_time" content="2023-07-25T15:47:40.282Z">
+<meta property="article:author" content="Tsukasa">
+<meta property="article:tag" content="Java Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@TsukasaMoe">
+    
+        <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+    
+    
+        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/icons/202307241652410.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/icons/202307241652410.jpg" />
+    
+    
+        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307241700662.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307241700662.jpg" />
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/font-awesome.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+
+    
+<link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <script src="https://cdn.bootcss.com/aplayer/1.6.0/APlayer.min.js"></script>
+<script src="https://api.i-meto.com/music/aplayer.min.js"></script>
+<!-- Define author's picture -->
+
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/%20">Tsukasa の 部屋</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon st-search-show-outputs"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatars.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">Tsukasa</span>
+            <span class="sidebar-profile-moto">エロくて可愛い女の子大好きだ！</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/%20"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-circle-o"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-star-o"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bars"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-terminal"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/TsukasaMoe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:luowenqingsmail@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://portfolio.tsukasa.moe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-at"></i>
+                    <span class="sidebar-button-desc">Portfolio</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/messages"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-comment-o"></i>
+                    <span class="sidebar-button-desc">Messages</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/friends"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-mars"></i>
+                    <span class="sidebar-button-desc">Friends</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/links"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-link"></i>
+                    <span class="sidebar-button-desc">Links</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/donate"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-usd"></i>
+                    <span class="sidebar-button-desc">Donate</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    post-header-cover--full"
+             style="background-image:url('https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307241700662.jpg');"
+             data-behavior="3">
+            
+                
+<div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            深入分析Java Web技术内幕读书笔记
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Wed Jan 23 2019 23:16:22 GMT+0800">
+	
+		    Jan 23, 2019
+    	
+    </time>
+    
+        <span> |  </span>
+        
+    <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/">编程开发</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B7%B1%E5%85%A5Web%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B"><span class="toc-text">深入Web请求过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#DNS%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90"><span class="toc-text">DNS域名解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E8%AE%B0%E5%BD%95-Resource-Records"><span class="toc-text">资源记录(Resource Records)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS%E5%B7%A5%E5%85%B7"><span class="toc-text">DNS工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E8%AE%B0%E5%BD%95%E7%B1%BB%E5%9E%8B"><span class="toc-text">常见域名解析记录类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CDN%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6"><span class="toc-text">CDN工作机制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90Java-I-O%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6"><span class="toc-text">深入分析Java I&#x2F;O的工作机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-NIO"><span class="toc-text">Java NIO</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java-Web%E4%B8%AD%E7%9A%84%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98"><span class="toc-text">深入理解Java Web中的编码问题</span></a></li></ol>
+<h1 id="深入Web请求过程"><a href="#深入Web请求过程" class="headerlink" title="深入Web请求过程"></a>深入Web请求过程</h1><p>Web请求过程</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">                                http	        +----------+                                                                                                     </span><br><span class="line">                        +---------------------&gt;   DNS    |                                                                                                     </span><br><span class="line">                        |                     +----------+                                                                                                     </span><br><span class="line">                        |                                                                                                                                      </span><br><span class="line">                        |                            http             +----------------------+                                                                 </span><br><span class="line">                        |    +----------------------------------------&gt;        CDN           |         http反向代理                                                </span><br><span class="line">                        |    |                                        |css/js/img等静态资源   |&lt;-----------------------+                                        </span><br><span class="line">                        |    |                                        +----------------------+                        |                                        </span><br><span class="line">                        |    |                                            +-------------------------------------------v---------+                              </span><br><span class="line">              +---------|----|----+        +--------------------+         | +------------+      +----------------------------+  |                              </span><br><span class="line">              |   User Browser    |        |Elastic Load Balance|         | |Load Balance|      |    服务端系统               |  |                              </span><br><span class="line">--------------&gt;  css/html/js/img  |------&gt; |    +---------+     ------------&gt; +---------+|      |                            |  |                              </span><br><span class="line">              |                   |  http  |    |   ELB   |     |  http   | | |   SLB   ||      |  +----------+  +---------+ |  |                              </span><br><span class="line">              +-------------------+        |    +---------+     |         | | +---------+|------&gt;  |          |  |         | |  |                              </span><br><span class="line">                                           |    +---------+     |         | | +---------+|      |  |  AZ 1    |  |   AZ 2  | |  |                              </span><br><span class="line">                                           |    |   ELB   |     |         | | |   SLB   ||      |  +----------+  +---------+ |  |                              </span><br><span class="line">                                           |    +---------+     |         | | +---------+|      +----------------------------+  |                              </span><br><span class="line">                                           +--------------------+         | +------------+       ^         ^               ^    |                              </span><br><span class="line">                                                                          +----------------------|---------|---------------|----+                              </span><br><span class="line">                                                                                                 |         |               v                                   </span><br><span class="line">                                                                                     +-----------v-+   +---v--------+    +--------+                            </span><br><span class="line">                                                                                     |             |   |  文件系统   |    |        |                            </span><br><span class="line">                                                                                     |  分布式缓存  |   +------------+    | 数据库 |                            </span><br><span class="line">                                                                                     |             |                     |        |                            </span><br><span class="line">                                                                                     +-------------+                     +--------+                            </span><br></pre></td></tr></table></figure>
+<h2 id="DNS域名解析"><a href="#DNS域名解析" class="headerlink" title="DNS域名解析"></a>DNS域名解析</h2><h3 id="资源记录-Resource-Records"><a href="#资源记录-Resource-Records" class="headerlink" title="资源记录(Resource Records)"></a>资源记录(Resource Records)</h3><p>所有RRs的顶层格式都相同。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">                                1  1  1  1  1  1</span><br><span class="line">  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|                                               |</span><br><span class="line">/                                               /</span><br><span class="line">/                      NAME                     /</span><br><span class="line">|                                               |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|                      TYPE                     |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|                     CLASS                     |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|                      TTL                      |</span><br><span class="line">|                                               |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br><span class="line">|                   RDLENGTH                    |</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--|</span><br><span class="line">/                     RDATA                     /</span><br><span class="line">/                                               /</span><br><span class="line">+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+</span><br></pre></td></tr></table></figure>
+<p>格式说明：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">NAME            an owner name, i.e., the name of the node to which this</span><br><span class="line">                resource record pertains.</span><br><span class="line"></span><br><span class="line">TYPE            two octets containing one of the RR TYPE codes.</span><br><span class="line"></span><br><span class="line">CLASS           two octets containing one of the RR CLASS codes.</span><br><span class="line"></span><br><span class="line">TTL             a 32 bit signed integer that specifies the time interval</span><br><span class="line">                that the resource record may be cached before the source</span><br><span class="line">                of the information should again be consulted.  Zero</span><br><span class="line">                values are interpreted to mean that the RR can only be</span><br><span class="line">                used for the transaction in progress, and should not be</span><br><span class="line">                cached.  For example, SOA records are always distributed</span><br><span class="line">                with a zero TTL to prohibit caching.  Zero values can</span><br><span class="line">                also be used for extremely volatile data.</span><br><span class="line"></span><br><span class="line">RDLENGTH        an unsigned 16 bit integer that specifies the length in</span><br><span class="line">                octets of the RDATA field.</span><br></pre></td></tr></table></figure>
+<p>一级域名：主机名+域名后缀。例如：tsukasa.moe<br>二级域名：一级域名下面的主机名。例如：www.tsukasa.moe</p>
+<p>浏览器缓存-&gt;操作系统缓存(host)-&gt;本地域名服务器(LDNS)-&gt;根域名服务器-&gt;主域名服务器(gTLD Server)-&gt;Name Server</p>
+<h3 id="DNS工具"><a href="#DNS工具" class="headerlink" title="DNS工具"></a>DNS工具</h3><p>host<br>nslookup<br>dig</p>
+<p>这三个工具功能丰富度、复杂度依次递增，其中nslookup在windows中也可以使用。</p>
+<p>dig命令用法：</p>
+<ul>
+<li>dig tsukasa.moe</li>
+<li>dig tsukasa.moe ns</li>
+<li>dig tsukasa.moe mx</li>
+<li>dig tsukasa.moe +trace</li>
+</ul>
+<p>nslookup命令用法：可以使用交互或非交互模式进行查询。</p>
+<ul>
+<li>直接输入nslookup进入交互式模式，默认连接到默认域名服务器（即/etc/resolv.conf的第一个dns地址），输入域名即可查询。</li>
+<li>交互模式中，使用set type=mx可以修改要查询的记录类型，再输入域名即可返回相应结果</li>
+<li>非交互模式下，nslookup - 127.0.0.1即设置域名服务器ip</li>
+</ul>
+<p>host命令用法：<br>host baidu.com -&gt; 默认输出只有A和MX记录<br>host -a baidu.com -&gt; 输出与dig baidu.com一样的信息<br>host -t ns baidu.com -&gt; -t是指定type，可以用host –help查看<br>host -C  baidu.com -&gt; 查询SOA权威域名服务器</p>
+<h3 id="常见域名解析记录类型"><a href="#常见域名解析记录类型" class="headerlink" title="常见域名解析记录类型"></a>常见域名解析记录类型</h3><p>TTL：缓存失效时间。<br>MX优先级：数值越低，优先级越高</p>
+<table>
+<thead>
+<tr>
+<th>记录类型</th>
+<th>定义</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A记录</td>
+<td>将域名指向一个ip</td>
+<td>主机记录www，记录值127.0.0.1</td>
+<td>将二级域名www.tsukasa.moe映射到127.0.0.1</td>
+</tr>
+<tr>
+<td>CNAME记录</td>
+<td>将域名指向另一个域名，再由另一个域名提供IP地址</td>
+<td>主机记录@，记录值www</td>
+<td>将</td>
+</tr>
+<tr>
+<td>MX记录</td>
+<td>设置邮箱，让邮箱能够收到邮件</td>
+<td>主机记录@，记录值填域名m.tsukasa.moe或IP地址，MX优先级5</td>
+<td>邮箱地址为xxx@m.tsukasa.moe</td>
+</tr>
+<tr>
+<td>NS记录</td>
+<td>将子域名交给其他DNS服务商解析</td>
+<td>主机记录www，记录值DNS服务器域名f1g1ns1.dnspod.net</td>
+<td>将子域名www.tsukasa.moe授权给DNS服务器解析</td>
+</tr>
+<tr>
+<td>AAAA记录</td>
+<td>将域名指向一个 IPv6 地址</td>
+<td>主机记录www，记录值ipv6地址1030::C9B4:FF12:48AA:1A2B，线路类型为联通</td>
+<td>连通用户单独访问1030::C9B4:FF12:48AA:1A2B</td>
+</tr>
+<tr>
+<td>SRV记录</td>
+<td>标识某台服务器使用了某个服务，常见于微软系统的目录管理</td>
+<td>主机记录_sip._tcp（格式：服务的名字.协议的类型），记录值0 5 5060 sipserver.tsukasa.moe（格式：优先级 权重 端口 目标地址）</td>
+</tr>
+</tbody>
+</table>
+<p>参考</p>
+<p><a href="https://tools.ietf.org/html/rfc1035">https://tools.ietf.org/html/rfc1035</a><br><a href="https://skyao.io/learning-dns/">https://skyao.io/learning-dns/</a><br><a href="http://luodw.cc/2015/12/27/dns03/">http://luodw.cc/2015/12/27/dns03/</a><br><a href="https://blog.csdn.net/a19881029/article/details/19486949">https://blog.csdn.net/a19881029/article/details/19486949</a></p>
+<h2 id="CDN工作机制"><a href="#CDN工作机制" class="headerlink" title="CDN工作机制"></a>CDN工作机制</h2><p>内容分布网络(Centent Delivery Network)：一种先进流量分配网络，用户可以就近边缘节点访问网站发布内容，响应快速。<br>CDN=镜像+缓存+整体负载均衡</p>
+<p>负载均衡通常有3种架构：链路负载均衡、集群负载均衡、操作系统负载均衡</p>
+<ul>
+<li>链路：DNS解析来完成</li>
+<li>集群：分硬件、软件负载均衡两种，硬件负载均衡如F5设备，较为昂贵。</li>
+</ul>
+<h1 id="深入分析Java-I-O的工作机制"><a href="#深入分析Java-I-O的工作机制" class="headerlink" title="深入分析Java I/O的工作机制"></a>深入分析Java I/O的工作机制</h1><p>I/O接口分类</p>
+<ul>
+<li>字节：InputStream和OutputStream</li>
+<li>字符：Reader和Writer</li>
+<li>磁盘：File</li>
+<li>网络：Socket</li>
+</ul>
+<p>前面两组主要是传输数据的数据格式，后两组是传输数据的方式，可以组合使用。<br>文件是操作系统与磁盘交互的最小单元，最小的存储单元是字节，而非字符。</p>
+<p>1.标准访问文件的方式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">           read()                              write()                   </span><br><span class="line">             ^                                     |                     </span><br><span class="line">             |                                     v                     </span><br><span class="line">     +---------------------------------------------------------+         </span><br><span class="line">     | +-----------------+                +-----------------+  |         </span><br><span class="line">     | |   应用缓存       | 用户地址空间    |    应用缓存     |   |         </span><br><span class="line">     | +-----------------+                +-----------------+  |         </span><br><span class="line">     +---------^-----------------------------------------------+         </span><br><span class="line">               |                                   |                     </span><br><span class="line">---------------|-----------------------------------|---------------------</span><br><span class="line">               |                                   v                     </span><br><span class="line">     +---------------------------------------------------------+         </span><br><span class="line">     | +-----------------+                +-----------------+  |         </span><br><span class="line">     | | 高速页面缓存     | 内核地址空间    |  高速页面缓存    |  |         </span><br><span class="line">     | +-----------------+                +-----------------+  |         </span><br><span class="line">     +---------------------------------------------------------+         </span><br><span class="line">               ^                                   |                     </span><br><span class="line">               |                                   |                     </span><br><span class="line">               |                                   v                     </span><br><span class="line">            +-----------------------------------------+                  </span><br><span class="line">            |            物理磁盘                      |                  </span><br><span class="line">            |                                         |                  </span><br><span class="line">            +-----------------------------------------+                  </span><br></pre></td></tr></table></figure>
+<p>2.直接I/O方式：应用程序直接访问磁盘数据，而不经过操作系统内核缓冲区，加载速度慢。<br>3.同步访问：性能较差。<br>4.异步访问：当请求数据返回后继续处理下面的操作，可以提高应用效率，但不改变访问文件的效率。<br>5.内存映射：将内存中某一块区域与磁盘中的文件关联起来，访问内存中的一段数据时，转为访问文件的某一段数据。</p>
+<p>Java序列化</p>
+<ul>
+<li>将一个对象转化为二进制表示的字节数组，通过保存或者转移这些字节数据可以实现持久化，继承java.io.Serializable接口即可实现序列化。反序列化则是将这个字节数组重新构造成对象。</li>
+<li>序列化的属性是对象，则属性类也需要实现Serializable接口</li>
+</ul>
+<p>网络I/O</p>
+<ul>
+<li>三次握手四次挥手</li>
+<li>TCP拥塞控制</li>
+</ul>
+<p>Java Socket机制</p>
+<ul>
+<li>应用程序间通信，通过Socket建立连接，建立连接则必须由底层TCP/IP建立TCP连接，一台主机上有多个程序，通过TCP或UDP的地址即端口号可以与对应的应用进行通信。</li>
+</ul>
+<h2 id="Java-NIO"><a href="#Java-NIO" class="headerlink" title="Java NIO"></a>Java NIO</h2><p>BIO(阻塞I/O)：可以采用线程池减少线程创建和回收的成本，提高重用率。<br>NIO：Channel和Selector关键组件。有个比喻很形象，如果把Channel比作汽车或高铁，那么Selector比作车辆运行调度系统，负责监控每辆车的状态，Buffer则是汽车上(Channel)的座位。</p>
+<p>Buffer工作方式：<br>position, capacity, limit, mark</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>HeapByteBuffer</th>
+<th>DirectByteBuffer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存储位置</td>
+<td>Java Heap中</td>
+<td>Native内存中</td>
+</tr>
+<tr>
+<td>I/O</td>
+<td>需要在用户地址空间与内核地址空间中复制数据</td>
+<td>不需要复制</td>
+</tr>
+<tr>
+<td>内存管理</td>
+<td>Java GC回收，创建和开销少</td>
+<td>System.gc()释放Java对象引用的DirectByteBuffer内存空间，长期持有可能导致Native内存泄漏，创建和回收内存开销大</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>并发连接数少于1000，I/O操作较少</td>
+<td>数据量大、生命周期长的情况</td>
+</tr>
+</tbody>
+</table>
+<h1 id="深入理解Java-Web中的编码问题"><a href="#深入理解Java-Web中的编码问题" class="headerlink" title="深入理解Java Web中的编码问题"></a>深入理解Java Web中的编码问题</h1><p>编码：字符编码，字符到字节，转为机器能够理解的语言，计算机只认识0和1。<br>解码：字节流解码，字节到字符，转为人类容易理解的语言。</p>
+<p>无论是存储还是传输，不管是文件还是图片、视频，在计算机存储上一视同仁，全部是0和1的序列，都以字节的形式存在。<br>从方便人们阅读的角度，文件分为文本文件和二进制文件（非文本文件），文本文件的可视形式是文本字符，例如Test.java，存储时以某种编码格式进行编码，显示时以对应编码格式进行解码，方便文本编辑器、查看。<br>不同的编程语言中，提供了专门用于读写文本文件的类。Java中文本文件读写有BufferedReader和BufferedWriter.</p>
+<p>I/O操作中的编码</p>
+<ul>
+<li>写入存储要编码，对磁盘写，网络上写，传输以流的方式进行，如果读取的是字符需要编码为字节，写入的内容需要指定编码Charset</li>
+<li>读取要解码，对磁盘读出来的数据解码，对网络上获取的流解码，读取字节解码为字符，具体解码过程需要用户指定Charset，默认使用本地环境的字符集，中文环境是GBK编码</li>
+<li>用什么编码写入，就用什么编码读出来，参考示例程序。</li>
+</ul>
+<p>内存操作中的编码</p>
+<ul>
+<li>常见的是字符串到字节的数据类型转换，String str = “中文字符串”; str.getBytes(‘UTF-8’); String s = new String(b, “UTF-8”);</li>
+<li>Charset类提供encode, decode方法，分别对应<code>char[]到byte[]</code>和<code>byte[]到char[]</code>，通过forName(String)方法设置字符集<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Charset</span> <span class="variable">charset</span> <span class="operator">=</span> Charset.forName(<span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line"><span class="type">ByteBuffer</span> <span class="variable">byteBuf</span> <span class="operator">=</span> charset.encode(str);</span><br><span class="line"><span class="type">CharBuffer</span> <span class="variable">charBuf</span> <span class="operator">=</span> charset.decode(byteBuf);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>乱码问题<br>本质是编解码使用了不同的编码格式，乱码的呈现是屏幕，是人的视觉感受。出现在磁盘文件的读写，网络数据传输，数据库存取。</p>
+<p>编码的类型：</p>
+<p>todo…</p>
+<p>参考：<br><a href="https://blog.csdn.net/Alexshi5/article/details/79513018">https://blog.csdn.net/Alexshi5/article/details/79513018</a></p>
+<blockquote>
+<p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
+</blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Java-Web/" rel="tag">Java Web</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/02/Record-some-useful-operation-in-Windows-system/"  data-tooltip="记录Windows一些好用的快捷操作">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/01/bodily-representaion-japanese-phrase/" data-tooltip="日语身体表现词语大杂烩">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2019/01/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/&amp;title=深入分析Java Web技术内幕读书笔记">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2019/01/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/&amp;title=深入分析Java Web技术内幕读书笔记">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2019/01/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2019/01/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">给作者投食戳这里OwO</a>
+                <br>
+            </div>
+            <div id="donate_guide" class="donate_bar center hidden" >
+                <img src="/assets/images/qr-alipay.jpg" alt="支付宝打赏">
+                <img src="/assets/images/qr-wechatpay.png" alt="微信打赏">
+            </div>
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide').removeClass('hidden');
+                }
+            </script>
+        </div>
+        
+            
+                <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTg0My84NDA3">
+</div>
+<!-- City版安装代码已完成 -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<div id="footer-img"></div>
+    <span class="copyrights">
+    	<p>Powder by <a href="https://hexo.io/zh-cn/">Hexo</a>. Theme - <a href="https://github.com/kaedea/hexo-theme-themia">Themia</a> Modified by <a href="http://tsukasa.moe">Tsukasa</a>.<br>
+			License - <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">Attribution-NonCommercial-NoDerivatives 4.0 International</a>.<br>
+			<span id="busuanzi_container_site_uv">
+  				Total <span id="busuanzi_value_site_uv"></span> visitors.
+			</span>
+			<span id="busuanzi_container_site_pv">
+			    Total visit <span id="busuanzi_value_site_pv"></span> times.
+			</span>
+			<span id="run_time"></span>
+		</p>
+        Copyrights &copy; 2024 Tsukasa. All Rights Reserved.(≧∀≦)
+    </span>
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<script>
+    function secondToDate(second) {
+        if (!second) {
+            return 0;
+        }
+        var time = new Array(0, 0, 0, 0, 0);
+        // if (second >= 365 * 24 * 3600) {
+        //     time[0] = parseInt(second / (365 * 24 * 3600));
+        //     second %= 365 * 24 * 3600;
+        // }
+        if (second >= 24 * 3600) {
+            time[1] = parseInt(second / (24 * 3600));
+            second %= 24 * 3600;
+        }
+        if (second >= 3600) {
+            time[2] = parseInt(second / 3600);
+            second %= 3600;
+        }
+        if (second >= 60) {
+            time[3] = parseInt(second / 60);
+            second %= 60;
+        }
+        if (second > 0) {
+            time[4] = second;
+        }
+        return time;
+    }
+</script>
+<script type="text/javascript" language="javascript">
+    function setTime() {
+        var create_time = Math.round(new Date(Date.UTC(2017, 2, 6, 2, 23, 0))
+                .getTime() / 1000);
+        var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+        currentTime = secondToDate((timestamp - create_time));
+        currentTimeHtml = "Blog ages: "+ currentTime[1] + ' days '
+                + currentTime[2] + ' h ' 
+                + currentTime[3] + ' m ' 
+                + currentTime[4] + ' s.';
+        document.getElementById("run_time").innerHTML = currentTimeHtml;
+    }
+    setInterval(setTime, 1000);
+</script>
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/02/Record-some-useful-operation-in-Windows-system/"  data-tooltip="记录Windows一些好用的快捷操作">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/01/bodily-representaion-japanese-phrase/" data-tooltip="日语身体表现词语大杂烩">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2019/01/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/&amp;title=深入分析Java Web技术内幕读书笔记">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2019/01/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/&amp;title=深入分析Java Web技术内幕读书笔记">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2019/01/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2019/01/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2019/01/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2019/01/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2019/01/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/&amp;title=深入分析Java Web技术内幕读书笔记">
+                <i class="fa fa-weibo"></i><span>Share on Weibo</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2019/01/23/Notes-for-In-depth-analysis-of-Java-Web-technology-insider/&amp;title=深入分析Java Web技术内幕读书笔记">
+                <i class="fa fa-qq"></i><span>Share on QQ</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatars.jpg"/>
+        
+            <h4 id="about-card-name">Tsukasa</h4>
+        
+            <h5 id="about-card-bio"><p><a href="http://tsukasa.moe">「My Homepage」</a><br><a href="http://me.tsukasa.moe">「About Me」</a><br><a href="http://blog.tsukasa.moe/links">「My Links」</a></p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Shenzhen
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover-neko.jpg');"></div>
+    <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+    <!--SCRIPTS-->
+
+<script src="/assets/js/jquery.js"></script>
+
+
+<script src="/assets/js/jquery.fancybox.js"></script>
+
+
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+
+
+<script src="/assets/js/tranquilpeak.js"></script>
+
+<!--SCRIPTS END-->
+<!--PANGU AUTO SPACE-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.2.1/pangu.min.js"></script>
+<script> pangu.spacingPage(); </script>
+<!--PANGU AUTO SPACE END-->
+
+
+   
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+    </script>
+
+    
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','DibYiq_42u2sq4ziXd_y','2.0.0');
+    </script>
+
+
+</html>

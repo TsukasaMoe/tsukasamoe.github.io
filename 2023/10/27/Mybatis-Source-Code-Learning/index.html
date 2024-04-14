@@ -1,0 +1,723 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Tsukasa の 部屋">
+    <title>Mybatis源码学习总结 - Tsukasa の 部屋</title>
+    <meta name="author" content="Tsukasa">
+    
+    
+        <link rel="icon" href="http://blog.tsukasa.moe/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="学习Mybatis源码">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Mybatis源码学习总结">
+<meta property="og:url" content="http://blog.tsukasa.moe/2023/10/27/Mybatis-Source-Code-Learning/index.html">
+<meta property="og:site_name" content="Tsukasa の 部屋">
+<meta property="og:description" content="学习Mybatis源码">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310271820787.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310272317221.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310272344693.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310272345844.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310280026898.png">
+<meta property="article:published_time" content="2023-10-27T09:19:46.000Z">
+<meta property="article:modified_time" content="2023-10-27T16:50:21.611Z">
+<meta property="article:author" content="Tsukasa">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310271820787.png">
+<meta name="twitter:creator" content="@TsukasaMoe">
+    
+        <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://blog.tsukasa.moe/assets/images/avatars.jpg" />
+    
+    
+        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242128856.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242128856.jpg" />
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/font-awesome.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+
+    
+<link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <script src="https://cdn.bootcss.com/aplayer/1.6.0/APlayer.min.js"></script>
+<script src="https://api.i-meto.com/music/aplayer.min.js"></script>
+<!-- Define author's picture -->
+
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/%20">Tsukasa の 部屋</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon st-search-show-outputs"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatars.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">Tsukasa</span>
+            <span class="sidebar-profile-moto">エロくて可愛い女の子大好きだ！</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/%20"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-circle-o"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-star-o"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bars"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-terminal"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/TsukasaMoe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:luowenqingsmail@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://portfolio.tsukasa.moe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-at"></i>
+                    <span class="sidebar-button-desc">Portfolio</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/messages"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-comment-o"></i>
+                    <span class="sidebar-button-desc">Messages</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/friends"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-mars"></i>
+                    <span class="sidebar-button-desc">Friends</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/links"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-link"></i>
+                    <span class="sidebar-button-desc">Links</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/donate"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-usd"></i>
+                    <span class="sidebar-button-desc">Donate</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    post-header-cover--full"
+             style="background-image:url('https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307242128856.jpg');"
+             data-behavior="3">
+            
+                
+<div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            Mybatis源码学习总结
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Fri Oct 27 2023 17:19:46 GMT+0800">
+	
+		    Oct 27, 2023
+    	
+    </time>
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Mybatis%E5%8C%85%E7%BB%93%E6%9E%84"><span class="toc-text">Mybatis包结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mybatis%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="toc-text">Mybatis使用流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E5%85%B3%E9%94%AE%E9%80%BB%E8%BE%91%E5%92%8C%E4%BA%AE%E7%82%B9"><span class="toc-text">一些关键逻辑和亮点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87SqlSessionFactory%E5%B7%A5%E5%8E%82%E8%8E%B7%E5%8F%96SqlSession"><span class="toc-text">通过SqlSessionFactory工厂获取SqlSession</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BDMybatis%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">加载Mybatis配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%A1%B9%E7%9A%84%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="toc-text">配置项的默认值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SqlSession%E6%8E%A5%E5%8F%A3"><span class="toc-text">SqlSession接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96Mapper%E4%BB%A3%E7%90%86%E7%B1%BB"><span class="toc-text">获取Mapper代理类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8CMapper%E4%BB%A3%E7%90%86%E6%96%B9%E6%B3%95"><span class="toc-text">执行Mapper代理方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SqlSession-SqlSessionFactory-SqlSessionFactoryBuilder%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-text">SqlSession, SqlSessionFactory, SqlSessionFactoryBuilder的关系</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SqlSession%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">SqlSession的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SqlSession%E7%9A%84%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86"><span class="toc-text">SqlSession的执行原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Excutor"><span class="toc-text">Excutor</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+<h1 id="Mybatis包结构"><a href="#Mybatis包结构" class="headerlink" title="Mybatis包结构"></a>Mybatis包结构</h1><p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310271820787.png" alt=""></p>
+<h1 id="Mybatis使用流程"><a href="#Mybatis使用流程" class="headerlink" title="Mybatis使用流程"></a>Mybatis使用流程</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyBatisBootStrap</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 1. 读取配置</span></span><br><span class="line">            <span class="type">InputStream</span> <span class="variable">inputStream</span> <span class="operator">=</span> Resources.getResourceAsStream(<span class="string">&quot;mybatis-config.xml&quot;</span>);</span><br><span class="line">            <span class="comment">// 2. 创建SqlSessionFactory工厂</span></span><br><span class="line">            <span class="type">SqlSessionFactory</span> <span class="variable">sqlSessionFactory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SqlSessionFactoryBuilder</span>().build(inputStream);</span><br><span class="line">            <span class="comment">// 3. 获取sqlSession</span></span><br><span class="line">            <span class="type">SqlSession</span> <span class="variable">sqlSession</span> <span class="operator">=</span> sqlSessionFactory.openSession();</span><br><span class="line">            <span class="comment">// 4. 获取Mapper</span></span><br><span class="line">            <span class="type">CategoryMapper</span> <span class="variable">categoryMapper</span> <span class="operator">=</span> sqlSession.getMapper(CategoryMapper.class);</span><br><span class="line">            <span class="comment">// 5. 执行接口方法</span></span><br><span class="line">            <span class="type">Category</span> <span class="variable">category</span> <span class="operator">=</span> categoryMapper.queryCategoryByCategoryId(<span class="number">1</span>);</span><br><span class="line">            log.info(<span class="string">&quot;category = &quot;</span> + JsonUtil.toJson(category));</span><br><span class="line">            <span class="comment">// 6. 提交事物</span></span><br><span class="line">            sqlSession.commit();</span><br><span class="line">            <span class="comment">// 7. 关闭资源</span></span><br><span class="line">            sqlSession.close();</span><br><span class="line">            inputStream.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            log.error(e.getMessage(), e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果对于Mybatis启动不清晰，可以通过上面这段代码找到入口，阅读源码。</p>
+<h1 id="一些关键逻辑和亮点"><a href="#一些关键逻辑和亮点" class="headerlink" title="一些关键逻辑和亮点"></a>一些关键逻辑和亮点</h1><h2 id="通过SqlSessionFactory工厂获取SqlSession"><a href="#通过SqlSessionFactory工厂获取SqlSession" class="headerlink" title="通过SqlSessionFactory工厂获取SqlSession"></a>通过SqlSessionFactory工厂获取SqlSession</h2><p>工厂方法模式+建造者设计模式的应用</p>
+<p>SqlSessionFactory通过工厂方法openSession创建SqlSession实例，具体的工厂类实现了工厂接口，负责创建特定类型的对象，使SqlSession的实例化延迟到SqlSessionFactory子类。客户端通过SqlSessionFactory接口和工厂子类来获取SqlSession，而不需要知道具体的对象创建过程。而工厂本身是一个复杂的对象，因此可以通过建造者模式SqlSessionFactoryBuilder来构建。</p>
+<p>源码位置：<br><code>org.apache.ibatis.session.SqlSessionFactory</code></p>
+<p>两个子类：<br><code>org.apache.ibatis.session.defaults.DefaultSqlSessionFactory</code><br><code>org.apache.ibatis.session.SqlSessionManager</code></p>
+<p>建造者类SqlSessionFactoryBuilder<br><code>org.apache.ibatis.session.SqlSessionFactoryBuilder#build(java.io.InputStream, java.lang.String, java.util.Properties)</code></p>
+<h2 id="加载Mybatis配置文件"><a href="#加载Mybatis配置文件" class="headerlink" title="加载Mybatis配置文件"></a>加载Mybatis配置文件</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2. 创建SqlSessionFactory工厂</span></span><br><span class="line"><span class="type">SqlSessionFactory</span> <span class="variable">sqlSessionFactory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SqlSessionFactoryBuilder</span>().build(inputStream);</span><br></pre></td></tr></table></figure>
+<p>上面这段代码，XMLConfigBuilder会解析inputStream，根据得到Configuration默认实例化一个工厂子类DefaultSqlSessionFactory。</p>
+<p>源码位置：<br><code>org.apache.ibatis.builder.xml.XMLConfigBuilder#parseConfiguration</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">parseConfiguration</span><span class="params">(XNode root)</span> &#123;</span><br><span class="line">   <span class="keyword">try</span> &#123;</span><br><span class="line">     <span class="comment">// issue #117 read properties first</span></span><br><span class="line">     propertiesElement(root.evalNode(<span class="string">&quot;properties&quot;</span>));</span><br><span class="line">     <span class="type">Properties</span> <span class="variable">settings</span> <span class="operator">=</span> settingsAsProperties(root.evalNode(<span class="string">&quot;settings&quot;</span>));</span><br><span class="line">     loadCustomVfs(settings);</span><br><span class="line">     loadCustomLogImpl(settings);</span><br><span class="line">     typeAliasesElement(root.evalNode(<span class="string">&quot;typeAliases&quot;</span>));</span><br><span class="line">     pluginElement(root.evalNode(<span class="string">&quot;plugins&quot;</span>));</span><br><span class="line">     objectFactoryElement(root.evalNode(<span class="string">&quot;objectFactory&quot;</span>));</span><br><span class="line">     objectWrapperFactoryElement(root.evalNode(<span class="string">&quot;objectWrapperFactory&quot;</span>));</span><br><span class="line">     reflectorFactoryElement(root.evalNode(<span class="string">&quot;reflectorFactory&quot;</span>));</span><br><span class="line">     settingsElement(settings);</span><br><span class="line">     <span class="comment">// read it after objectFactory and objectWrapperFactory issue #631</span></span><br><span class="line">     environmentsElement(root.evalNode(<span class="string">&quot;environments&quot;</span>));</span><br><span class="line">     databaseIdProviderElement(root.evalNode(<span class="string">&quot;databaseIdProvider&quot;</span>));</span><br><span class="line">     typeHandlerElement(root.evalNode(<span class="string">&quot;typeHandlers&quot;</span>));</span><br><span class="line">     mapperElement(root.evalNode(<span class="string">&quot;mappers&quot;</span>));</span><br><span class="line">   &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">     <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">BuilderException</span>(<span class="string">&quot;Error parsing SQL Mapper Configuration. Cause: &quot;</span> + e, e);</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="配置项的默认值"><a href="#配置项的默认值" class="headerlink" title="配置项的默认值"></a>配置项的默认值</h3><p><code>org.apache.ibatis.builder.xml.XMLConfigBuilder#settingsElement</code></p>
+<h2 id="SqlSession接口"><a href="#SqlSession接口" class="headerlink" title="SqlSession接口"></a>SqlSession接口</h2><p>sqlSession是操作数据库的高级接口，获取sqlSession有两种方式：<br>一种是从数据源中获取的，还有一种是从连接中获取。获取到的都是DefaultSqlSession对象，也就是sqlSession的默认实现。</p>
+<p>SqlSession接口源码，下面是其主要方法，已过滤一些重载方法。<br><code>org.apache.ibatis.session.SqlSession</code></p>
+<ul>
+<li>statement：Mybatis语句ID，Mapper接口的方法名称</li>
+<li>RowBounds：分页对象，主要拼接sql中的start，limit条件。</li>
+<li></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">SqlSession</span> <span class="keyword">extends</span> <span class="title class_">Closeable</span> &#123;</span><br><span class="line"></span><br><span class="line">  &lt;T&gt; T <span class="title function_">selectOne</span><span class="params">(String statement, Object parameter)</span>;</span><br><span class="line"></span><br><span class="line">  &lt;E&gt; List&lt;E&gt; <span class="title function_">selectList</span><span class="params">(String statement, Object parameter, RowBounds rowBounds)</span>;</span><br><span class="line"></span><br><span class="line">  &lt;K, V&gt; Map&lt;K, V&gt; <span class="title function_">selectMap</span><span class="params">(String statement, Object parameter, String mapKey, RowBounds rowBounds)</span>;</span><br><span class="line"></span><br><span class="line">  &lt;T&gt; Cursor&lt;T&gt; <span class="title function_">selectCursor</span><span class="params">(String statement, Object parameter, RowBounds rowBounds)</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">select</span><span class="params">(String statement, Object parameter, RowBounds rowBounds, ResultHandler handler)</span>;</span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> <span class="title function_">insert</span><span class="params">(String statement, Object parameter)</span>;</span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> <span class="title function_">update</span><span class="params">(String statement, Object parameter)</span>;</span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> <span class="title function_">delete</span><span class="params">(String statement, Object parameter)</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">commit</span><span class="params">(<span class="type">boolean</span> force)</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">rollback</span><span class="params">(<span class="type">boolean</span> force)</span>;</span><br><span class="line"></span><br><span class="line">  List&lt;BatchResult&gt; <span class="title function_">flushStatements</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">clearCache</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">  Configuration <span class="title function_">getConfiguration</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">  &lt;T&gt; T <span class="title function_">getMapper</span><span class="params">(Class&lt;T&gt; type)</span>;</span><br><span class="line"></span><br><span class="line">  Connection <span class="title function_">getConnection</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>获取sqlSession源码位置：<br><code>org.apache.ibatis.session.defaults.DefaultSqlSessionFactory#openSessionFromDataSource</code><br><code>org.apache.ibatis.session.defaults.DefaultSqlSessionFactory#openSessionFromConnection</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方式1：从数据源中获取的</span></span><br><span class="line"> <span class="keyword">private</span> SqlSession <span class="title function_">openSessionFromDataSource</span><span class="params">(ExecutorType execType, TransactionIsolationLevel level, <span class="type">boolean</span> autoCommit)</span> &#123;</span><br><span class="line">    <span class="type">Transaction</span> <span class="variable">tx</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">final</span> <span class="type">Environment</span> <span class="variable">environment</span> <span class="operator">=</span> configuration.getEnvironment();</span><br><span class="line">      <span class="keyword">final</span> <span class="type">TransactionFactory</span> <span class="variable">transactionFactory</span> <span class="operator">=</span> getTransactionFactoryFromEnvironment(environment);</span><br><span class="line">      tx = transactionFactory.newTransaction(environment.getDataSource(), level, autoCommit);</span><br><span class="line">      <span class="keyword">final</span> <span class="type">Executor</span> <span class="variable">executor</span> <span class="operator">=</span> configuration.newExecutor(tx, execType);</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DefaultSqlSession</span>(configuration, executor, autoCommit);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">      closeTransaction(tx); <span class="comment">// may have fetched a connection so lets call close()</span></span><br><span class="line">      <span class="keyword">throw</span> ExceptionFactory.wrapException(<span class="string">&quot;Error opening session.  Cause: &quot;</span> + e, e);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      ErrorContext.instance().reset();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式2：从连接中获取</span></span><br><span class="line">  <span class="keyword">private</span> SqlSession <span class="title function_">openSessionFromConnection</span><span class="params">(ExecutorType execType, Connection connection)</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="type">boolean</span> autoCommit;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        autoCommit = connection.getAutoCommit();</span><br><span class="line">      &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">        <span class="comment">// Failover to true, as most poor drivers</span></span><br><span class="line">        <span class="comment">// or databases won&#x27;t support transactions</span></span><br><span class="line">        autoCommit = <span class="literal">true</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">final</span> <span class="type">Environment</span> <span class="variable">environment</span> <span class="operator">=</span> configuration.getEnvironment();</span><br><span class="line">      <span class="keyword">final</span> <span class="type">TransactionFactory</span> <span class="variable">transactionFactory</span> <span class="operator">=</span> getTransactionFactoryFromEnvironment(environment);</span><br><span class="line">      <span class="keyword">final</span> <span class="type">Transaction</span> <span class="variable">tx</span> <span class="operator">=</span> transactionFactory.newTransaction(connection);</span><br><span class="line">      <span class="keyword">final</span> <span class="type">Executor</span> <span class="variable">executor</span> <span class="operator">=</span> configuration.newExecutor(tx, execType);</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">DefaultSqlSession</span>(configuration, executor, autoCommit);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">      <span class="keyword">throw</span> ExceptionFactory.wrapException(<span class="string">&quot;Error opening session.  Cause: &quot;</span> + e, e);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      ErrorContext.instance().reset();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="获取Mapper代理类"><a href="#获取Mapper代理类" class="headerlink" title="获取Mapper代理类"></a>获取Mapper代理类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 4. 获取Mapper</span></span><br><span class="line"><span class="type">CategoryMapper</span> <span class="variable">categoryMapper</span> <span class="operator">=</span> sqlSession.getMapper(CategoryMapper.class);</span><br></pre></td></tr></table></figure>
+<p>因为默认的SqlSession实现是DefaultSqlSession，进入源码可以得知，CategoryMapper是通过代理工厂MapperProxyFactory反射得到Mapper代理类。这段代码逻辑可以通过顺藤摸瓜，找到Mapper代理是通过<code>Map&lt;Class&lt;?&gt;, MapperProxyFactory&lt;?&gt;&gt; knownMappers</code>获取的。</p>
+<p>源码入口：<br><code>org.apache.ibatis.session.defaults.DefaultSqlSession#getMapper</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;T&gt; T <span class="title function_">getMapper</span><span class="params">(Class&lt;T&gt; type)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.configuration.getMapper(type, <span class="built_in">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>org.apache.ibatis.session.Configuration#getMapper</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;T&gt; T <span class="title function_">getMapper</span><span class="params">(Class&lt;T&gt; type, SqlSession sqlSession)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.mapperRegistry.getMapper(type, sqlSession);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>org.apache.ibatis.binding.MapperRegistry#getMapper</code>找到这段代码可以得知：<br>1、代理工厂来自knownMappers<br>2、mapperProxyFactory.newInstance(sqlSession)，Mapper每次都通过Mapper代理工厂生成，是一个代理类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;T&gt; T <span class="title function_">getMapper</span><span class="params">(Class&lt;T&gt; type, SqlSession sqlSession)</span> &#123;</span><br><span class="line">  <span class="keyword">final</span> MapperProxyFactory&lt;T&gt; mapperProxyFactory = (MapperProxyFactory&lt;T&gt;) knownMappers.get(type);</span><br><span class="line">  <span class="keyword">if</span> (mapperProxyFactory == <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">BindingException</span>(<span class="string">&quot;Type &quot;</span> + type + <span class="string">&quot; is not known to the MapperRegistry.&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> mapperProxyFactory.newInstance(sqlSession);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">BindingException</span>(<span class="string">&quot;Error getting mapper instance. Cause: &quot;</span> + e, e);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>knownMappers是如何初始化？</p>
+<p><code>org.apache.ibatis.binding.MapperRegistry#addMapper</code> ==&gt; <code>org.apache.ibatis.builder.xml.XMLConfigBuilder#mapperElement</code></p>
+<p>可以发现是在XMLConfigBuilder解析mybatis-config.xml时通过parseConfiguration方法进行的。仔细观察下图，还提供了一个Spring下的FacotryBean实现进行配置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310272317221.png" alt=""></p>
+<h2 id="执行Mapper代理方法"><a href="#执行Mapper代理方法" class="headerlink" title="执行Mapper代理方法"></a>执行Mapper代理方法</h2><p>从上面分析得知，获取得到的Mapper是通过MapperProxyFactory工厂类创建的MapperProxy代理类。因此，在执行Mapper接口的方法时，会调用MapperProxy的invoke方法。<br>通过Debug也可以得到Mapper的执行逻辑。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310272344693.png" alt=""></p>
+<p>源码入口：<br><code>org.apache.ibatis.binding.MapperProxy#invoke</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310272345844.png" alt=""></p>
+<p><code>cachedInvoker(method)</code>返回MapperMethodInvoker对象，执行invoke方法（具体通过哪个实现可以实际debug，这里是MapperMethodInvoker的子类PlainMethodInvoker的invoke方法）<br><code>org.apache.ibatis.binding.MapperMethod#execute</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> Object <span class="title function_">execute</span><span class="params">(SqlSession sqlSession, Object[] args)</span> &#123;</span><br><span class="line">  Object result;</span><br><span class="line">  <span class="keyword">switch</span> (command.getType()) &#123;</span><br><span class="line">    <span class="keyword">case</span> INSERT: &#123;</span><br><span class="line">      <span class="type">Object</span> <span class="variable">param</span> <span class="operator">=</span> method.convertArgsToSqlCommandParam(args);</span><br><span class="line">      result = rowCountResult(sqlSession.insert(command.getName(), param));</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">case</span> UPDATE: &#123;</span><br><span class="line">      <span class="type">Object</span> <span class="variable">param</span> <span class="operator">=</span> method.convertArgsToSqlCommandParam(args);</span><br><span class="line">      result = rowCountResult(sqlSession.update(command.getName(), param));</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">case</span> DELETE: &#123;</span><br><span class="line">      <span class="type">Object</span> <span class="variable">param</span> <span class="operator">=</span> method.convertArgsToSqlCommandParam(args);</span><br><span class="line">      result = rowCountResult(sqlSession.delete(command.getName(), param));</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">case</span> SELECT:</span><br><span class="line">      <span class="keyword">if</span> (method.returnsVoid() &amp;&amp; method.hasResultHandler()) &#123;</span><br><span class="line">        executeWithResultHandler(sqlSession, args);</span><br><span class="line">        result = <span class="literal">null</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.returnsMany()) &#123;</span><br><span class="line">        result = executeForMany(sqlSession, args);</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.returnsMap()) &#123;</span><br><span class="line">        result = executeForMap(sqlSession, args);</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (method.returnsCursor()) &#123;</span><br><span class="line">        result = executeForCursor(sqlSession, args);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">param</span> <span class="operator">=</span> method.convertArgsToSqlCommandParam(args);</span><br><span class="line">        result = sqlSession.selectOne(command.getName(), param);</span><br><span class="line">        <span class="keyword">if</span> (method.returnsOptional()</span><br><span class="line">            &amp;&amp; (result == <span class="literal">null</span> || !method.getReturnType().equals(result.getClass()))) &#123;</span><br><span class="line">          result = Optional.ofNullable(result);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> FLUSH:</span><br><span class="line">      result = sqlSession.flushStatements();</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">BindingException</span>(<span class="string">&quot;Unknown execution method for: &quot;</span> + command.getName());</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (result == <span class="literal">null</span> &amp;&amp; method.getReturnType().isPrimitive() &amp;&amp; !method.returnsVoid()) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">BindingException</span>(<span class="string">&quot;Mapper method &#x27;&quot;</span> + command.getName()</span><br><span class="line">        + <span class="string">&quot; attempted to return null from a method with a primitive return type (&quot;</span> + method.getReturnType() + <span class="string">&quot;).&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="SqlSession-SqlSessionFactory-SqlSessionFactoryBuilder的关系"><a href="#SqlSession-SqlSessionFactory-SqlSessionFactoryBuilder的关系" class="headerlink" title="SqlSession, SqlSessionFactory, SqlSessionFactoryBuilder的关系"></a>SqlSession, SqlSessionFactory, SqlSessionFactoryBuilder的关系</h1><h2 id="SqlSession的使用"><a href="#SqlSession的使用" class="headerlink" title="SqlSession的使用"></a>SqlSession的使用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testSelectOne</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 1. 读取配置</span></span><br><span class="line">        <span class="type">InputStream</span> <span class="variable">inputStream</span> <span class="operator">=</span> Resources.getResourceAsStream(<span class="string">&quot;mybatis-config.xml&quot;</span>);</span><br><span class="line">        <span class="comment">// 2. 获取SqlSessionFactory对象</span></span><br><span class="line">        <span class="type">SqlSessionFactory</span> <span class="variable">sqlSessionFactory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SqlSessionFactoryBuilder</span>().build(inputStream);</span><br><span class="line">        <span class="comment">// 3. 获取SqlSession对象</span></span><br><span class="line">        <span class="type">SqlSession</span> <span class="variable">sqlSession</span> <span class="operator">=</span> sqlSessionFactory.openSession();</span><br><span class="line">        <span class="comment">// 4. 执行sql，下面2种写法结果一致</span></span><br><span class="line">        <span class="type">Category</span> <span class="variable">category</span> <span class="operator">=</span> sqlSession.selectOne(<span class="string">&quot;moe.tsukasa.demo.dao.CategoryMapper.queryCategoryByCategoryId&quot;</span>, <span class="number">1</span>);</span><br><span class="line">        log.info(<span class="string">&quot;category = [&#123;&#125;]&quot;</span>, JsonUtil.toJson(category));</span><br><span class="line">        <span class="type">Category</span> <span class="variable">category2</span> <span class="operator">=</span> sqlSession.selectOne(<span class="string">&quot;queryCategoryByCategoryId&quot;</span>, <span class="number">1</span>);</span><br><span class="line">        log.info(<span class="string">&quot;category2 = [&#123;&#125;]&quot;</span>, JsonUtil.toJson(category2));</span><br><span class="line">        <span class="comment">// 5. 关闭连接</span></span><br><span class="line">        sqlSession.close();</span><br><span class="line">        inputStream.close();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">        log.error(<span class="string">&quot;errMsg = [&#123;&#125;]&quot;</span>, e.getMessage(), e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="SqlSession的执行原理"><a href="#SqlSession的执行原理" class="headerlink" title="SqlSession的执行原理"></a>SqlSession的执行原理</h2><h1 id="Excutor"><a href="#Excutor" class="headerlink" title="Excutor"></a>Excutor</h1><p>Excutor是MyBatis持久层框架中的一个关键组件，负责SQL语句的执行，缓存的处理，事务管理，参数处理。</p>
+<p>Executor接口有两个实现，一个是BaseExecutor抽象类，一个是CachingExecutor实现类。BaseExecutor抽象类有四个实现SimpleExecutor，BathExecutor, ReuseExecutor, ClosedExecutor。</p>
+<p>Executor继承关系：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202310280026898.png" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Executor</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="type">ResultHandler</span> <span class="variable">NO_RESULT_HANDLER</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> <span class="title function_">update</span><span class="params">(MappedStatement ms, Object parameter)</span> <span class="keyword">throws</span> SQLException;</span><br><span class="line"></span><br><span class="line">  &lt;E&gt; List&lt;E&gt; <span class="title function_">query</span><span class="params">(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, CacheKey cacheKey, BoundSql boundSql)</span> <span class="keyword">throws</span> SQLException;</span><br><span class="line"></span><br><span class="line">  &lt;E&gt; List&lt;E&gt; <span class="title function_">query</span><span class="params">(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler)</span> <span class="keyword">throws</span> SQLException;</span><br><span class="line"></span><br><span class="line">  &lt;E&gt; Cursor&lt;E&gt; <span class="title function_">queryCursor</span><span class="params">(MappedStatement ms, Object parameter, RowBounds rowBounds)</span> <span class="keyword">throws</span> SQLException;</span><br><span class="line"></span><br><span class="line">  List&lt;BatchResult&gt; <span class="title function_">flushStatements</span><span class="params">()</span> <span class="keyword">throws</span> SQLException;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">commit</span><span class="params">(<span class="type">boolean</span> required)</span> <span class="keyword">throws</span> SQLException;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">rollback</span><span class="params">(<span class="type">boolean</span> required)</span> <span class="keyword">throws</span> SQLException;</span><br><span class="line"></span><br><span class="line">  CacheKey <span class="title function_">createCacheKey</span><span class="params">(MappedStatement ms, Object parameterObject, RowBounds rowBounds, BoundSql boundSql)</span>;</span><br><span class="line"></span><br><span class="line">  <span class="type">boolean</span> <span class="title function_">isCached</span><span class="params">(MappedStatement ms, CacheKey key)</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">clearLocalCache</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">deferLoad</span><span class="params">(MappedStatement ms, MetaObject resultObject, String property, CacheKey key, Class&lt;?&gt; targetType)</span>;</span><br><span class="line"></span><br><span class="line">  Transaction <span class="title function_">getTransaction</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">close</span><span class="params">(<span class="type">boolean</span> forceRollback)</span>;</span><br><span class="line"></span><br><span class="line">  <span class="type">boolean</span> <span class="title function_">isClosed</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">setExecutorWrapper</span><span class="params">(Executor executor)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Excutor是模板方法设计模式的应用，Executor接口有个抽象子类BaseExecutor，定义了一些模板方法，通过子类来实现。</p>
+<p>SimpleExecutor是默认的Executor实现，适用于大多数情况，但不支持高级功能如二级缓存。我们只需要定义好myabtis-config.xml，MyBatis框架会负责调用适当的Executor来执行数据库操作。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><blockquote>
+<p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
+</blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/31/Spring-global-exception-handling-and-error-code-design/"  data-tooltip="Spring项目统一响应格式设计和全局异常处理">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/20/Spring-message-converter-learning01/" data-tooltip="Spring系列-HTTP消息转换器message-converters">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/27/Mybatis-Source-Code-Learning/&amp;title=Mybatis源码学习总结">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/27/Mybatis-Source-Code-Learning/&amp;title=Mybatis源码学习总结">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/27/Mybatis-Source-Code-Learning/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/27/Mybatis-Source-Code-Learning/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">给作者投食戳这里OwO</a>
+                <br>
+            </div>
+            <div id="donate_guide" class="donate_bar center hidden" >
+                <img src="/assets/images/qr-alipay.jpg" alt="支付宝打赏">
+                <img src="/assets/images/qr-wechatpay.png" alt="微信打赏">
+            </div>
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide').removeClass('hidden');
+                }
+            </script>
+        </div>
+        
+            
+                <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTg0My84NDA3">
+</div>
+<!-- City版安装代码已完成 -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<div id="footer-img"></div>
+    <span class="copyrights">
+    	<p>Powder by <a href="https://hexo.io/zh-cn/">Hexo</a>. Theme - <a href="https://github.com/kaedea/hexo-theme-themia">Themia</a> Modified by <a href="http://tsukasa.moe">Tsukasa</a>.<br>
+			License - <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">Attribution-NonCommercial-NoDerivatives 4.0 International</a>.<br>
+			<span id="busuanzi_container_site_uv">
+  				Total <span id="busuanzi_value_site_uv"></span> visitors.
+			</span>
+			<span id="busuanzi_container_site_pv">
+			    Total visit <span id="busuanzi_value_site_pv"></span> times.
+			</span>
+			<span id="run_time"></span>
+		</p>
+        Copyrights &copy; 2024 Tsukasa. All Rights Reserved.(≧∀≦)
+    </span>
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<script>
+    function secondToDate(second) {
+        if (!second) {
+            return 0;
+        }
+        var time = new Array(0, 0, 0, 0, 0);
+        // if (second >= 365 * 24 * 3600) {
+        //     time[0] = parseInt(second / (365 * 24 * 3600));
+        //     second %= 365 * 24 * 3600;
+        // }
+        if (second >= 24 * 3600) {
+            time[1] = parseInt(second / (24 * 3600));
+            second %= 24 * 3600;
+        }
+        if (second >= 3600) {
+            time[2] = parseInt(second / 3600);
+            second %= 3600;
+        }
+        if (second >= 60) {
+            time[3] = parseInt(second / 60);
+            second %= 60;
+        }
+        if (second > 0) {
+            time[4] = second;
+        }
+        return time;
+    }
+</script>
+<script type="text/javascript" language="javascript">
+    function setTime() {
+        var create_time = Math.round(new Date(Date.UTC(2017, 2, 6, 2, 23, 0))
+                .getTime() / 1000);
+        var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+        currentTime = secondToDate((timestamp - create_time));
+        currentTimeHtml = "Blog ages: "+ currentTime[1] + ' days '
+                + currentTime[2] + ' h ' 
+                + currentTime[3] + ' m ' 
+                + currentTime[4] + ' s.';
+        document.getElementById("run_time").innerHTML = currentTimeHtml;
+    }
+    setInterval(setTime, 1000);
+</script>
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/31/Spring-global-exception-handling-and-error-code-design/"  data-tooltip="Spring项目统一响应格式设计和全局异常处理">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/20/Spring-message-converter-learning01/" data-tooltip="Spring系列-HTTP消息转换器message-converters">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/27/Mybatis-Source-Code-Learning/&amp;title=Mybatis源码学习总结">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/27/Mybatis-Source-Code-Learning/&amp;title=Mybatis源码学习总结">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/27/Mybatis-Source-Code-Learning/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/27/Mybatis-Source-Code-Learning/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/10/27/Mybatis-Source-Code-Learning/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/10/27/Mybatis-Source-Code-Learning/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/10/27/Mybatis-Source-Code-Learning/&amp;title=Mybatis源码学习总结">
+                <i class="fa fa-weibo"></i><span>Share on Weibo</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/10/27/Mybatis-Source-Code-Learning/&amp;title=Mybatis源码学习总结">
+                <i class="fa fa-qq"></i><span>Share on QQ</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatars.jpg"/>
+        
+            <h4 id="about-card-name">Tsukasa</h4>
+        
+            <h5 id="about-card-bio"><p><a href="http://tsukasa.moe">「My Homepage」</a><br><a href="http://me.tsukasa.moe">「About Me」</a><br><a href="http://blog.tsukasa.moe/links">「My Links」</a></p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Shenzhen
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover-neko.jpg');"></div>
+    <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+    <!--SCRIPTS-->
+
+<script src="/assets/js/jquery.js"></script>
+
+
+<script src="/assets/js/jquery.fancybox.js"></script>
+
+
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+
+
+<script src="/assets/js/tranquilpeak.js"></script>
+
+<!--SCRIPTS END-->
+<!--PANGU AUTO SPACE-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.2.1/pangu.min.js"></script>
+<script> pangu.spacingPage(); </script>
+<!--PANGU AUTO SPACE END-->
+
+
+   
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+    </script>
+
+    
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','DibYiq_42u2sq4ziXd_y','2.0.0');
+    </script>
+
+
+</html>

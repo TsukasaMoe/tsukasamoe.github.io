@@ -1,0 +1,797 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Tsukasa の 部屋">
+    <title>从线性表开始踏上数据结构王国的旅途 - Tsukasa の 部屋</title>
+    <meta name="author" content="Tsukasa">
+    
+    
+        <link rel="icon" href="http://blog.tsukasa.moe/assets/images/favicon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="线性表是数据结构中最基础的结构，本文从最简单的线性表开始，带你领略数据结构的魅力（手动滑稽），主要内容有：  线性表的基本概念 顺序存储与链式存储 顺序表与单链表比较">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="从线性表开始踏上数据结构王国的旅途">
+<meta property="og:url" content="http://blog.tsukasa.moe/2017/03/19/start-from-linearlist/index.html">
+<meta property="og:site_name" content="Tsukasa の 部屋">
+<meta property="og:description" content="线性表是数据结构中最基础的结构，本文从最简单的线性表开始，带你领略数据结构的魅力（手动滑稽），主要内容有：  线性表的基本概念 顺序存储与链式存储 顺序表与单链表比较">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241520203.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241520977.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241521055.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241521686.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241521173.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241522840.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241522562.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241522991.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241522978.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241522628.png">
+<meta property="article:published_time" content="2017-03-19T08:36:27.000Z">
+<meta property="article:modified_time" content="2023-07-24T07:23:02.981Z">
+<meta property="article:author" content="Tsukasa">
+<meta property="article:tag" content="数据结构与算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241520203.png">
+<meta name="twitter:creator" content="@TsukasaMoe">
+    
+        <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://blog.tsukasa.moe/assets/images/avatars.jpg"/>
+    
+    
+        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/icons/202307241514005.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/icons/202307241514005.jpg" />
+    
+    
+        <meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307241519618.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307241519618.jpg" />
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/font-awesome.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox.css">
+
+    
+<link rel="stylesheet" href="/assets/css/jquery.fancybox-thumbs.css">
+
+    
+<link rel="stylesheet" href="/assets/css/tranquilpeak.css">
+
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <script src="https://cdn.bootcss.com/aplayer/1.6.0/APlayer.min.js"></script>
+<script src="https://api.i-meto.com/music/aplayer.min.js"></script>
+<!-- Define author's picture -->
+
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/%20">Tsukasa の 部屋</a>
+    </h1>
+    
+        
+            <a  class="header-right-icon st-search-show-outputs"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/avatars.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">Tsukasa</span>
+            <span class="sidebar-profile-moto">エロくて可愛い女の子大好きだ！</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/%20"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-circle-o"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-star-o"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bars"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-terminal"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/TsukasaMoe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="mailto:luowenqingsmail@gmail.com" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-envelope-o"></i>
+                    <span class="sidebar-button-desc">Mail</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="http://portfolio.tsukasa.moe" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-at"></i>
+                    <span class="sidebar-button-desc">Portfolio</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/messages"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-comment-o"></i>
+                    <span class="sidebar-button-desc">Messages</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/friends"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-mars"></i>
+                    <span class="sidebar-button-desc">Friends</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/links"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-link"></i>
+                    <span class="sidebar-button-desc">Links</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/donate"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-usd"></i>
+                    <span class="sidebar-button-desc">Donate</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-center
+                    post-header-cover--full"
+             style="background-image:url('https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/erocutewifes/202307241519618.jpg');"
+             data-behavior="3">
+            
+                
+<div class="post-header main-content-wrap text-center">
+    
+        <h1 class="post-title" itemprop="headline">
+            从线性表开始踏上数据结构王国的旅途
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Sun Mar 19 2017 16:36:27 GMT+0800">
+	
+		    Mar 19, 2017
+    	
+    </time>
+    
+        <span> |  </span>
+        
+    <a class="category-link" href="/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/">编程开发</a>
+
+
+    
+</div>
+
+</div>
+            
+        </div>
+
+            <div id="main" data-behavior="3"
+                 class="hasCover
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>线性表是数据结构中最基础的结构，本文从最简单的线性表开始，带你领略数据结构的魅力（手动滑稽），主要内容有：</p>
+<ul>
+<li>线性表的基本概念</li>
+<li>顺序存储与链式存储</li>
+<li>顺序表与单链表比较</li>
+</ul>
+<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E8%A1%A8%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">线性表的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%BD%E8%B1%A1%E8%A1%A8%E7%A4%BA"><span class="toc-text">抽象表示</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E4%B8%8E%E9%93%BE%E5%BC%8F%E5%AD%98%E5%82%A8"><span class="toc-text">顺序存储与链式存储</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E8%A1%A8"><span class="toc-text">顺序表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E8%8A%82%E7%82%B9"><span class="toc-text">访问节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E8%8A%82%E7%82%B9"><span class="toc-text">插入节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E8%8A%82%E7%82%B9"><span class="toc-text">删除节点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8"><span class="toc-text">链表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E9%93%BE%E8%A1%A8"><span class="toc-text">创建链表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E8%8A%82%E7%82%B9-1"><span class="toc-text">插入节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E8%8A%82%E7%82%B9-1"><span class="toc-text">删除节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-text">链表的分类</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E8%A1%A8%E4%B8%8E%E5%8D%95%E9%93%BE%E8%A1%A8%E6%AF%94%E8%BE%83"><span class="toc-text">顺序表与单链表比较</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+<h1 id="线性表的定义"><a href="#线性表的定义" class="headerlink" title="线性表的定义"></a>线性表的定义</h1><p>线性表（List）：由零个或多个数据元素组成的有限序列，像是这样的：<br>A<sub>1</sub> <code>—&gt;</code> A<sub>2</sub> <code>—&gt;</code> … <code>—&gt;</code> A<sub>i-1</sub> <code>—&gt;</code> A<sub>i</sub> <code>—&gt;</code> A<sub>i+1</sub> <code>—&gt;</code> … <code>—&gt;</code> A<sub>n</sub><br>其中，A<sub>i-1</sub>称为A<sub>i</sub>直接前驱,A<sub>i+1</sub>成为A<sub>i</sub>的直接后继。首元素A<sub>1</sub>无直接前驱，尾元素A<sub>n</sub>无直接后继，中间元素都有唯一直接前驱、直接后继。n=0时，为空表；n&gt;=0,为非空线性表。一个数据元素可以由若干个数据项组成。</p>
+<h4 id="抽象表示"><a href="#抽象表示" class="headerlink" title="抽象表示"></a>抽象表示</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">ADT LinearList</span><br><span class="line"></span><br><span class="line">Data </span><br><span class="line"><span class="comment">// 线性表的数据对象集合为&#123;a[1], a[2], a[3],....,a[n]&#125;，元素类型为自定义DataType.</span></span><br><span class="line"></span><br><span class="line"><span class="function">Operation  </span></span><br><span class="line"><span class="function">    <span class="title">InitList</span><span class="params">(*L)</span>:             初始化，建立空线性表L</span></span><br><span class="line"><span class="function">    ListLength(L):            返回L中元素个数</span></span><br><span class="line"><span class="function">    ListEmpty(L):             若线性表为空，返回true，否则返回false</span></span><br><span class="line"><span class="function">    ClearList(*L):            清空线性表</span></span><br><span class="line"><span class="function">    GetElem(L, i, *e):        将线性表L中第i个位置元素值返回给e</span></span><br><span class="line"><span class="function">    LocateElem(L, e):         在线性表L中查找与给定值e相等的元素</span></span><br><span class="line"><span class="function">    ListInsert(L, i, *e):     在L的第i个位置插入新元素e</span></span><br><span class="line"><span class="function">    ListDelete(*L, i, *e):    删除L中的第i个元素，并用e返回其值</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">endADT</span></span><br></pre></td></tr></table></figure>
+<p>学习线性表，关键掌握如何对线性表进行下列操作：</p>
+<ul>
+<li>初始化，判表是否为空，求表长；</li>
+<li>插入，删除，访问节点。</li>
+</ul>
+<h1 id="顺序存储与链式存储"><a href="#顺序存储与链式存储" class="headerlink" title="顺序存储与链式存储"></a>顺序存储与链式存储</h1><p>按存储结构划分为顺序表，链表。<br>顺序存储结构，指在内存中用地址连续的一块存储空间依次存放线性表中的各元素。<br>链式存储结构，用一组任意的存储单元存储线性表的数据元素，这组存储单元可以是连续的，也可以是不连续的。<br>换句话说，顺序表逻辑、物理相邻；链表逻辑相邻，物理不要求相邻。</p>
+<h3 id="顺序表"><a href="#顺序表" class="headerlink" title="顺序表"></a>顺序表</h3><p>线性表的顺序存储结构，指在内存中用地址连续的一块存储空间依次存放线性表中的各元素。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">SeqList</span> &#123;</span><br><span class="line"><span class="keyword">private</span> :</span><br><span class="line">  T* element; <span class="comment">// 自定义类型，动态数组</span></span><br><span class="line">  <span class="type">int</span> MaxSize; <span class="comment">// 数组存储数据元素，最大值为MAXSIZE</span></span><br><span class="line">  <span class="type">int</span> length; <span class="comment">// 线性表当前长度</span></span><br><span class="line"><span class="keyword">public</span> :</span><br><span class="line">  <span class="comment">/* 顺序表基本操作 */</span></span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">InitList</span><span class="params">(<span class="type">int</span> MaxSize)</span></span>;</span><br><span class="line">  <span class="function">T <span class="title">GetElem</span><span class="params">(<span class="type">int</span> i)</span></span>;</span><br><span class="line">  <span class="function"><span class="type">int</span> <span class="title">ListLength</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="type">bool</span> <span class="title">ListEmpty</span><span class="params">()</span></span>; </span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">ClearList</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="type">bool</span> <span class="title">GetElem</span><span class="params">(<span class="type">int</span> i, T &amp;e)</span></span>;</span><br><span class="line">  <span class="function"><span class="type">int</span> <span class="title">LocateElem</span><span class="params">(T &amp;e)</span></span>;</span><br><span class="line">  <span class="function"><span class="type">bool</span> <span class="title">ListInsert</span><span class="params">(<span class="type">int</span> i, T &amp;e)</span></span>;</span><br><span class="line">  <span class="function"><span class="type">bool</span> <span class="title">ListDelete</span><span class="params">(<span class="type">int</span> i, T &amp;e)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>描述顺序存储结构需要三个属性（数据域部分）</p>
+<ul>
+<li>动态数组element, 各个元素构成的集合</li>
+<li>表最大存储容量MaxSize</li>
+<li>表当前长度length，即当前有意义的元素个数</li>
+</ul>
+<p>我喜欢用图描述顺序表：<br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241520203.png" alt=""><br>顺序表中各个元素的所占存储空间是连续的，如下图所示，如果进行插入节点（第二行）、删除节点（第三行），需要对表尾的所有元素整体进行移动，可以理解为我们体育课排队时中间插入了一个人，或者走掉一个人的情况。<br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241520977.png" alt=""></p>
+<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">InitList</span><span class="params">(<span class="type">int</span> MaxSize)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;MaxSize = MaxSize;</span><br><span class="line">    element = <span class="keyword">new</span> T[MaxSize];</span><br><span class="line">    length = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="访问节点"><a href="#访问节点" class="headerlink" title="访问节点"></a>访问节点</h4><p>访问包括按值访问、按下标索引节点两种。实现起来也很简单，只需循环遍历，按照条件定位节点。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 给定元素e，返回该元素位置 */</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">LocateElem</span><span class="params">(T &amp;e)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> i = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt;= length &amp;&amp; element[i<span class="number">-1</span>] != e) &#123;</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (element[i<span class="number">-1</span>] == e) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="插入节点"><a href="#插入节点" class="headerlink" title="插入节点"></a>插入节点</h4><p>算法步骤：</p>
+<ul>
+<li>特殊情况处理，比如越界，表满</li>
+<li>先将插入位置及其后面的元素整体后移</li>
+<li>赋值，长度加一</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ListInsert</span><span class="params">(<span class="type">int</span> index, T &amp;e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (index &lt; <span class="number">1</span> || index &gt; length) &#123;</span><br><span class="line">        <span class="comment">/* 处理异常代码 */</span></span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;插入位置错误&quot;</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (length &gt;= MaxSize)   </span><br><span class="line">    &#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;表满不能插入&quot;</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = length; j &gt;= index; j--) </span><br><span class="line">    &#123;</span><br><span class="line">        element[j] = element[j<span class="number">-1</span>];  <span class="comment">// 节点依次后移</span></span><br><span class="line">    &#125;</span><br><span class="line">    element[index<span class="number">-1</span>] = e;</span><br><span class="line">    length ++;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h4><p>算法步骤：</p>
+<ul>
+<li>特殊情况处理，如越界，为空</li>
+<li>删除节点后面的元素整体向前移动</li>
+<li>长度减一</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ListDelete</span><span class="params">(<span class="type">int</span> index, T &amp;e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (index &lt; <span class="number">1</span> || index &gt; length)</span><br><span class="line">    &#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;删除位置出错&quot;</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (length == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;表为空不能删除&quot;</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = index; j &lt;= length - <span class="number">1</span>; j++)</span><br><span class="line">    &#123;</span><br><span class="line">        element[j<span class="number">-1</span>] = element[j];</span><br><span class="line">    &#125;</span><br><span class="line">    length --;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><p>线性表的链式存储结构，用一组任意的存储单元存数据元素，这组存储单元可以是连续的，也可以是不连续的。如下图所示：<br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241521055.png" alt=""><br>链表是一种灵活神奇的数据结构。定义一个单链表通常使用两个类，即节点类ListNode和链表类LinkedList，如何表达两者关系呢？可以选择复合类、内部类的方式，下面基于复合类方式说明。</p>
+<p>其中，ListNode类包含数据域和指针域。数据域可以由基本数据类型组成,也可以是类类型等，指针域用于存放下一个节点的地址。ListNode类关心的是对节点本身的管理，如setter、getter等。LinkedList类包含ListNode属性，两者是聚合关系，关心对整条链的操作，如查找，插入、删除节点等。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ListNode</span><span class="comment">// 节点类ListNode</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ListNode</span>();</span><br><span class="line">    ~<span class="built_in">ListNode</span>();</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    ElemType data;</span><br><span class="line">    ListNode *next;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">LinkedList</span><span class="comment">// 链表类LinkedList</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">     <span class="built_in">LinkedList</span>();</span><br><span class="line">     ~<span class="built_in">LinkedList</span>();</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">isEmpty</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">Length</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">TraversLinkedList</span><span class="params">()</span></span>;<span class="comment">// 遍历链表</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">CreateLinkedList</span><span class="params">(<span class="type">int</span> n)</span></span>;      <span class="comment">// 构建链表</span></span><br><span class="line">    <span class="function">ListNode *<span class="title">Search</span><span class="params">(ElemType &amp;e)</span></span>;      <span class="comment">// 按值查找并返回节点</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Insert</span><span class="params">(<span class="type">int</span> posistion, ElemType &amp;e)</span></span>; <span class="comment">// 插入节点操作</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Delete</span><span class="params">(<span class="type">int</span> k, ElemType &amp;e)</span></span>;  <span class="comment">// 删除节点操作</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">ClearLinkedList</span><span class="params">()</span></span>;<span class="comment">// 清空表</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">/* 下面可根据需要添加属性 */</span></span><br><span class="line">    ListNode *head; <span class="comment">// 头指针</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="创建链表"><a href="#创建链表" class="headerlink" title="创建链表"></a>创建链表</h4><p>创建链表有头插，尾插两种策略。差别看图：<br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241521686.png" alt=""></p>
+<p>头插法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(输入不为结束条件) &#123;</span><br><span class="line">    p = <span class="keyword">new</span> <span class="built_in">ListNode</span>();</span><br><span class="line">    p-&gt;data = value;</span><br><span class="line">    p-&gt;next = head;</span><br><span class="line">    head = p;</span><br><span class="line">    cin &gt;&gt; value;<span class="comment">//输入value，复杂类型可以设置输入函数</span></span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>尾插法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(输入不为结束条件) &#123;</span><br><span class="line">    p = <span class="keyword">new</span> <span class="built_in">ListNode</span>();</span><br><span class="line">    p-&gt;data = value;</span><br><span class="line">    p-&gt;next = head;</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">NULL</span>)     <span class="comment">// 第一个节点处理，只执行一次</span></span><br><span class="line">    &#123;</span><br><span class="line">        head = p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        rear-&gt;next = p;</span><br><span class="line">    &#125;</span><br><span class="line">    rear = p;</span><br><span class="line">    cin &gt;&gt; value;<span class="comment">// 输入value，复杂类型可以设置输入函数</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (rear != <span class="literal">NULL</span>) <span class="comment">// 对于非空表，尾节点指针域存NULL</span></span><br><span class="line">&#123;</span><br><span class="line">    rear-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>如果链表为空需要特殊处理，使用头节点代替头指针，则链表的元素都可以看作表中间的元素，故而可以一视同仁，统一链表的查找，插入，删除等操作。<br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241521173.png" alt=""></p>
+<p>头指针与头结点的区别：</p>
+<table>
+<thead>
+<tr>
+<th>头指针</th>
+<th>头结点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>头指针即链表指向第一个结点的指针，若链表有头结点，则是指向头结点的指针</td>
+<td>头结点是为了操作的统一和方便而设立的，放在第一元素的结点之前，其数据一般无意义（也可能存放链表的长度）</td>
+</tr>
+<tr>
+<td>头指针具有标识作用，所以常用头指针冠以链表的名字</td>
+<td>有了头结点，对在第一元素结点前插入结点和删除第一节点，其操作与其它结点的操作就统一了</td>
+</tr>
+<tr>
+<td>无论链表是否为空，头指针均不为空，头指针是链表的必要元素</td>
+<td>头结点不一定是链表的必要元素</td>
+</tr>
+</tbody>
+</table>
+<h4 id="插入节点-1"><a href="#插入节点-1" class="headerlink" title="插入节点"></a>插入节点</h4><p>插入节点可以分为前插法，后插法。后插策略如图所示：<br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241522840.png" alt=""></p>
+<p>算法步骤：</p>
+<ul>
+<li>创建新节点p</li>
+<li>数据域赋值</li>
+<li>当前节点current的后继作为新节点的后继</li>
+<li>新节点p作为当前节点current的后继</li>
+</ul>
+<p>代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p-&gt;next = current-&gt;next;</span><br><span class="line">current-&gt;next = p;</span><br></pre></td></tr></table></figure>
+<p>前插法类似，只是按照插入条件（位置或按值）定位插入位置前一个节点，这里涉及到current和current-&gt;next的妙用了，请看：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">while (current &amp;&amp; current-&gt;data != e) &#123; //...&#125;</span><br><span class="line"></span><br><span class="line">while (current-&gt;next &amp;&amp; current-&gt;next-&gt;data != e) &#123; //...&#125; </span><br></pre></td></tr></table></figure>
+<p>前者关注当前节点，后者关注前驱节点。这个例子前插可以通过先做后插，再通过数据交换实现在节点后面插入的效果，后插也可以通过前插进行转换。链表是一个很灵活的结构，删除节点同样可以利用这个小技巧</p>
+<h4 id="删除节点-1"><a href="#删除节点-1" class="headerlink" title="删除节点"></a>删除节点</h4><p>删除节点也有删除当前节点、删除后继节点两种，同时也可以运用替身法实现两者的转化。下面给出删除当前节点的两种实现方式：<br>借助前驱节点，即借用prev保存当前结点current的前驱。<br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241522562.png" alt=""></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">prev-&gt;next = current-&gt;next;</span><br><span class="line"><span class="keyword">delete</span> current;</span><br></pre></td></tr></table></figure>
+<p>替身法</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pnext = current-&gt;next;</span><br><span class="line">x = current-&gt;data;</span><br><span class="line">current-&gt;data = pnext-&gt;data;</span><br><span class="line">current-&gt;next = pnext-&gt;next;</span><br><span class="line"><span class="keyword">delete</span> pnext;</span><br></pre></td></tr></table></figure>
+<h4 id="链表的分类"><a href="#链表的分类" class="headerlink" title="链表的分类"></a>链表的分类</h4><p>按实现角度分：静态链表、动态链表。对于没有指针的语言，可以用数组描述链表，称为静态链表；而用指针进行动态分配回收内存空间的，称为动态链表。</p>
+<p>静态链表：类比上面介绍的动态单链表，数组的元素设置两个数据域： data和cur。数据域data，用来存放数据元素，也就是通常我们要处理的数据；而cur相当于单链表中的next指针，存放该元素的后继，即下一个节点数组元素的下标，cur称为游标。 因为静态链表的空间是实现分配好的，所以，我们需要自定义内存的申请和释放，而我们可以将所有未被使用过的及已被删除的分量用游标链成一个备用的链表，每当进行插入时，便可以从备用链表上取得第一个结点作为待插入的新结点。</p>
+<p>按链接方式分：单链表、循环链表、双向链表。<br>循环链表：将单链表中尾节点的指针域由NULL改为指向头节点，使单链表连接成一个环，首尾相接的链表称循环链表。循环链表实现了从一个节点出发，访问整条链表的每个节点。下面是非空的循环链表示意图：<br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241522991.png" alt=""></p>
+<p>由于存在头节点，单向循环链表存在尾指针rear条件下访问开始节点即<code>rear-&gt;next-&gt;next</code>，只需<code>O(1)</code>的时间复杂度。<br>双向链表：单链表的每个节点中，增加一个指向前驱的指针域。下面简单描述双向链表的插入节点、删除节点操作。</p>
+<p>插入节点：<br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241522978.png" alt=""></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s-&gt;prior = current-&gt;prior;     </span><br><span class="line">current-&gt;prior-&gt;next = current;   </span><br><span class="line">s-&gt;next = current;          </span><br><span class="line">current-&gt;prior = s;         </span><br></pre></td></tr></table></figure>
+<p>删除节点<br><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202307241522628.png" alt=""></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">current-&gt;prior-&gt;next = current-&gt;next;</span><br><span class="line">current-&gt;next-&gt;prior = current-&gt;prior;</span><br><span class="line"><span class="keyword">delete</span> current;</span><br></pre></td></tr></table></figure>
+<h1 id="顺序表与单链表比较"><a href="#顺序表与单链表比较" class="headerlink" title="顺序表与单链表比较"></a>顺序表与单链表比较</h1><p>顺序表与单链表的选取可以考虑存储方式、时间性能、空间性能方面的要求。</p>
+<ul>
+<li>顺序表需预先分配内存空间，存储规模固定，分配少了易发生溢出；单链表按需分配存储空间，元素个数不受限制</li>
+<li>顺序表查找时间复杂度为<code>O(1)</code>,插入和删除为<code>O(n)</code>;单链表查找为<code>O(n)</code>,插入和删除为<code>O(n)</code></li>
+</ul>
+<p>因此，存储空间无特别要求时，需要频繁进行查找访问操作时，选用顺序存储；频繁进行插入删除操作时，选用链式结构。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>至此，把一直想总结的线性表知识写完了。写博客是一个知识整理的过程，你会去查阅许多知识，学习许多知识，把自己之前忽略的、认为重要的知识点进行归纳，万一自己忘了在翻来看看温故而知新，虽然不排除我靠，我怎么写出这样的渣文来的羞耻不已罢了。</p>
+<blockquote>
+<p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
+</blockquote>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag">数据结构与算法</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/25/algorithm-practice-notes-01/"  data-tooltip="算法刷题笔记一">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/16/life-feelings-201703/" data-tooltip="五味杂陈的感想">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/03/19/start-from-linearlist/&amp;title=从线性表开始踏上数据结构王国的旅途">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/03/19/start-from-linearlist/&amp;title=从线性表开始踏上数据结构王国的旅途">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/03/19/start-from-linearlist/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/03/19/start-from-linearlist/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        <div class ="post-donate">
+            <div id="donate_board" class="donate_bar center">
+                <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">给作者投食戳这里OwO</a>
+                <br>
+            </div>
+            <div id="donate_guide" class="donate_bar center hidden" >
+                <img src="/assets/images/qr-alipay.jpg" alt="支付宝打赏">
+                <img src="/assets/images/qr-wechatpay.png" alt="微信打赏">
+            </div>
+            <script type="text/javascript">
+                document.getElementById('btn_donate').onclick = function(){
+                    $('#donate_board').addClass('hidden');
+                    $('#donate_guide').removeClass('hidden');
+                }
+            </script>
+        </div>
+        
+            
+                <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTg0My84NDA3">
+</div>
+<!-- City版安装代码已完成 -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+	<div id="footer-img"></div>
+    <span class="copyrights">
+    	<p>Powder by <a href="https://hexo.io/zh-cn/">Hexo</a>. Theme - <a href="https://github.com/kaedea/hexo-theme-themia">Themia</a> Modified by <a href="http://tsukasa.moe">Tsukasa</a>.<br>
+			License - <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">Attribution-NonCommercial-NoDerivatives 4.0 International</a>.<br>
+			<span id="busuanzi_container_site_uv">
+  				Total <span id="busuanzi_value_site_uv"></span> visitors.
+			</span>
+			<span id="busuanzi_container_site_pv">
+			    Total visit <span id="busuanzi_value_site_pv"></span> times.
+			</span>
+			<span id="run_time"></span>
+		</p>
+        Copyrights &copy; 2024 Tsukasa. All Rights Reserved.(≧∀≦)
+    </span>
+</footer>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<script>
+    function secondToDate(second) {
+        if (!second) {
+            return 0;
+        }
+        var time = new Array(0, 0, 0, 0, 0);
+        // if (second >= 365 * 24 * 3600) {
+        //     time[0] = parseInt(second / (365 * 24 * 3600));
+        //     second %= 365 * 24 * 3600;
+        // }
+        if (second >= 24 * 3600) {
+            time[1] = parseInt(second / (24 * 3600));
+            second %= 24 * 3600;
+        }
+        if (second >= 3600) {
+            time[2] = parseInt(second / 3600);
+            second %= 3600;
+        }
+        if (second >= 60) {
+            time[3] = parseInt(second / 60);
+            second %= 60;
+        }
+        if (second > 0) {
+            time[4] = second;
+        }
+        return time;
+    }
+</script>
+<script type="text/javascript" language="javascript">
+    function setTime() {
+        var create_time = Math.round(new Date(Date.UTC(2017, 2, 6, 2, 23, 0))
+                .getTime() / 1000);
+        var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+        currentTime = secondToDate((timestamp - create_time));
+        currentTimeHtml = "Blog ages: "+ currentTime[1] + ' days '
+                + currentTime[2] + ' h ' 
+                + currentTime[3] + ' m ' 
+                + currentTime[4] + ' s.';
+        document.getElementById("run_time").innerHTML = currentTimeHtml;
+    }
+    setInterval(setTime, 1000);
+</script>
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/25/algorithm-practice-notes-01/"  data-tooltip="算法刷题笔记一">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/16/life-feelings-201703/" data-tooltip="五味杂陈的感想">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/03/19/start-from-linearlist/&amp;title=从线性表开始踏上数据结构王国的旅途">
+                <i class="fa fa-qq"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/03/19/start-from-linearlist/&amp;title=从线性表开始踏上数据结构王国的旅途">
+                <i class="fa fa-weibo"></i>
+            </a>
+        </li>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/03/19/start-from-linearlist/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/03/19/start-from-linearlist/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default">
+            
+                <i class="fa fa-comment-o"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2017/03/19/start-from-linearlist/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2017/03/19/start-from-linearlist/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2017/03/19/start-from-linearlist/&amp;title=从线性表开始踏上数据结构王国的旅途">
+                <i class="fa fa-weibo"></i><span>Share on Weibo</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2017/03/19/start-from-linearlist/&amp;title=从线性表开始踏上数据结构王国的旅途">
+                <i class="fa fa-qq"></i><span>Share on QQ</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatars.jpg"/>
+        
+            <h4 id="about-card-name">Tsukasa</h4>
+        
+            <h5 id="about-card-bio"><p><a href="http://tsukasa.moe">「My Homepage」</a><br><a href="http://me.tsukasa.moe">「About Me」</a><br><a href="http://blog.tsukasa.moe/links">「My Links」</a></p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </h5>
+        
+        
+            <h5 id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Shenzhen
+            </h5>
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover-neko.jpg');"></div>
+    <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+    <!--SCRIPTS-->
+
+<script src="/assets/js/jquery.js"></script>
+
+
+<script src="/assets/js/jquery.fancybox.js"></script>
+
+
+<script src="/assets/js/jquery.fancybox-thumbs.js"></script>
+
+
+<script src="/assets/js/tranquilpeak.js"></script>
+
+<!--SCRIPTS END-->
+<!--PANGU AUTO SPACE-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.2.1/pangu.min.js"></script>
+<script> pangu.spacingPage(); </script>
+<!--PANGU AUTO SPACE END-->
+
+
+   
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+    </script>
+
+    
+
+
+    <script type="text/javascript">
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+                (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+            e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','DibYiq_42u2sq4ziXd_y','2.0.0');
+    </script>
+
+
+</html>
