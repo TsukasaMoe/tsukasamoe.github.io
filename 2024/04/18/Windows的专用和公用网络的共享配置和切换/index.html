@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Tsukasa の 部屋">
-    <title>Spring项目的HTTP客户端工具RestTemplate - Tsukasa の 部屋</title>
+    <title>Windows的专用和公用网络的共享配置和切换 - Tsukasa の 部屋</title>
     <meta name="author" content="Tsukasa">
     
     
@@ -15,19 +15,23 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="文章摘要">
+    <meta name="description" content="文章Windows 中通过 SMB 协议共享文件允许局域网设备访问中提到网络高级共享设置，之前通过SMB进行文件共享时都一把配置了，但实际上这3个不同的网络配置代表了不同类型的网络环境，对应着不同的安全和共享设置。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Spring项目的HTTP客户端工具RestTemplate">
-<meta property="og:url" content="http://blog.tsukasa.moe/2023/11/10/RestTemplate-learning/index.html">
+<meta property="og:title" content="Windows的专用和公用网络的共享配置和切换">
+<meta property="og:url" content="http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/index.html">
 <meta property="og:site_name" content="Tsukasa の 部屋">
-<meta property="og:description" content="文章摘要">
+<meta property="og:description" content="文章Windows 中通过 SMB 协议共享文件允许局域网设备访问中提到网络高级共享设置，之前通过SMB进行文件共享时都一把配置了，但实际上这3个不同的网络配置代表了不同类型的网络环境，对应着不同的安全和共享设置。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202311141709768.png">
-<meta property="article:published_time" content="2023-11-10T10:31:03.000Z">
-<meta property="article:modified_time" content="2023-11-15T12:51:24.031Z">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182026436.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182304356.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182306919.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182310329.jpg">
+<meta property="article:published_time" content="2024-04-18T06:14:29.000Z">
+<meta property="article:modified_time" content="2024-04-18T15:14:44.360Z">
 <meta property="article:author" content="Tsukasa">
+<meta property="article:tag" content="Windows">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202311141709768.png">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182026436.png">
 <meta name="twitter:creator" content="@TsukasaMoe">
     
         <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
@@ -287,15 +291,21 @@
 <div class="post-header main-content-wrap text-center">
     
         <h1 class="post-title" itemprop="headline">
-            Spring项目的HTTP客户端工具RestTemplate
+            Windows的专用和公用网络的共享配置和切换
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" content="Fri Nov 10 2023 18:31:03 GMT+0800">
+    <time itemprop="datePublished" content="Thu Apr 18 2024 14:14:29 GMT+0800">
 	
-		    Nov 10, 2023
+		    Apr 18, 2024
     	
     </time>
+    
+        <span> |  </span>
+        
+    <a class="category-link" href="/categories/%E8%B5%84%E6%BA%90%E6%8A%80%E5%B7%A7/">资源技巧</a>
+
+
     
 </div>
 
@@ -314,31 +324,23 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <!-- excerpt -->
-<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1%E3%80%81%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DCA%EF%BC%88Self-signed-CA%EF%BC%89%E6%9D%A5%E7%AD%BE%E5%8F%91%E8%AF%81%E4%B9%A6"><span class="toc-text">1、生成自签名CA（Self-signed CA）来签发证书</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2%E3%80%81%E7%94%9F%E6%88%90%E5%87%AD%E8%AF%81%E7%AD%BE%E5%8F%91%E8%AF%B7%E6%B1%82CSR%EF%BC%88Certificate-Signing-Request%EF%BC%89"><span class="toc-text">2、生成凭证签发请求CSR（Certificate Signing Request）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4%E3%80%81%E4%BD%BF%E7%94%A8Self-signed-CA%E7%AD%BE%E5%8F%91localhost%E8%AF%81%E4%B9%A6"><span class="toc-text">4、使用Self-signed CA签发localhost证书</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E8%8E%B7%E5%BE%97-Cert-%E6%89%80%E9%9C%80%E7%9A%84%E5%85%B6%E5%AE%83%E4%BF%A1%E6%81%AF"><span class="toc-text">（1）获得 Cert 所需的其它信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BC%882%EF%BC%89%E4%BD%BF%E7%94%A8-Self-signed-CA-%E7%AD%BE%E5%8F%91-localhost-%E8%AF%81%E4%B9%A6"><span class="toc-text">（2）使用 Self-signed CA 签发 localhost 证书</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SSL-TLS%E8%AF%81%E4%B9%A6%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5"><span class="toc-text">SSL&#x2F;TLS证书相关的一些概念</span></a></li></ol>
-<p>文章详细内容</p>
-<p>1, java 9+ 自带 httpclient(我比较喜欢这种链式调用的,但是 java8 没有)</p>
-<p>2, apache 原生 httpclient</p>
-<p>3, 封装过的 apache httpclient</p>
-<p>4, OkHttp</p>
-<p>5, Feign</p>
-<p>6, RestTemplate</p>
-<p>7, Retrofit</p>
-<p>jsoup<br>webclient<br>RxJava<br>EasyOKHttp<br>Unirest<br>okhttp+retrofit+rxjava </p>
-<p>请求和资源的转发是指在一个过滤器中，通过调用 RequestDispatcher 的 forward 方法将请求和响应传递给其他资源（例如，另一个 Servlet 或 JSP 页面）。这个转发的过程可能导致过滤器链的其他过滤器再次被调用，从而可能引起一些逻辑的多次执行。继承 OncePerRequestFilter 主要是为了应对过滤器链中的多次调用问题</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ExampleFilter</span> <span class="keyword">extends</span> <span class="title class_">OncePerRequestFilter</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doFilterInternal</span><span class="params">(</span></span><br><span class="line"><span class="params">            HttpServletRequest request,</span></span><br><span class="line"><span class="params">            HttpServletResponse response,</span></span><br><span class="line"><span class="params">            FilterChain filterChain)</span> <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 在这里添加你的自定义逻辑</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 执行请求和资源的转发</span></span><br><span class="line">        <span class="type">RequestDispatcher</span> <span class="variable">dispatcher</span> <span class="operator">=</span> request.getRequestDispatcher(<span class="string">&quot;/someResource&quot;</span>);</span><br><span class="line">        dispatcher.forward(request, response);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 这里的逻辑将不会被重复执行</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>OpenSSL生成自签名证书</p>
-<h1 id="1、生成自签名CA（Self-signed-CA）来签发证书"><a href="#1、生成自签名CA（Self-signed-CA）来签发证书" class="headerlink" title="1、生成自签名CA（Self-signed CA）来签发证书"></a>1、生成自签名CA（Self-signed CA）来签发证书</h1><blockquote>
-<p>更新了openssh，安装Java环境（确保JDK中的keytool可用）后，使用这个虚拟机作为自签名CA来签发Cert </p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl req -x509 -sha256 -days 3650 -newkey rsa:4096 -keyout rootCA.key -out rootCA.crt</span><br></pre></td></tr></table></figure>
-<h1 id="2、生成凭证签发请求CSR（Certificate-Signing-Request）"><a href="#2、生成凭证签发请求CSR（Certificate-Signing-Request）" class="headerlink" title="2、生成凭证签发请求CSR（Certificate Signing Request）"></a>2、生成凭证签发请求CSR（Certificate Signing Request）</h1><blockquote>
-<p>站点在向全文机构申请证书前准备的自己的资料（包含公钥但不应当包含私钥）。CA基于CSR签发证书（Cert） 。</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl req -new -newkey rsa:4096 -keyout localhost.key -out localhost.csr</span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202311141709768.png" alt=""></p>
-<h1 id="4、使用Self-signed-CA签发localhost证书"><a href="#4、使用Self-signed-CA签发localhost证书" class="headerlink" title="4、使用Self-signed CA签发localhost证书"></a>4、使用Self-signed CA签发localhost证书</h1><h2 id="（1）获得-Cert-所需的其它信息"><a href="#（1）获得-Cert-所需的其它信息" class="headerlink" title="（1）获得 Cert 所需的其它信息"></a>（1）获得 Cert 所需的其它信息</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt; localhost.ext &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">authorityKeyIdentifier=keyid,issuer</span></span><br><span class="line"><span class="string">basicConstraints=CA:FALSE</span></span><br><span class="line"><span class="string">subjectAltName = @alt_names</span></span><br><span class="line"><span class="string">[alt_names]</span></span><br><span class="line"><span class="string">IP.1 = 192.168.2.99</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
-<h2 id="（2）使用-Self-signed-CA-签发-localhost-证书"><a href="#（2）使用-Self-signed-CA-签发-localhost-证书" class="headerlink" title="（2）使用 Self-signed CA 签发 localhost 证书"></a>（2）使用 Self-signed CA 签发 localhost 证书</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -req -CA rootCA.crt -CAkey rootCA.key -in localhost.csr -out localhost.crt -days 365 -CAcreateserial -extfile localhost.ext</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h1 id="SSL-TLS证书相关的一些概念"><a href="#SSL-TLS证书相关的一些概念" class="headerlink" title="SSL/TLS证书相关的一些概念"></a>SSL/TLS证书相关的一些概念</h1><p>KeyManager：管理本地密钥库中的密钥（私钥），用于配置SSL/TLS握手中的客户端证书，使其能够进行双向SSL/TLS认证。<br>keyPassword：访问客户端证书的私钥的密码。通常通过非对称加密算法生成密钥对，为了保护私钥，通常会设置一个密码。<br>KeyStore：用于存储密钥和证书的容器，既可以包含客户端证书和私钥（由KeyManager使用），也可以包含信任的服务器证书（由TrustManager使用）。<br>TrustManager：配置信任的证书，用于验证服务器的身份。<br>TrustStrategy：一个策略接口，用于定义是否信任远程服务器的证书。可以自定义信任策略，例如接受所有证书、仅接受特定颁发机构的证书等</p>
+<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%87%E6%8D%A2%E7%BD%91%E7%BB%9C%E7%B1%BB%E5%9E%8B"><span class="toc-text">切换网络类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E7%9B%B8%E5%BA%94%E7%BD%91%E7%BB%9C%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%85%B1%E4%BA%AB%E7%AD%96%E7%95%A5"><span class="toc-text">设置相应网络类型的共享策略</span></a></li></ol>
+<p>文章<a href="http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/">Windows 中通过 SMB 协议共享文件允许局域网设备访问</a>中提到网络高级共享设置，之前通过SMB进行文件共享时都一把配置了，但实际上这3个不同的网络配置代表了不同类型的网络环境，对应着不同的安全和共享设置。</p>
+<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><p>在Windows 10的高级共享设置中，”专用网络”、”来宾或公用网络”以及”所有网络”代表了不同类型的网络环境，应该对应不同的安全和共享设置。下面是各个网络环境的介绍：</p>
+<ul>
+<li>专用网络：<br>通常用于信任的网络，比如家庭网络或者办公室网络，可以配置允许设备之间共享文件、打印机和其他资源。</li>
+<li>来宾或公用网络：<br>通常用于公共场所或者不太信任的网络，比如咖啡馆、酒店或者机场的Wi-Fi网络，不建议开启文件共享，保护安全隐私</li>
+<li>所有网络：<br>专用网络和公用网络公用一份相同的配置。</li>
+</ul>
+<h1 id="切换网络类型"><a href="#切换网络类型" class="headerlink" title="切换网络类型"></a>切换网络类型</h1><p><strong>方法一：</strong></p>
+<p><code>Win+R</code>打开运行窗口，输入secpol.msc打开本地安全策略，在网络列表管理策略中，在对应的网络连接（以太网或局域网）上右键，点击属性，在网络位置中设置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182026436.png" alt=""></p>
+<p><strong>方法二：</strong></p>
+<p><code>Win+I</code>打开Windows 10设置，网络和Internet，点击当前网络的属性进入设置界面即可设置网络类型。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182304356.jpg" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182306919.jpg" alt=""></p>
+<h1 id="设置相应网络类型的共享策略"><a href="#设置相应网络类型的共享策略" class="headerlink" title="设置相应网络类型的共享策略"></a>设置相应网络类型的共享策略</h1><p>打开<code>控制面板\网络和 Internet\网络和共享中心\高级共享设置</code>，在对应的网络类型下设置共享策略。例如，如果只想在专用网络中共享文件，只需在下面的专用网络中更改共享选项。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182310329.jpg" alt=""></p>
 <blockquote>
 <p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
 </blockquote>
@@ -347,12 +349,19 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Windows/" rel="tag">Windows</a>
+
+            </div>
+        
         <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/"  data-tooltip="Windows的专用和公用网络的共享配置和切换">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -360,7 +369,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/31/Spring-global-exception-handling-and-error-code-design/" data-tooltip="Spring项目统一响应格式设计和全局异常处理">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/11/10/RestTemplate-learning/" data-tooltip="Spring项目的HTTP客户端工具RestTemplate">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -375,23 +384,23 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/11/10/RestTemplate-learning/&amp;title=Spring项目的HTTP客户端工具RestTemplate">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/&amp;title=Windows的专用和公用网络的共享配置和切换">
                 <i class="fa fa-qq"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/11/10/RestTemplate-learning/&amp;title=Spring项目的HTTP客户端工具RestTemplate">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/&amp;title=Windows的专用和公用网络的共享配置和切换">
                 <i class="fa fa-weibo"></i>
             </a>
         </li>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/11/10/RestTemplate-learning/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/11/10/RestTemplate-learning/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -512,7 +521,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/"  data-tooltip="Windows的专用和公用网络的共享配置和切换">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -520,7 +529,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/10/31/Spring-global-exception-handling-and-error-code-design/" data-tooltip="Spring项目统一响应格式设计和全局异常处理">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/11/10/RestTemplate-learning/" data-tooltip="Spring项目的HTTP客户端工具RestTemplate">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -535,23 +544,23 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/11/10/RestTemplate-learning/&amp;title=Spring项目的HTTP客户端工具RestTemplate">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/&amp;title=Windows的专用和公用网络的共享配置和切换">
                 <i class="fa fa-qq"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/11/10/RestTemplate-learning/&amp;title=Spring项目的HTTP客户端工具RestTemplate">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/&amp;title=Windows的专用和公用网络的共享配置和切换">
                 <i class="fa fa-weibo"></i>
             </a>
         </li>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/11/10/RestTemplate-learning/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/11/10/RestTemplate-learning/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -578,22 +587,22 @@
                 <div id="share-options-bar" class="share-options-bar" data-behavior="3">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2023/11/10/RestTemplate-learning/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/">
                 <i class="fa fa-twitter"></i><span>Share on Twitter</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2023/11/10/RestTemplate-learning/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/">
                 <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2023/11/10/RestTemplate-learning/&amp;title=Spring项目的HTTP客户端工具RestTemplate">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/&amp;title=Windows的专用和公用网络的共享配置和切换">
                 <i class="fa fa-weibo"></i><span>Share on Weibo</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2023/11/10/RestTemplate-learning/&amp;title=Spring项目的HTTP客户端工具RestTemplate">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/&amp;title=Windows的专用和公用网络的共享配置和切换">
                 <i class="fa fa-qq"></i><span>Share on QQ</span>
             </a>
         </li>

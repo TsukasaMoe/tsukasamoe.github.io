@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/</loc>
+    <lastmod>2024-04-18</lastmod>
+  </url>
+  <url>
     <loc>http://blog.tsukasa.moe/2023/11/10/RestTemplate-learning/</loc>
     <lastmod>2023-11-15</lastmod>
   </url>
