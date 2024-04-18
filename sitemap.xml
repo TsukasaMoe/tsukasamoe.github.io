@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.tsukasa.moe/2023/07/10/record-some-normal-command-of-git/</loc>
+    
+    <lastmod>2024-04-18T16:34:59.600Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.tsukasa.moe/2023/07/14/Use-Github-and-PicGo-to-integrate-picture-bed/</loc>
+    
+    <lastmod>2024-04-18T16:33:27.226Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.tsukasa.moe/2017/05/23/git-usage-learning-notes/</loc>
+    
+    <lastmod>2024-04-18T16:12:20.871Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.tsukasa.moe/2019/02/02/Record-some-useful-operation-in-Windows-system/</loc>
+    
+    <lastmod>2024-04-18T15:59:56.076Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.tsukasa.moe/2024/04/18/Windows%25E7%259A%2584%25E4%25B8%2593%25E7%2594%25A8%25E5%2592%258C%25E5%2585%25AC%25E7%2594%25A8%25E7%25BD%2591%25E7%25BB%259C%25E7%259A%2584%25E5%2585%25B1%25E4%25BA%25AB%25E9%2585%258D%25E7%25BD%25AE%25E5%2592%258C%25E5%2588%2587%25E6%258D%25A2/</loc>
     
     <lastmod>2024-04-18T15:14:44.360Z</lastmod>
@@ -82,13 +110,6 @@
     <loc>http://blog.tsukasa.moe/2023/08/06/Spring-Learning-series-How-does-IOC-container-work/</loc>
     
     <lastmod>2023-10-11T03:57:31.085Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.tsukasa.moe/2019/02/02/Record-some-useful-operation-in-Windows-system/</loc>
-    
-    <lastmod>2023-09-25T06:56:36.306Z</lastmod>
     
   </url>
   
@@ -215,20 +236,6 @@
     <loc>http://blog.tsukasa.moe/2023/07/23/Learning-notes-for-java-8-new-feature-lambda-expression/</loc>
     
     <lastmod>2023-07-24T16:23:46.110Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.tsukasa.moe/2023/07/14/Use-Github-and-PicGo-to-integrate-picture-bed/</loc>
-    
-    <lastmod>2023-07-24T16:07:47.935Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.tsukasa.moe/2023/07/10/record-some-normal-command-of-git/</loc>
-    
-    <lastmod>2023-07-24T16:06:01.795Z</lastmod>
     
   </url>
   
@@ -376,13 +383,6 @@
     <loc>http://blog.tsukasa.moe/2017/05/25/alibaba-interview/</loc>
     
     <lastmod>2023-07-24T12:40:42.911Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.tsukasa.moe/2017/05/23/git-usage-learning-notes/</loc>
-    
-    <lastmod>2023-07-24T10:56:12.287Z</lastmod>
     
   </url>
   
