@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Tsukasa の 部屋">
-    <title>Windows的专用和公用网络的共享配置和切换 - Tsukasa の 部屋</title>
+    <title>MySQL如何存储表情 - Tsukasa の 部屋</title>
     <meta name="author" content="Tsukasa">
     
     
@@ -15,23 +15,17 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="文章Windows 中通过 SMB 协议共享文件允许局域网设备访问中提到网络高级共享设置，之前通过SMB进行文件共享时都一把配置了，但实际上这3个不同的网络配置代表了不同类型的网络环境，对应着不同的安全和共享设置。">
+    <meta name="description" content="介绍MySQL如何存储emoji表情，涉及MySQL字符集和排序规则知识点。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Windows的专用和公用网络的共享配置和切换">
-<meta property="og:url" content="http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/index.html">
+<meta property="og:title" content="MySQL如何存储表情">
+<meta property="og:url" content="http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/index.html">
 <meta property="og:site_name" content="Tsukasa の 部屋">
-<meta property="og:description" content="文章Windows 中通过 SMB 协议共享文件允许局域网设备访问中提到网络高级共享设置，之前通过SMB进行文件共享时都一把配置了，但实际上这3个不同的网络配置代表了不同类型的网络环境，对应着不同的安全和共享设置。">
+<meta property="og:description" content="介绍MySQL如何存储emoji表情，涉及MySQL字符集和排序规则知识点。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182026436.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182304356.jpg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182306919.jpg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182310329.jpg">
-<meta property="article:published_time" content="2024-04-18T06:14:29.000Z">
-<meta property="article:modified_time" content="2024-04-18T15:14:44.360Z">
+<meta property="article:published_time" content="2024-05-14T09:44:42.000Z">
+<meta property="article:modified_time" content="2024-05-14T13:13:22.184Z">
 <meta property="article:author" content="Tsukasa">
-<meta property="article:tag" content="Windows">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182026436.png">
 <meta name="twitter:creator" content="@TsukasaMoe">
     
         <meta rel="publisher" content="https://plus.google.com/113775988407213380000"/>
@@ -291,21 +285,15 @@
 <div class="post-header main-content-wrap text-center">
     
         <h1 class="post-title" itemprop="headline">
-            Windows的专用和公用网络的共享配置和切换
+            MySQL如何存储表情
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" content="Thu Apr 18 2024 14:14:29 GMT+0800">
+    <time itemprop="datePublished" content="Tue May 14 2024 17:44:42 GMT+0800">
 	
-		    Apr 18, 2024
+		    May 14, 2024
     	
     </time>
-    
-        <span> |  </span>
-        
-    <a class="category-link" href="/categories/%E8%B5%84%E6%BA%90%E6%8A%80%E5%B7%A7/">资源技巧</a>
-
-
     
 </div>
 
@@ -324,23 +312,23 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <!-- excerpt -->
-<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%87%E6%8D%A2%E7%BD%91%E7%BB%9C%E7%B1%BB%E5%9E%8B"><span class="toc-text">切换网络类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E7%9B%B8%E5%BA%94%E7%BD%91%E7%BB%9C%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%85%B1%E4%BA%AB%E7%AD%96%E7%95%A5"><span class="toc-text">设置相应网络类型的共享策略</span></a></li></ol>
-<p>文章<a href="http://blog.tsukasa.moe/2023/10/18/Use-SMB-protocol-to-share-files-in-windows-system/">Windows 中通过 SMB 协议共享文件允许局域网设备访问</a>中提到网络高级共享设置，之前通过SMB进行文件共享时都一把配置了，但实际上这3个不同的网络配置代表了不同类型的网络环境，对应着不同的安全和共享设置。</p>
-<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><p>在Windows 10的高级共享设置中，”专用网络”、”来宾或公用网络”以及”所有网络”代表了不同类型的网络环境，应该对应不同的安全和共享设置。下面是各个网络环境的介绍：</p>
-<ul>
-<li>专用网络：<br>通常用于信任的网络，比如家庭网络或者办公室网络，可以配置允许设备之间共享文件、打印机和其他资源。</li>
-<li>来宾或公用网络：<br>通常用于公共场所或者不太信任的网络，比如咖啡馆、酒店或者机场的Wi-Fi网络，不建议开启文件共享，保护安全隐私</li>
-<li>所有网络：<br>专用网络和公用网络公用一份相同的配置。</li>
-</ul>
-<h1 id="切换网络类型"><a href="#切换网络类型" class="headerlink" title="切换网络类型"></a>切换网络类型</h1><p><strong>方法一：</strong></p>
-<p><code>Win+R</code>打开运行窗口，输入secpol.msc打开本地安全策略，在网络列表管理策略中，在对应的网络连接（以太网或局域网）上右键，点击属性，在网络位置中设置。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182026436.png" alt=""></p>
-<p><strong>方法二：</strong></p>
-<p><code>Win+I</code>打开Windows 10设置，网络和Internet，点击当前网络的属性进入设置界面即可设置网络类型。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182304356.jpg" alt=""></p>
-<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182306919.jpg" alt=""></p>
-<h1 id="设置相应网络类型的共享策略"><a href="#设置相应网络类型的共享策略" class="headerlink" title="设置相应网络类型的共享策略"></a>设置相应网络类型的共享策略</h1><p>打开<code>控制面板\网络和 Internet\网络和共享中心\高级共享设置</code>，在对应的网络类型下设置共享策略。例如，如果只想在专用网络中共享文件，只需在下面的专用网络中更改共享选项。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/TsukasaMoe/PicturesOfTsukasaMoe/tech/202404182310329.jpg" alt=""></p>
+<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL%E9%BB%98%E8%AE%A4%E7%9A%84%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%94%AF%E6%8C%81%E8%A1%A8%E6%83%85%E5%AD%98%E5%82%A8"><span class="toc-text">MySQL默认的字符编码为什么不支持表情存储</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85"><span class="toc-text">MySQL如何存储表情</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%99%84%E5%AD%97%E7%AC%A6%E9%9B%86%E6%9F%A5%E8%AF%A2%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">附字符集查询常用命令</span></a></li></ol>
+<h1 id="MySQL默认的字符编码为什么不支持表情存储"><a href="#MySQL默认的字符编码为什么不支持表情存储" class="headerlink" title="MySQL默认的字符编码为什么不支持表情存储"></a>MySQL默认的字符编码为什么不支持表情存储</h1><p>UTF-8编码规范是一种可变长度的字符编码（1~4字节），emoji表情需要4个字节存储，正常来说UTF-8规范的字符集应该可以存储emoji表情。MySQL 5.7版本默认字符集为utf8，排序规则为utf8_general_ci，utf8字符集实际上是一个不完整的 UTF-8 实现，只能存储最多 3 个字节的字符。可以说无法存储emoji表情是MySQL的锅，当然它提供了UTF-8的完整编码实现：utf8mb4字符集。</p>
+<p>拓展下：UTF-8中的8是说每个字符的编码单位是8位，一个英文字符占用一个字节的存储空间，一个中文（含繁体）占用三个字节的存储空间。</p>
+<p><strong>查看当前MySQL默认的字符集和编码</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- select version(); 可查看当前mysql版本，本地测试的mysql使用的5.7，输出示例如下：</span></span><br><span class="line"><span class="keyword">SHOW</span> VARIABLES <span class="keyword">LIKE</span> <span class="string">&#x27;character_set_server&#x27;</span>; <span class="comment">-- utf8</span></span><br><span class="line"><span class="keyword">SHOW</span> VARIABLES <span class="keyword">LIKE</span> <span class="string">&#x27;collation_server&#x27;</span>; <span class="comment">-- utf8_general_ci</span></span><br></pre></td></tr></table></figure>
+<p><strong>查看某个数据库或者表的编码</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> DATABASE sakila;</span><br><span class="line"><span class="comment">-- 输出示例：CREATE DATABASE `sakila` /*!40100 DEFAULT CHARACTER SET utf8 */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> your_table_name;</span><br><span class="line"><span class="comment">-- 输出示例：</span></span><br><span class="line"><span class="comment">-- CREATE TABLE `actor` (</span></span><br><span class="line"><span class="comment">--   `actor_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,</span></span><br><span class="line"><span class="comment">--   `first_name` varchar(45) NOT NULL,</span></span><br><span class="line"><span class="comment">--   `last_name` varchar(45) NOT NULL,</span></span><br><span class="line"><span class="comment">--   `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,</span></span><br><span class="line"><span class="comment">--   PRIMARY KEY (`actor_id`),</span></span><br><span class="line"><span class="comment">--   KEY `idx_actor_last_name` (`last_name`)</span></span><br><span class="line"><span class="comment">-- ) ENGINE=InnoDB AUTO_INCREMENT=202 DEFAULT CHARSET=utf8</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="MySQL如何存储表情"><a href="#MySQL如何存储表情" class="headerlink" title="MySQL如何存储表情"></a>MySQL如何存储表情</h1><p>解决方案呼之欲出了，即使用UTF-8的完整编码实现：utf8mb4字符集。因此，建议建库时显式地设置字符集utf8mb4，排序规则根据大小写是否敏感选择。</p>
+<p><strong>检查字符集和排序规则的默认配置</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 检查MySQL的字符集和排序规则的默认配置</span></span><br><span class="line"><span class="keyword">SHOW</span> VARIABLES <span class="keyword">LIKE</span> <span class="string">&#x27;character_set_database&#x27;</span>;</span><br><span class="line"><span class="keyword">SHOW</span> VARIABLES <span class="keyword">LIKE</span> <span class="string">&#x27;collation_database&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 检查表的字符集和排序规则的默认配置</span></span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> mytable;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>创建数据库或表时指定字符集+排序规则（大小写是否敏感）</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE mydatabase <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_unicode_ci;</span><br></pre></td></tr></table></figure>
+<p><strong>创建、修改表的字符集和排序规则</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> mytable (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">    content <span class="type">VARCHAR</span>(<span class="number">255</span>) <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_unicode_ci</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> mytable <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_unicode_ci;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>修改表字段的字符集和排序规则</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> mytable MODIFY content <span class="type">VARCHAR</span>(<span class="number">255</span>) <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_unicode_ci;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="附字符集查询常用命令"><a href="#附字符集查询常用命令" class="headerlink" title="附字符集查询常用命令"></a>附字符集查询常用命令</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查询支持的字符集</span></span><br><span class="line"><span class="keyword">SHOW</span> <span class="type">CHARACTER</span> <span class="keyword">SET</span>;</span><br><span class="line"><span class="comment">-- 查询支持的排序规则</span></span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">COLLATION</span>;</span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">COLLATION</span> <span class="keyword">WHERE</span> Charset <span class="operator">=</span> <span class="string">&#x27;utf8mb4&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    @<span class="variable">@character_set_database</span> <span class="keyword">AS</span> <span class="string">&#x27;Database Character Set&#x27;</span>, </span><br><span class="line">    @<span class="variable">@collation_database</span> <span class="keyword">AS</span> <span class="string">&#x27;Database Collation&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询某个表的字符集和排序规则</span></span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">TABLE</span> STATUS <span class="keyword">LIKE</span> <span class="string">&#x27;actor&#x27;</span>;</span><br><span class="line"><span class="comment">-- 查询某个列的字符集和排序规则</span></span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">FULL</span> COLUMNS <span class="keyword">FROM</span> actor;</span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">FULL</span> COLUMNS <span class="keyword">FROM</span> actor <span class="keyword">where</span> field <span class="operator">=</span> <span class="string">&#x27;first_name&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询 INFORMATION_SCHEMA.COLUMNS 表来获取表各个列的字符集和排序规则</span></span><br><span class="line"><span class="keyword">SELECT</span> COLUMN_NAME, CHARACTER_SET_NAME, COLLATION_NAME </span><br><span class="line"><span class="keyword">FROM</span> information_schema.COLUMNS </span><br><span class="line"><span class="keyword">WHERE</span> TABLE_NAME <span class="operator">=</span> <span class="string">&#x27;mytable&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询 INFORMATION_SCHEMA.SCHEMATA 表来获取数据库的字符集和排序规则</span></span><br><span class="line"><span class="keyword">SELECT</span> SCHEMA_NAME, DEFAULT_CHARACTER_SET_NAME, DEFAULT_COLLATION_NAME</span><br><span class="line"><span class="keyword">FROM</span> INFORMATION_SCHEMA.SCHEMATA</span><br><span class="line"><span class="keyword">WHERE</span> SCHEMA_NAME <span class="operator">=</span> <span class="string">&#x27;database_name&#x27;</span>;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
 </blockquote>
@@ -349,19 +337,12 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
-            <div class="post-footer-tags">
-                <span class="text-color-light text-small">TAGGED IN</span><br/>
-                
-    <a class="tag tag--primary tag--small t-none-link" href="/tags/Windows/" rel="tag">Windows</a>
-
-            </div>
-        
         <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/"  data-tooltip="MySQL如何存储表情">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -369,7 +350,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/11/10/RestTemplate-learning/" data-tooltip="Spring项目的HTTP客户端工具RestTemplate">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/" data-tooltip="Windows的专用和公用网络的共享配置和切换">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -384,23 +365,23 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/&amp;title=Windows的专用和公用网络的共享配置和切换">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/&amp;title=MySQL如何存储表情">
                 <i class="fa fa-qq"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/&amp;title=Windows的专用和公用网络的共享配置和切换">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/&amp;title=MySQL如何存储表情">
                 <i class="fa fa-weibo"></i>
             </a>
         </li>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -521,7 +502,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/"  data-tooltip="MySQL如何存储表情">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -529,7 +510,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2023/11/10/RestTemplate-learning/" data-tooltip="Spring项目的HTTP客户端工具RestTemplate">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/" data-tooltip="Windows的专用和公用网络的共享配置和切换">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -544,23 +525,23 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/&amp;title=Windows的专用和公用网络的共享配置和切换">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/&amp;title=MySQL如何存储表情">
                 <i class="fa fa-qq"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/&amp;title=Windows的专用和公用网络的共享配置和切换">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/&amp;title=MySQL如何存储表情">
                 <i class="fa fa-weibo"></i>
             </a>
         </li>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -587,22 +568,22 @@
                 <div id="share-options-bar" class="share-options-bar" data-behavior="3">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/">
                 <i class="fa fa-twitter"></i><span>Share on Twitter</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/">
                 <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/&amp;title=Windows的专用和公用网络的共享配置和切换">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/&amp;title=MySQL如何存储表情">
                 <i class="fa fa-weibo"></i><span>Share on Weibo</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/&amp;title=Windows的专用和公用网络的共享配置和切换">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/&amp;title=MySQL如何存储表情">
                 <i class="fa fa-qq"></i><span>Share on QQ</span>
             </a>
         </li>
