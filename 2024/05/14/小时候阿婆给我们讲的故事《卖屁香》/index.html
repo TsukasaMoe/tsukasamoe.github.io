@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Tsukasa の 部屋">
-    <title>MySQL如何存储表情 - Tsukasa の 部屋</title>
+    <title>小时候阿婆给我们讲的故事《卖屁香》 - Tsukasa の 部屋</title>
     <meta name="author" content="Tsukasa">
     
     
@@ -15,15 +15,15 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="介绍MySQL如何存储emoji表情，涉及MySQL字符集和排序规则知识点。">
+    <meta name="description" content="小时候我阿婆给我们讲的故事《卖屁香》，那些温暖宝贵的时光，会永远留在我的心中。">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="MySQL如何存储表情">
-<meta property="og:url" content="http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/index.html">
+<meta property="og:title" content="小时候阿婆给我们讲的故事《卖屁香》">
+<meta property="og:url" content="http://blog.tsukasa.moe/2024/05/14/%E5%B0%8F%E6%97%B6%E5%80%99%E9%98%BF%E5%A9%86%E7%BB%99%E6%88%91%E4%BB%AC%E8%AE%B2%E7%9A%84%E6%95%85%E4%BA%8B%E3%80%8A%E5%8D%96%E5%B1%81%E9%A6%99%E3%80%8B/index.html">
 <meta property="og:site_name" content="Tsukasa の 部屋">
-<meta property="og:description" content="介绍MySQL如何存储emoji表情，涉及MySQL字符集和排序规则知识点。">
+<meta property="og:description" content="小时候我阿婆给我们讲的故事《卖屁香》，那些温暖宝贵的时光，会永远留在我的心中。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-05-14T09:44:42.000Z">
-<meta property="article:modified_time" content="2024-05-14T13:13:22.184Z">
+<meta property="article:published_time" content="2024-05-14T14:15:34.000Z">
+<meta property="article:modified_time" content="2024-05-14T14:27:51.957Z">
 <meta property="article:author" content="Tsukasa">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:creator" content="@TsukasaMoe">
@@ -285,11 +285,11 @@
 <div class="post-header main-content-wrap text-center">
     
         <h1 class="post-title" itemprop="headline">
-            MySQL如何存储表情
+            小时候阿婆给我们讲的故事《卖屁香》
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" content="Tue May 14 2024 17:44:42 GMT+0800">
+    <time itemprop="datePublished" content="Tue May 14 2024 22:15:34 GMT+0800">
 	
 		    May 14, 2024
     	
@@ -312,23 +312,20 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <!-- excerpt -->
-<h1 id="table-of-contents">TABLE OF CONTENTS</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL%E9%BB%98%E8%AE%A4%E7%9A%84%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%94%AF%E6%8C%81%E8%A1%A8%E6%83%85%E5%AD%98%E5%82%A8"><span class="toc-text">MySQL默认的字符编码为什么不支持表情存储</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85"><span class="toc-text">MySQL如何存储表情</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%99%84%E5%AD%97%E7%AC%A6%E9%9B%86%E6%9F%A5%E8%AF%A2%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">附字符集查询常用命令</span></a></li></ol>
-<h1 id="MySQL默认的字符编码为什么不支持表情存储"><a href="#MySQL默认的字符编码为什么不支持表情存储" class="headerlink" title="MySQL默认的字符编码为什么不支持表情存储"></a>MySQL默认的字符编码为什么不支持表情存储</h1><p>UTF-8编码规范是一种可变长度的字符编码（1~4字节），emoji表情需要4个字节存储，正常来说UTF-8规范的字符集应该可以存储emoji表情。MySQL 5.7版本默认字符集为utf8，排序规则为utf8_general_ci，utf8字符集实际上是一个不完整的 UTF-8 实现，只能存储最多 3 个字节的字符。可以说无法存储emoji表情是MySQL的锅，当然它提供了UTF-8的完整编码实现：utf8mb4字符集。</p>
-<p>拓展下：UTF-8中的8是说每个字符的编码单位是8位，一个英文字符占用一个字节的存储空间，一个中文（含繁体）占用三个字节的存储空间。</p>
-<p><strong>查看当前MySQL默认的字符集和编码</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- select version(); 可查看当前mysql版本，本地测试的mysql使用的5.7，输出示例如下：</span></span><br><span class="line"><span class="keyword">SHOW</span> VARIABLES <span class="keyword">LIKE</span> <span class="string">&#x27;character_set_server&#x27;</span>; <span class="comment">-- utf8</span></span><br><span class="line"><span class="keyword">SHOW</span> VARIABLES <span class="keyword">LIKE</span> <span class="string">&#x27;collation_server&#x27;</span>; <span class="comment">-- utf8_general_ci</span></span><br></pre></td></tr></table></figure>
-<p><strong>查看某个数据库或者表的编码</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> DATABASE sakila;</span><br><span class="line"><span class="comment">-- 输出示例：CREATE DATABASE `sakila` /*!40100 DEFAULT CHARACTER SET utf8 */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> your_table_name;</span><br><span class="line"><span class="comment">-- 输出示例：</span></span><br><span class="line"><span class="comment">-- CREATE TABLE `actor` (</span></span><br><span class="line"><span class="comment">--   `actor_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,</span></span><br><span class="line"><span class="comment">--   `first_name` varchar(45) NOT NULL,</span></span><br><span class="line"><span class="comment">--   `last_name` varchar(45) NOT NULL,</span></span><br><span class="line"><span class="comment">--   `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,</span></span><br><span class="line"><span class="comment">--   PRIMARY KEY (`actor_id`),</span></span><br><span class="line"><span class="comment">--   KEY `idx_actor_last_name` (`last_name`)</span></span><br><span class="line"><span class="comment">-- ) ENGINE=InnoDB AUTO_INCREMENT=202 DEFAULT CHARSET=utf8</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h1 id="MySQL如何存储表情"><a href="#MySQL如何存储表情" class="headerlink" title="MySQL如何存储表情"></a>MySQL如何存储表情</h1><p>解决方案呼之欲出了，即使用UTF-8的完整编码实现：utf8mb4字符集。因此，建议建库时显式地设置字符集utf8mb4，排序规则根据大小写是否敏感选择。</p>
-<p><strong>检查字符集和排序规则的默认配置</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 检查MySQL的字符集和排序规则的默认配置</span></span><br><span class="line"><span class="keyword">SHOW</span> VARIABLES <span class="keyword">LIKE</span> <span class="string">&#x27;character_set_database&#x27;</span>;</span><br><span class="line"><span class="keyword">SHOW</span> VARIABLES <span class="keyword">LIKE</span> <span class="string">&#x27;collation_database&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 检查表的字符集和排序规则的默认配置</span></span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> mytable;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong>创建数据库或表时指定字符集+排序规则（大小写是否敏感）</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE mydatabase <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_unicode_ci;</span><br></pre></td></tr></table></figure>
-<p><strong>创建、修改表的字符集和排序规则</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> mytable (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">    content <span class="type">VARCHAR</span>(<span class="number">255</span>) <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_unicode_ci</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> mytable <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_unicode_ci;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong>修改表字段的字符集和排序规则</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> mytable MODIFY content <span class="type">VARCHAR</span>(<span class="number">255</span>) <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_unicode_ci;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h1 id="附字符集查询常用命令"><a href="#附字符集查询常用命令" class="headerlink" title="附字符集查询常用命令"></a>附字符集查询常用命令</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查询支持的字符集</span></span><br><span class="line"><span class="keyword">SHOW</span> <span class="type">CHARACTER</span> <span class="keyword">SET</span>;</span><br><span class="line"><span class="comment">-- 查询支持的排序规则</span></span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">COLLATION</span>;</span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">COLLATION</span> <span class="keyword">WHERE</span> Charset <span class="operator">=</span> <span class="string">&#x27;utf8mb4&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    @<span class="variable">@character_set_database</span> <span class="keyword">AS</span> <span class="string">&#x27;Database Character Set&#x27;</span>, </span><br><span class="line">    @<span class="variable">@collation_database</span> <span class="keyword">AS</span> <span class="string">&#x27;Database Collation&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询某个表的字符集和排序规则</span></span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">TABLE</span> STATUS <span class="keyword">LIKE</span> <span class="string">&#x27;actor&#x27;</span>;</span><br><span class="line"><span class="comment">-- 查询某个列的字符集和排序规则</span></span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">FULL</span> COLUMNS <span class="keyword">FROM</span> actor;</span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">FULL</span> COLUMNS <span class="keyword">FROM</span> actor <span class="keyword">where</span> field <span class="operator">=</span> <span class="string">&#x27;first_name&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询 INFORMATION_SCHEMA.COLUMNS 表来获取表各个列的字符集和排序规则</span></span><br><span class="line"><span class="keyword">SELECT</span> COLUMN_NAME, CHARACTER_SET_NAME, COLLATION_NAME </span><br><span class="line"><span class="keyword">FROM</span> information_schema.COLUMNS </span><br><span class="line"><span class="keyword">WHERE</span> TABLE_NAME <span class="operator">=</span> <span class="string">&#x27;mytable&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询 INFORMATION_SCHEMA.SCHEMATA 表来获取数据库的字符集和排序规则</span></span><br><span class="line"><span class="keyword">SELECT</span> SCHEMA_NAME, DEFAULT_CHARACTER_SET_NAME, DEFAULT_COLLATION_NAME</span><br><span class="line"><span class="keyword">FROM</span> INFORMATION_SCHEMA.SCHEMATA</span><br><span class="line"><span class="keyword">WHERE</span> SCHEMA_NAME <span class="operator">=</span> <span class="string">&#x27;database_name&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>小时候睡觉前，我和弟弟经常缠着阿婆给我们讲故事，其中有一个印象很深的叫《卖屁香》，今天回想起来，故事十分有趣而有哲理，弘扬善有善报，恶有恶报的正义观，教我们为人要善良。<br>文中有一些用词尽管听着不通畅，但那是我阿婆用村话的口吻讲述的，我希望原汁原味地保留下来，以作怀念。</p>
+<h1 id="卖屁香"><a href="#卖屁香" class="headerlink" title="卖屁香"></a>卖屁香</h1><p>古时候有一户人家，有三兄弟，父母过世后分家，大佬分得一匹骡和马，老二分得了牛和驴，老三最后只分到了猫和狗，自己平常时有吃的也会分给自己的猫和狗吃。</p>
+<p>春天到了，大佬拉着螺和马去耕地，老二拉牛和驴去去耕地，老三没有办法只能拉着猫和狗去耕地。到了田里，有一个大官告老还乡，路过此地，看见有人拉着猫和狗来耕地，便说道：“稀罕稀罕真稀罕，我活了这么大年纪，见过骡和马耕地，见过牛和驴耕地，还没有见过猫和狗耕地呢！赶着猫狗耕三圈，回来就给你个大元宝。”因为老三平常时对猫狗很好，所以它们很听话，老三就叫猫狗耕三圈，果然耕了三圈，老三得了个大元宝，高高兴兴回家了。</p>
+<p>老大看见了，问：“老三老三，你去哪里弄了个大元宝？”老三把经过讲给老大听，老大眼馋了：“老三老三，把你的猫和狗借给我用用吧。”老三不好拒绝，就答应了。</p>
+<p>老大就拉着老三的猫和狗去耕地了。被一个大官看见了，大官摸着胡须说：“稀奇稀奇真稀奇，我活了这么大年纪，见过骡和马耕地，见过牛和驴耕地，还没见过猫和狗耕地哩。赶着猫狗耕三圈，回来给你个大元宝。”老大说：“好”，然后赶着猫和狗走，但是猫狗一直不走，大官就摇摇头走了。老大没有得到元宝，非常生气，拿起锄头就把老三的猫狗打死了。</p>
+<p>老三的猫狗死了，非常伤心，兄嫂还建议他把猫狗扒了皮盹来吃，老三死活不肯，在自家后屋一块没人要的地方把猫狗埋了，哭了一个晚上。第二天，在埋猫狗的地方出了一棵枝枝叉叉，很是茂盛的竹子。老三急忙冲上前去，抓着竹竿哭道：“上天啊，你为何对我这么不公平?我的猫狗这么勤劳，在它们死后，你都要竹茎让它们不得安宁。”然后用力摇晃竹子，然后突然竹子上掉下来很多铜钱，老三说是自己的猫狗显灵，就没有多想，收拾好铜钱回家了。</p>
+<p>老大看见老三才出去顿饭工夫就拿了这么多钱回来，心下好奇，追问道：“老三，你哪里来这么多钱啊?”老三见问，便如实相告。兄嫂在一旁听到后，心想竟然有如此神奇的事情，便急忙叫老大也去摇些钱回来。</p>
+<p>老大屁颠屁颠地跑到猫狗的坟前，径自朝着竹子就是几脚踹去，心想这一脚力道不轻，应该得掉下很多钱。没想到，掉下的全是石头，砸得老大一头疱。老大气急败坏，遂去家中拿来了柴刀，照着竹就是一刀砍掉了竹子。</p>
+<p>老三去看时，竹叶都快发黄了。老三觉着这竹子就倒在这儿烂掉也可惜了，于是捡了回去，没事儿的时候编了一只篓，放在屋檐下，再放一盘米，说到：“东一个燕，西一个燕，啄一粒米，下一个蛋。”果然，东边飞来个一只燕子，吃了一粒米就下一个蛋；西边也飞来个一只燕子，又吃了一粒米下一个蛋……很快，就下了一篮鸟蛋。</p>
+<p>兄嫂见状有些眼红，见那日老三织完篓子还剩了半截竹子，便拿了回去，也让老大也织了一只笼子。老大也说道：“东个燕，西个燕，啄一粒米，下一个蛋。”可是篓子放出去没多久，里面已是堆满了鸟屎。老大心想为什么老三总是能得到好处，自己不仅没有得到好处，反而处处倒霉，越想越气，于是就把自己的和老三的竹篓丢进了火炕。</p>
+<p>老三回来看见竹篓没有了，已经知道是大哥所为，但也不好说，只能在火炕旁边暗自伤心。一不小心，老三的一滴泪水滴到了火坑里，竟“啪”的一声脆响，于是他用没有燃尽的竹子拨开灰，发现里面有许多的竹米花，正也无聊，便捡了些吃。刚刚吃了几粒，老三一个屁放了出来，顿时满屋生香。没有多久，老三放屁香的事情传出去了，老三就专门去卖香屁，人们给老三娶了个外号叫“卖屁香”，甚至有人出了很多钱让老三去家里放屁香。</p>
+<p>县官正在街上巡逻，听说了卖屁香的事情，说道：“世上卖东西的千千万，还没有见过卖屁的”，便叫人把卖屁香请过来。老三过来了，县太爷问：“卖屁香，听人说你放的屁是香的，是真有此事吗？”老三说道：“是的，我可以给您放一个试试”，就给县太爷放了一个。“嗯，真香！再放一个。”于是老三又放了一个，县太爷很满意，便赏了老三红布绿布，老三高高兴兴的回家了。老大看见了，问：“老三老三，在哪弄的红布绿布？”老三告诉老大后，老大回家也去火坑中找到了一些烧焦了的竹米花吃了。</p>
+<p>第二天，老大便也提着锣鼓在大街上叫喊着“卖屁香，卖香屁，官家老爷来尝尝？”昨天县太爷闻了两个屁，觉得还不够过瘾，就喊老大：“给老大爷放一个！”老大背转身，把屁股对着县太爷的嘴，想着用力放一个响的，不料用力过猛，不仅把裤子给崩破了，还把烂屎（稀屎）喷到县太爷脸上，气得县太爷打了他四十大板，并且让衙役把他的屁股缝了起来。老大痛得哇哇大叫，一边往家里跑一边向老婆叫嚷着“快拿剪刀来剪线！”，他老婆听成了“快拿扁担(danbian)来挑担(dandan)！”。</p>
+<p>半路上，只见他老婆正拿着一块扁担跑来，问“你挣的红布绿布呢？”，老大见状，哭笑不得责问道，“我让你拿剪刀来剪线，你拿扁担来做什么?看我不打死你，快拿剪刀来给你老子拆屁股!”</p>
 <blockquote>
 <p>声明：本站所有文章均为原创或翻译，遵循<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">署名 - 非商业性使用 - 禁止演绎 4.0 国际许可协议</a>，如需转载请确保您对该协议有足够了解，并附上作者名 (Tsukasa) 及原文地址</p>
 </blockquote>
@@ -342,7 +339,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2024/05/14/%E5%B0%8F%E6%97%B6%E5%80%99%E9%98%BF%E5%A9%86%E7%BB%99%E6%88%91%E4%BB%AC%E8%AE%B2%E7%9A%84%E6%95%85%E4%BA%8B%E3%80%8A%E5%8D%96%E5%B1%81%E9%A6%99%E3%80%8B/"  data-tooltip="小时候阿婆给我们讲的故事《卖屁香》">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -350,7 +347,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/" data-tooltip="Windows的专用和公用网络的共享配置和切换">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/" data-tooltip="MySQL如何存储表情">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -365,29 +362,29 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/&amp;title=MySQL如何存储表情">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2024/05/14/%E5%B0%8F%E6%97%B6%E5%80%99%E9%98%BF%E5%A9%86%E7%BB%99%E6%88%91%E4%BB%AC%E8%AE%B2%E7%9A%84%E6%95%85%E4%BA%8B%E3%80%8A%E5%8D%96%E5%B1%81%E9%A6%99%E3%80%8B/&amp;title=小时候阿婆给我们讲的故事《卖屁香》">
                 <i class="fa fa-qq"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/&amp;title=MySQL如何存储表情">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2024/05/14/%E5%B0%8F%E6%97%B6%E5%80%99%E9%98%BF%E5%A9%86%E7%BB%99%E6%88%91%E4%BB%AC%E8%AE%B2%E7%9A%84%E6%95%85%E4%BA%8B%E3%80%8A%E5%8D%96%E5%B1%81%E9%A6%99%E3%80%8B/&amp;title=小时候阿婆给我们讲的故事《卖屁香》">
                 <i class="fa fa-weibo"></i>
             </a>
         </li>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2024/05/14/%E5%B0%8F%E6%97%B6%E5%80%99%E9%98%BF%E5%A9%86%E7%BB%99%E6%88%91%E4%BB%AC%E8%AE%B2%E7%9A%84%E6%95%85%E4%BA%8B%E3%80%8A%E5%8D%96%E5%B1%81%E9%A6%99%E3%80%8B/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2024/05/14/%E5%B0%8F%E6%97%B6%E5%80%99%E9%98%BF%E5%A9%86%E7%BB%99%E6%88%91%E4%BB%AC%E8%AE%B2%E7%9A%84%E6%95%85%E4%BA%8B%E3%80%8A%E5%8D%96%E5%B1%81%E9%A6%99%E3%80%8B/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default">
+                <a class="post-action-btn btn btn--default" href="#lv-container">
             
                 <i class="fa fa-comment-o"></i>
             </a>
@@ -395,7 +392,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+                <a class="post-action-btn btn btn--default" href="#">
             
                 <i class="fa fa-list"></i>
             </a>
@@ -502,7 +499,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2024/05/14/%E5%B0%8F%E6%97%B6%E5%80%99%E9%98%BF%E5%A9%86%E7%BB%99%E6%88%91%E4%BB%AC%E8%AE%B2%E7%9A%84%E6%95%85%E4%BA%8B%E3%80%8A%E5%8D%96%E5%B1%81%E9%A6%99%E3%80%8B/"  data-tooltip="小时候阿婆给我们讲的故事《卖屁香》">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
@@ -510,7 +507,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2024/04/18/Windows%E7%9A%84%E4%B8%93%E7%94%A8%E5%92%8C%E5%85%AC%E7%94%A8%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE%E5%92%8C%E5%88%87%E6%8D%A2/" data-tooltip="Windows的专用和公用网络的共享配置和切换">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/" data-tooltip="MySQL如何存储表情">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
                     <i class="fa fa-angle-right"></i>
@@ -525,29 +522,29 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/&amp;title=MySQL如何存储表情">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on QQ" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2024/05/14/%E5%B0%8F%E6%97%B6%E5%80%99%E9%98%BF%E5%A9%86%E7%BB%99%E6%88%91%E4%BB%AC%E8%AE%B2%E7%9A%84%E6%95%85%E4%BA%8B%E3%80%8A%E5%8D%96%E5%B1%81%E9%A6%99%E3%80%8B/&amp;title=小时候阿婆给我们讲的故事《卖屁香》">
                 <i class="fa fa-qq"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/&amp;title=MySQL如何存储表情">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Weibo" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2024/05/14/%E5%B0%8F%E6%97%B6%E5%80%99%E9%98%BF%E5%A9%86%E7%BB%99%E6%88%91%E4%BB%AC%E8%AE%B2%E7%9A%84%E6%95%85%E4%BA%8B%E3%80%8A%E5%8D%96%E5%B1%81%E9%A6%99%E3%80%8B/&amp;title=小时候阿婆给我们讲的故事《卖屁香》">
                 <i class="fa fa-weibo"></i>
             </a>
         </li>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Facebook" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2024/05/14/%E5%B0%8F%E6%97%B6%E5%80%99%E9%98%BF%E5%A9%86%E7%BB%99%E6%88%91%E4%BB%AC%E8%AE%B2%E7%9A%84%E6%95%85%E4%BA%8B%E3%80%8A%E5%8D%96%E5%B1%81%E9%A6%99%E3%80%8B/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/">
+            <a class="post-action-btn btn btn--default tooltip--top" data-tooltip="Share on Twitter" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2024/05/14/%E5%B0%8F%E6%97%B6%E5%80%99%E9%98%BF%E5%A9%86%E7%BB%99%E6%88%91%E4%BB%AC%E8%AE%B2%E7%9A%84%E6%95%85%E4%BA%8B%E3%80%8A%E5%8D%96%E5%B1%81%E9%A6%99%E3%80%8B/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default">
+                <a class="post-action-btn btn btn--default" href="#lv-container">
             
                 <i class="fa fa-comment-o"></i>
             </a>
@@ -555,7 +552,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+                <a class="post-action-btn btn btn--default" href="#">
             
                 <i class="fa fa-list"></i>
             </a>
@@ -568,22 +565,22 @@
                 <div id="share-options-bar" class="share-options-bar" data-behavior="3">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://blog.tsukasa.moe/2024/05/14/%E5%B0%8F%E6%97%B6%E5%80%99%E9%98%BF%E5%A9%86%E7%BB%99%E6%88%91%E4%BB%AC%E8%AE%B2%E7%9A%84%E6%95%85%E4%BA%8B%E3%80%8A%E5%8D%96%E5%B1%81%E9%A6%99%E3%80%8B/">
                 <i class="fa fa-twitter"></i><span>Share on Twitter</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://blog.tsukasa.moe/2024/05/14/%E5%B0%8F%E6%97%B6%E5%80%99%E9%98%BF%E5%A9%86%E7%BB%99%E6%88%91%E4%BB%AC%E8%AE%B2%E7%9A%84%E6%95%85%E4%BA%8B%E3%80%8A%E5%8D%96%E5%B1%81%E9%A6%99%E3%80%8B/">
                 <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/&amp;title=MySQL如何存储表情">
+            <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?url=http://blog.tsukasa.moe/2024/05/14/%E5%B0%8F%E6%97%B6%E5%80%99%E9%98%BF%E5%A9%86%E7%BB%99%E6%88%91%E4%BB%AC%E8%AE%B2%E7%9A%84%E6%95%85%E4%BA%8B%E3%80%8A%E5%8D%96%E5%B1%81%E9%A6%99%E3%80%8B/&amp;title=小时候阿婆给我们讲的故事《卖屁香》">
                 <i class="fa fa-weibo"></i><span>Share on Weibo</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2024/05/14/MySQL%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E8%A1%A8%E6%83%85/&amp;title=MySQL如何存储表情">
+            <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://blog.tsukasa.moe/2024/05/14/%E5%B0%8F%E6%97%B6%E5%80%99%E9%98%BF%E5%A9%86%E7%BB%99%E6%88%91%E4%BB%AC%E8%AE%B2%E7%9A%84%E6%95%85%E4%BA%8B%E3%80%8A%E5%8D%96%E5%B1%81%E9%A6%99%E3%80%8B/&amp;title=小时候阿婆给我们讲的故事《卖屁香》">
                 <i class="fa fa-qq"></i><span>Share on QQ</span>
             </a>
         </li>
